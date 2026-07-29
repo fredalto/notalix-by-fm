@@ -1,0 +1,37 @@
+.ldn-notation-source {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.ldn-generated-note {
+  width: 120px;
+  height: 135px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.ldn-generated-note svg {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ldn-generated-note--reference {
+  width: 105px;
+  height: 118px;
+}
+
+.note .ldn-generated-note--reference {
+  margin: 0 auto;
+}
+
+#note-display .ldn-generated-note--quiz,
+#note-frame .ldn-generated-note--quiz {
+  display: block;
+  width: 180px;
+  height: 203px;
+  margin: 0 auto;
+}

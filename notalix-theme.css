@@ -1,0 +1,154 @@
+:root {
+  --notalix-navy: #0b2b66;
+  --notalix-blue: #1769c2;
+  --notalix-coral: #ff6758;
+  --notalix-gold: #ffb52e;
+  --notalix-green: #2da867;
+  --notalix-ink: #23364a;
+  --notalix-muted: #66758a;
+  --notalix-bg: #eef5f8;
+  --notalix-line: #d7e3ec;
+  --notalix-surface: #ffffff;
+  --notalix-shadow: 0 12px 32px rgba(11, 43, 102, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { min-height: 100%; background: var(--notalix-bg); }
+
+body {
+  min-height: 100%;
+  margin: 0 !important;
+  padding: 18px 12px 44px !important;
+  background:
+    radial-gradient(circle at 12% 0, rgba(255,181,46,.14), transparent 25rem),
+    radial-gradient(circle at 90% 8%, rgba(23,105,194,.10), transparent 28rem),
+    var(--notalix-bg) !important;
+  color: var(--notalix-ink) !important;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif !important;
+}
+
+.notalix-bar {
+  width: min(1040px, 100%);
+  min-height: 68px;
+  margin: 0 auto 18px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: minmax(150px,1fr) auto minmax(150px,1fr);
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--notalix-line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 7px 22px rgba(11,43,102,.08);
+}
+
+.notalix-home,
+.notalix-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: max-content;
+  padding: 9px 12px;
+  border: 1px solid #c7d9e8;
+  border-radius: 11px;
+  background: #f7fbfe;
+  color: var(--notalix-navy);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.notalix-site { justify-self: end; }
+.notalix-home:hover,.notalix-site:hover { background: #e9f3fb; border-color: #9ec3df; }
+
+.notalix-brand { display: flex; align-items: center; gap: 9px; justify-self: center; white-space: nowrap; }
+.notalix-note { color: var(--notalix-coral); font-size: 30px; line-height: 1; }
+.notalix-word { color: var(--notalix-navy); font-size: 22px; font-weight: 850; letter-spacing: .035em; }
+.notalix-by { color: var(--notalix-blue); font-size: 13px; font-style: italic; font-weight: 750; }
+.notalix-module { padding-left: 9px; border-left: 1px solid var(--notalix-line); color: var(--notalix-muted); font-size: 13px; font-weight: 700; }
+
+body > main,
+body > .container {
+  width: min(940px, 100%) !important;
+  max-width: 940px !important;
+  margin: 0 auto !important;
+}
+
+body > h1 {
+  width: min(940px,100%);
+  margin: 8px auto 16px !important;
+  text-align: center;
+}
+
+h1,h2,h3,h4 { color: var(--notalix-ink); }
+h1 { color: var(--notalix-navy) !important; letter-spacing: -.025em; }
+h1::before {
+  content: "♪ " !important;
+  color: var(--notalix-coral) !important;
+  font-family: "Segoe UI Symbol", sans-serif !important;
+  font-style: normal !important;
+}
+p { line-height: 1.55; }
+
+.section,
+.container {
+  border: 1px solid var(--notalix-line) !important;
+  border-radius: 20px !important;
+  background: var(--notalix-surface) !important;
+  box-shadow: var(--notalix-shadow) !important;
+}
+
+button,
+.button {
+  min-height: 44px;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: var(--notalix-blue);
+  color: #fff;
+  font-family: inherit !important;
+  font-weight: 750 !important;
+  box-shadow: 0 4px 10px rgba(11,43,102,.12);
+}
+
+button:hover,.button:hover { filter: brightness(.96); transform: translateY(-1px); }
+button:focus-visible,.button:focus-visible,a:focus-visible { outline: 3px solid rgba(255,181,46,.65); outline-offset: 2px; }
+button.red,.red,#start-game { background: var(--notalix-coral) !important; }
+button.secondary,.secondary,.small { background: #eef4f8 !important; color: var(--notalix-navy) !important; border: 1px solid #cbdce8 !important; }
+
+.mode-card,.interval-card,.niveau-card,.defi-card,.tile,.card,.tutorial-card,.result-card,.home-block,.choice-group,.custom-choice {
+  border-radius: 15px !important;
+  border-color: var(--notalix-line) !important;
+  box-shadow: 0 5px 15px rgba(11,43,102,.06) !important;
+}
+
+.mode-card.selected,.interval-card.selected,.tile.selected,
+.tabs button.selected,.tuto-nav button.selected {
+  border-color: var(--notalix-blue) !important;
+  background: var(--notalix-blue) !important;
+  color: #fff !important;
+}
+.mode-card.selected h2,.mode-card.selected h3,.mode-card.selected p,.mode-card.selected small,
+.interval-card.selected h2,.interval-card.selected h3,.interval-card.selected p {
+  color: #fff !important;
+}
+
+.progress span,#progress-bar { background: var(--notalix-coral) !important; }
+.ok { color: #187749 !important; }
+.ko { color: #bc3e34 !important; }
+
+@media (max-width: 720px) {
+  body { padding: 9px 7px 30px !important; }
+  .notalix-bar { grid-template-columns: 1fr auto; border-radius: 14px; }
+  .notalix-brand { grid-column: 1 / -1; grid-row: 1; }
+  .notalix-home { grid-column: 1; grid-row: 2; }
+  .notalix-site { grid-column: 2; grid-row: 2; }
+  .notalix-module { display: none; }
+  .section,.container { border-radius: 16px !important; }
+}
+
+@media (max-width: 430px) {
+  .notalix-home,.notalix-site { padding: 8px 9px; font-size: 12px; }
+  .notalix-word { font-size: 20px; }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecture de notes — Instrument</title>
+  <link rel="stylesheet" href="unified.css">
+  <link rel="stylesheet" href="notation-adapter.css">
+  <link rel="stylesheet" href="instrument.css">
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+  <h1>Lecture de Notes Express</h1>
+  <main class="instrument-card">
+    <a class="home-link" href="index.html">🏠 Accueil</a>
+    <h2 id="instrument-title">Instrument</h2>
+    <p id="pedagogy" class="pedagogy"></p>
+    <div id="sound-mode" class="sound-mode" hidden>
+      <span>Note écrite</span>
+      <label class="sound-switch">
+        <input id="sound-toggle" type="checkbox" checked>
+        <span class="sound-slider"></span>
+      </label>
+      <span>Son réel</span>
+    </div>
+
+    <div id="fingering-mode" class="fingering-mode" hidden>
+      <label><input id="fingering-toggle" type="checkbox"> Afficher les doigtés / positions</label>
+    </div>
+
+    <section id="quiz" aria-live="polite">
+      <div id="generated-note" class="instrument-note"></div>
+      <div id="hint" class="instrument-hint" hidden></div>
+      <div id="answers" class="instrument-answers"></div>
+      <p id="feedback" class="instrument-feedback"></p>
+      <div class="instrument-progress"><div id="progress-bar"></div></div>
+      <p id="score">Score : 0 / 10</p>
+    </section>
+
+    <section id="result" hidden>
+      <h2 id="result-title"></h2>
+      <p id="result-text"></p>
+      <button id="restart" class="button">Recommencer</button>
+      <a class="button" href="index.html">Retour à l’accueil</a>
+      <div id="send-score" class="send-score">
+        <h3>Envoyer mon score au professeur</h3>
+        <div class="send-score-fields">
+          <input type="text" id="prenom" placeholder="Prénom" required>
+          <input type="text" id="nom" placeholder="Nom" required>
+          <select id="prof_fm">
+            <option value="Aucun">FM : Aucun / Non concerné</option>
+            <option value="Barbara">Barbara</option>
+            <option value="Benoit">Benoit</option>
+            <option value="Céline">Céline</option>
+            <option value="Chloé">Chloé</option>
+            <option value="Frédéric">Frédéric</option>
+            <option value="Sandrine">Sandrine</option>
+            <option value="Thomas">Thomas</option>
+          </select>
+          <select id="prof_instrument">
+            <option value="Aucun">Instrument : Aucun / Non concerné</option>
+            <option value="Alexandre">Alexandre</option>
+          </select>
+        </div>
+        <button id="send-score-button" class="button" type="button">Envoyer</button>
+        <p id="confirmation" class="send-confirmation"></p>
+        <p id="loading-message" class="send-loading" hidden>⏳ Envoi en cours...</p>
+      </div>
+    </section>
+  </main>
+  <script src="config.js"></script>
+  <script src="vendor/vexflow.js"></script>
+  <script src="note-renderer.js"></script>
+  <script src="instrument-config.js"></script>
+  <script src="instrument-quiz.js"></script>
+</body>
+</html>

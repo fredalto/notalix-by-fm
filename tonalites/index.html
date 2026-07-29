@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musiclab — Tonalités majeures</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Tonalités Express</h1>
+    <section class="section">
+      <div id="home" class="screen show">
+        <p class="intro">Apprends à reconnaître les tonalités majeures à partir de l’armure.</p>
+        <div class="home-groups">
+          <div class="home-block learn-block">
+            <h3>📘 Apprendre</h3>
+            <button onclick="go('tuto')">Tuto rapide</button>
+          </div>
+
+          <div class="home-block">
+            <h3>🎼 Reconnaître une armure</h3>
+            <div class="mode-grid">
+              <button onclick="startTraining('sharps')">♯ Dièses</button>
+              <button onclick="startTraining('flats')">♭ Bémols</button>
+            </div>
+          </div>
+
+          <div class="home-block">
+            <h3>🔁 Aller plus loin</h3>
+            <div class="mode-grid">
+              <button onclick="startTraining('mixed')">🎯 Mélange</button>
+              <button onclick="startReverse()">Tonalité → armure</button>
+            </div>
+          </div>
+
+          <div class="home-block challenge-block">
+            <h3>⚡ Défi final</h3>
+            <button class="red" onclick="startChallenge()">Défi 10 questions</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tuto" class="screen">
+        <div class="topbar"><button class="small" onclick="go('home')">← Accueil</button></div>
+        <h2>📘 Tuto rapide</h2>
+        <div class="tabs tabs4">
+          <button id="tabMemory" class="selected" onclick="setTutorial('memory')">A savoir par cœur</button>
+          <button id="tabSharp" onclick="setTutorial('sharp')">Avec des dièses</button>
+          <button id="tabFlat" onclick="setTutorial('flat')">Avec des bémols</button>
+          <button id="tabPlus" onclick="setTutorial('plus')">En plus</button>
+        </div>
+        <div id="tutorialContent"></div>
+      </div>
+
+      <div id="game" class="screen">
+        <div class="topbar"><button class="small" onclick="go('home')">← Accueil</button><span id="progress"></span></div>
+        <h2 id="gameTitle">Entraînement</h2>
+        <div class="card">
+          <div id="questionType" class="badge"></div>
+          <div id="staffBox"></div>
+          <p id="questionText" class="question"></p>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback"></div>
+          <button id="nextBtn" class="hidden" onclick="nextQuestion()">Question suivante 🚀</button>
+        </div>
+      </div>
+
+      <div id="results" class="screen">
+        <h2>Résultat</h2>
+        <div class="result-card">
+          <div id="scoreBig"></div>
+          <p id="scoreText"></p>
+          <button onclick="go('home')">Retour accueil</button>
+          <button class="red" onclick="startChallenge()">Refaire un défi</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

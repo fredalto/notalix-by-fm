@@ -1,9 +1,27 @@
-ÉTAPE 1 — MUSICLAB NOUVELLE VERSION
+NOTALIX by FM — PRÉSENTATION UNIFIÉE
 
-Copier index.html et le dossier accords dans le dépôt local
-musiclab-nouvelle-version.
+Ce dossier contient les quatre modules prêts à tester :
+- Lecture de notes : version V12 avec instruments ;
+- Intervalles : dernière archive fournie (les deux ZIP étaient identiques) ;
+- Tonalités : version Tonalit-Express la plus complète ;
+- Accords : dernière version avec triades et accords de septième.
 
-Cette première publication de test :
-- conserve les liens actuels de Lecture de notes, Intervalles et Tonalités ;
-- ajoute Accords Express dans le nouveau dépôt ;
-- ne modifie aucun des trois anciens dépôts GitHub.
+Ce qui a été unifié :
+- le bandeau NOTALIX ;
+- les couleurs, polices, cartes et boutons ;
+- les liens « Accueil NOTALIX » et « Site Formation Musicale » ;
+- l’affichage ordinateur, tablette et téléphone ;
+- la page d’accueil générale.
+
+Les trois anciennes versions en ligne ne sont pas modifiées.
+Le bas de la nouvelle page d’accueil conserve des liens de secours vers elles.
+
+POUR TESTER SUR L’ORDINATEUR
+Ouvrir index.html.
+
+POUR PUBLIER ENSUITE
+Copier tout le contenu de ce dossier à la racine du dépôt notalix-by-fm,
+puis valider et publier avec GitHub Desktop.
+
+Important : ne pas copier seulement index.html. Les quatre dossiers et les
+fichiers notalix-theme.css / notalix-shell.js sont nécessaires.

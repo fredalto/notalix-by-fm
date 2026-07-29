@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Mode Aventure</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        #game-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #interval-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        #feedback {
+            font-size: 1.5em;
+            margin: 20px 0;
+            text-align: center;
+            color: #e74c3c;
+        }
+        #score {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .feedback-symbol {
+            font-size: 4em;
+            margin: 20px;
+            display: none;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        .speed-control {
+            margin: 20px 0;
+        }
+        .level-bars-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            height: 200px;
+            align-items: flex-end;
+        }
+        .level-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            height: 100%;
+        }
+        .level-bar {
+            width: 30px;
+            height: 0%;
+            border-radius: 5px;
+            transition: height 0.3s;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .level-label {
+            margin-top: 5px;
+            font-size: 1em;
+        }
+    </style>
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Mode Aventure 🎵</h1>
+<button id="return-to-index">Retour à l'accueil</button>
+<div id="game-container">
+<div class="speed-control">
+<label for="speed">Vitesse : </label>
+<input id="speed" max="1000" min="100" step="100" type="range" value="500"/>
+</div>
+<button id="play-interval">Jouer l'intervalle</button>
+<div id="interval-options"></div>
+<div id="feedback"></div>
+<div class="feedback-symbol" id="feedback-symbol"></div>
+<div id="score">Score: <span id="score-value">0</span>/10</div>
+</div>
+<div class="level-bars-container" id="level-bars-container">
+<!-- Les barres de niveau seront ajoutées ici dynamiquement -->
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const playIntervalButton = document.getElementById('play-interval');
+        const speedControl = document.getElementById('speed');
+        const feedbackSymbol = document.getElementById('feedback-symbol');
+        const returnToIndexButton = document.getElementById('return-to-index');
+        const levelBarsContainer = document.getElementById('level-bars-container');
+
+        returnToIndexButton.addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        // Définir les niveaux avec leurs intervalles
+        const levels = [
+            { intervals: ['m2', 'M2'] },
+            { intervals: ['m2', 'M2', 'm3'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5', 'm6'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5', 'm6', 'M6'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5', 'm6', 'M6', 'm7'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5', 'm6', 'M6', 'm7', 'M7'] },
+            { intervals: ['m2', 'M2', 'm3', 'M3', 'P4', 'P5', 'm6', 'M6', 'm7', 'M7', 'P8'] }
+        ];
+
+        // Ajouter les barres de niveau dynamiquement
+        levels.forEach((level, index) => {
+            const hue = 120 - (index * 12); // Couleur allant du vert au rouge
+            const levelBarContainer = document.createElement('div');
+            levelBarContainer.className = 'level-bar-container';
+            levelBarContainer.innerHTML = `
+                <div class="level-bar" id="level-bar-${index}" style="background-color: hsl(${hue}, 100%, 50%); height: 0%;"></div>
+                <div class="level-label">Niveau ${index + 1}</div>
+            `;
+            levelBarsContainer.appendChild(levelBarContainer);
+        });
+
+        let currentLevel = 0;
+        let score = 0;
+        let intervalsPlayed = 0;
+        const maxIntervalsPerLevel = 10;
+        let lastInterval = null;
+
+        function getRandomNote() {
+            const notes = ["F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5"];
+            const noteIndex = Math.floor(Math.random() * notes.length);
+            return notes[noteIndex];
+        }
+
+        function getIntervalNotes(interval) {
+            const startNote = lastInterval ? lastInterval[0] : getRandomNote();
+            const notes = ["F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5"];
+            const startIndex = notes.indexOf(startNote);
+
+            const semitones = getSemitonesForInterval(interval);
+            let endIndex = startIndex + semitones;
+
+            if (endIndex >= notes.length) {
+                return getIntervalNotes(interval);
+            }
+
+            const endNote = notes[endIndex];
+
+            if (startNote === endNote) {
+                return getIntervalNotes(interval);
+            }
+
+            return [startNote, endNote];
+        }
+
+        function getSemitonesForInterval(interval) {
+            const intervalTypes = {
+                m2: 1, M2: 2, m3: 3, M3: 4, P4: 5,
+                P5: 7, m6: 8, M6: 9, m7: 10, M7: 11, P8: 12
+            };
+            return intervalTypes[interval];
+        }
+
+        function getIntervalName(interval) {
+            const intervalNames = {
+                m2: "Seconde mineure",
+                M2: "Seconde majeure",
+                m3: "Tierce mineure",
+                M3: "Tierce majeure",
+                P4: "Quarte juste",
+                P5: "Quinte juste",
+                m6: "Sixte mineure",
+                M6: "Sixte majeure",
+                m7: "Septième mineure",
+                M7: "Septième majeure",
+                P8: "Octave juste"
+            };
+            return intervalNames[interval];
+        }
+
+        function updateLevelBar(correct) {
+            const levelBar = document.getElementById(`level-bar-${currentLevel}`);
+            const increment = 100 / maxIntervalsPerLevel;
+            let currentHeight = parseFloat(levelBar.style.height) || 0;
+            currentHeight += correct ? increment : -increment;
+            levelBar.style.height = Math.max(0, currentHeight) + '%';
+
+            if (intervalsPlayed >= maxIntervalsPerLevel) {
+                if (currentLevel < levels.length - 1) {
+                    currentLevel++;
+                    intervalsPlayed = 0;
+                    score = 0;
+                    document.getElementById('score-value').textContent = score;
+                    alert(`Félicitations ! Vous passez au niveau ${currentLevel + 1}.`);
+                    playIntervalButton.click();
+                } else {
+                    alert("Félicitations ! Vous avez terminé tous les niveaux.");
+                }
+            }
+        }
+
+        function playInterval(note1, note2) {
+            const delay = 1100 - parseInt(speedControl.value);
+            playSound(note1);
+            setTimeout(() => {
+                playSound(note2);
+                setTimeout(() => {
+                    playIntervalButton.disabled = false;
+                }, delay);
+            }, delay);
+        }
+
+        playIntervalButton.addEventListener('click', () => {
+            playIntervalButton.disabled = true;
+
+            const randomInterval = lastInterval ? lastInterval[2] : levels[currentLevel].intervals[Math.floor(Math.random() * levels[currentLevel].intervals.length)];
+            const [note1, note2] = getIntervalNotes(randomInterval);
+
+            playInterval(note1, note2);
+            document.getElementById('feedback').textContent = `Quel intervalle est-ce ?`;
+
+            const optionsContainer = document.getElementById('interval-options');
+            optionsContainer.innerHTML = '';
+            levels[currentLevel].intervals.forEach(interval => {
+                const button = document.createElement('button');
+                button.textContent = getIntervalName(interval);
+                button.addEventListener('click', () => {
+                    const correct = checkAnswer(interval, randomInterval);
+                    disableAnswerButtons(optionsContainer);
+                    updateLevelBar(correct);
+                    lastInterval = null;
+                    setTimeout(() => {
+                        playIntervalButton.click();
+                    }, 1000);
+                });
+                optionsContainer.appendChild(button);
+            });
+
+            if (!lastInterval) {
+                intervalsPlayed++;
+            }
+
+            lastInterval = [note1, note2, randomInterval];
+        });
+
+        function disableAnswerButtons(container) {
+            const buttons = container.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.disabled = true;
+            });
+        }
+
+        function checkAnswer(selectedInterval, correctInterval) {
+            const correct = selectedInterval === correctInterval;
+            if (correct) {
+                document.getElementById('feedback').textContent = `Correct ! C'était bien une ${getIntervalName(correctInterval)}.`;
+                feedbackSymbol.textContent = '✓';
+                feedbackSymbol.className = 'feedback-symbol correct';
+                score++;
+            } else {
+                document.getElementById('feedback').textContent = `Incorrect. C'était une ${getIntervalName(correctInterval)}.`;
+                feedbackSymbol.textContent = '✗';
+                feedbackSymbol.className = 'feedback-symbol incorrect';
+            }
+            feedbackSymbol.style.display = 'block';
+            setTimeout(() => {
+                feedbackSymbol.style.display = 'none';
+            }, 1000);
+            document.getElementById('score-value').textContent = score;
+            return correct;
+        }
+    });
+</script>
+<script>
+function playSound(note) {
+    const notesAudio = {
+        'F3': 'assets/sounds/F3.mp3',
+        'F#3': 'assets/sounds/Fsharp3.mp3',
+        'G3': 'assets/sounds/G3.mp3',
+        'G#3': 'assets/sounds/Gsharp3.mp3',
+        'A3': 'assets/sounds/A3.mp3',
+        'A#3': 'assets/sounds/Asharp3.mp3',
+        'B3': 'assets/sounds/B3.mp3',
+        'C4': 'assets/sounds/C4.mp3',
+        'C#4': 'assets/sounds/Csharp4.mp3',
+        'D4': 'assets/sounds/D4.mp3',
+        'D#4': 'assets/sounds/Dsharp4.mp3',
+        'E4': 'assets/sounds/E4.mp3',
+        'F4': 'assets/sounds/F4.mp3',
+        'F#4': 'assets/sounds/Fsharp4.mp3',
+        'G4': 'assets/sounds/G4.mp3',
+        'G#4': 'assets/sounds/Gsharp4.mp3',
+        'A4': 'assets/sounds/A4.mp3',
+        'A#4': 'assets/sounds/Asharp4.mp3',
+        'B4': 'assets/sounds/B4.mp3',
+        'C5': 'assets/sounds/C5.mp3',
+        'C#5': 'assets/sounds/Csharp5.mp3',
+        'D5': 'assets/sounds/D5.mp3',
+        'D#5': 'assets/sounds/Dsharp5.mp3',
+        'E5': 'assets/sounds/E5.mp3',
+        'F5': 'assets/sounds/F5.mp3',
+        'F#5': 'assets/sounds/Fsharp5.mp3',
+        'G5': 'assets/sounds/G5.mp3',
+        'G#5': 'assets/sounds/Gsharp5.mp3',
+        'A5': 'assets/sounds/A5.mp3'
+    };
+
+    const audio = new Audio(notesAudio[note]);
+    audio.play().catch(e => console.error("Erreur lors de la lecture du son:", e));
+}
+</script>
+</body>
+</html>

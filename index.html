@@ -4,40 +4,70 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NOTALIX by FM</title>
-  <style>
-    *{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#263746;font-family:"Segoe UI",Arial,sans-serif}main{width:min(960px,calc(100% - 28px));margin:24px auto 60px}.back-home{display:inline-flex;align-items:center;gap:7px;margin-bottom:22px;padding:10px 15px;border:2px solid #1565c0;border-radius:10px;background:#fff;color:#1565c0;text-decoration:none;font-weight:700;box-shadow:0 3px 10px #17324d12}.back-home:hover{background:#1565c0;color:#fff}.hero{text-align:center;margin-bottom:26px}.hero h1{margin:0;color:#1565c0;font-size:clamp(2rem,6vw,3.2rem)}.hero p{color:#627085;font-size:1.08rem}.notice{margin:20px 0;padding:14px 16px;border-left:5px solid #29a35a;border-radius:10px;background:#eaf8ef}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{min-height:156px;padding:22px;border:2px solid #dbe5f1;border-radius:16px;background:#fff;box-shadow:0 5px 18px #17324d14;display:flex;flex-direction:column;justify-content:space-between}.card h2{margin:0 0 8px;font-size:1.3rem}.card p{margin:0 0 18px;color:#667085}.card a{align-self:flex-start;padding:11px 17px;border-radius:9px;background:#1565c0;color:#fff;text-decoration:none;font-weight:700}.card a:hover{background:#0d4f9d}.new{border-color:#43b85c}.new a{background:#35a853}.new a:hover{background:#258840}.soon{background:#f8fafc}.soon span{color:#7b8797;font-weight:700}.tag{display:inline-block;margin-bottom:12px;color:#247b3a;font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}@media(max-width:680px){.grid{grid-template-columns:1fr}main{margin-top:14px}.back-home{margin-bottom:18px}}
-  </style>
+  <link rel="stylesheet" href="notalix-theme.css">
+  <link rel="stylesheet" href="notalix-home.css">
 </head>
-<body>
-  <main>
-    <a class="back-home" href="https://sites.google.com/view/fmcrdcalais/musiclab">&#8592; Retour au site Formation Musicale</a>
-    <header class="hero">
-      <h1>♫ NOTALIX <small style="font-size:.42em;color:#35a853;vertical-align:middle">by FM</small></h1>
-      <p>Des outils simples pour entraîner l’oreille et la lecture musicale.</p>
+<body class="home-page">
+  <main class="home-main">
+    <nav class="home-nav" aria-label="Navigation principale">
+      <a href="https://sites.google.com/view/fmcrdcalais/musiclab">← Site Formation Musicale</a>
+      <span>Version en développement</span>
+    </nav>
+
+    <header class="home-hero">
+      <div class="home-brand"><span aria-hidden="true">♪</span><strong>NOTALIX</strong><em>by FM</em></div>
+      <p>Le remède aux petits maux du solfège</p>
+      <h1>Choisis ton entraînement</h1>
+      <p class="home-lead">Des outils simples et progressifs pour entraîner l’oreille et la lecture musicale.</p>
     </header>
 
-    <div class="notice"><strong>Version de test :</strong> les trois logiciels déjà utilisés restent disponibles pendant la préparation des nouveautés.</div>
+    <section class="module-grid" aria-label="Mini-logiciels NOTALIX">
+      <article class="module-card lecture-card">
+        <div class="module-icon" aria-hidden="true">♩</div>
+        <div class="module-copy"><span class="module-kicker">Lire</span><h2>Lecture de notes</h2><p>Clés, instruments et défis progressifs.</p></div>
+        <a href="lecture-notes/index.html">Commencer</a>
+      </article>
 
-    <section class="grid" aria-label="Mini-logiciels NOTALIX by FM">
-      <article class="card">
-        <div><h2>Lecture de notes</h2><p>Lire les notes dans différentes clés et avec un parcours par instrument.</p></div>
-        <a href="lecture-notes.html">Ouvrir la version actuelle</a>
+      <article class="module-card interval-card-home">
+        <div class="module-icon" aria-hidden="true">↗♫</div>
+        <div class="module-copy"><span class="module-kicker">Écouter</span><h2>Intervalles</h2><p>Reconnaître les intervalles à l’oreille.</p></div>
+        <a href="intervalles/index.html">Commencer</a>
       </article>
-      <article class="card">
-        <div><h2>Intervalles</h2><p>Reconnaître les intervalles à l’oreille avec plusieurs niveaux.</p></div>
-        <a href="intervalles.html">Ouvrir la version actuelle</a>
+
+      <article class="module-card tonality-card">
+        <div class="module-icon" aria-hidden="true">♯♭</div>
+        <div class="module-copy"><span class="module-kicker">Comprendre</span><h2>Tonalités</h2><p>Armures, tonalités majeures et tutoriel.</p></div>
+        <a href="tonalites/index.html">Commencer</a>
       </article>
-      <article class="card">
-        <div><h2>Tonalités</h2><p>Travailler les armures et les tonalités majeures.</p></div>
-        <a href="tonalites.html">Ouvrir la version actuelle</a>
+
+      <article class="module-card chord-card">
+        <div class="module-icon" aria-hidden="true">♫</div>
+        <div class="module-copy"><span class="module-kicker">Nouveau · Écouter</span><h2>Accords</h2><p>Triades, accords de septième et exemples.</p></div>
+        <a href="accords/index.html">Commencer</a>
       </article>
-      <article class="card new">
-        <div><span class="tag">Nouveau</span><h2>Accords Express</h2><p>Reconnaître les triades et les principaux accords de septième.</p></div>
-        <a href="accords.html">Essayer Accords Express</a>
+
+      <article class="module-card future-card" aria-disabled="true">
+        <div class="module-icon" aria-hidden="true">✎</div>
+        <div class="module-copy"><span class="module-kicker">Bientôt</span><h2>Dictée mélodique</h2><p>Reconstituer de courtes mélodies.</p></div>
+        <span class="coming">En préparation</span>
       </article>
-      <article class="card soon"><div><h2>Dictée mélodique</h2><p>Reconstituer progressivement de courtes mélodies.</p></div><span>En préparation</span></article>
-      <article class="card soon"><div><h2>Rythme</h2><p>Dictée rythmique et lecture frappée.</p></div><span>En préparation</span></article>
+
+      <article class="module-card future-card" aria-disabled="true">
+        <div class="module-icon" aria-hidden="true">♬</div>
+        <div class="module-copy"><span class="module-kicker">Bientôt</span><h2>Rythme</h2><p>Dictée rythmique et lecture frappée.</p></div>
+        <span class="coming">En préparation</span>
+      </article>
     </section>
+
+    <details class="backup-box">
+      <summary>Versions de secours déjà utilisées</summary>
+      <p>Ces liens restent disponibles pendant les essais de la nouvelle présentation.</p>
+      <div>
+        <a href="https://fredalto.github.io/lecturedenotes/">Lecture de notes</a>
+        <a href="https://fredalto.github.io/jeu-intervalles/">Intervalles</a>
+        <a href="https://fredalto.github.io/Tonalit-Express/">Tonalités</a>
+      </div>
+    </details>
   </main>
 </body>
 </html>

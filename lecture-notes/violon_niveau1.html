@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture de Notes Violon Niveau1</title>
+  <link rel="stylesheet" href="unified.css">
+  <style>
+    .note img { max-width: 100px; height: auto; margin: 10px; }
+    .note { display: inline-block; text-align: center; margin: 10px; }
+    #feedback { font-size: 24px; font-weight: bold; margin-top: 20px; min-height: 40px; transition: color 0.3s ease; }
+    #feedback.correct { color: green; }
+    #feedback.incorrect { color: red; }
+    #progress-container { width: 100%; background-color: #ddd; border-radius: 10px; margin-top: 20px; height: 20px; }
+    #progress-bar { height: 100%; width: 0%; background-color: #4CAF50; border-radius: 10px; transition: width 0.4s ease-in-out; }
+    #score-display { font-size: 28px; font-weight: bold; margin-top: 20px; }
+    .gold-button {
+      background: linear-gradient(to bottom right, #FFD700, #FFA500);
+      color: black;
+      font-weight: bold;
+      border: 2px solid #DAA520;
+      box-shadow: 0 0 10px gold;
+      margin-bottom: 10px;
+    }
+
+    /* ---- Toggle “Afficher le doigté” ---- */
+    .toolbar {
+      display:flex; align-items:center; gap:12px; margin: 12px 0 4px;
+      justify-content:flex-start; flex-wrap:wrap;
+    }
+    .switch {
+      position: relative; display: inline-block; width: 50px; height: 28px;
+      vertical-align: middle;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background-color: #bfc3c7; transition: .2s; border-radius: 9999px;
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.06);
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 22px; width: 22px; left: 3px; top: 3px;
+      background-color: white; transition: .2s; border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    }
+    .switch input:checked + .slider { background-color: #4CAF50; }
+    .switch input:checked + .slider:before { transform: translateX(22px); }
+    .toggle-label { font-size: 14px; color: #333; user-select: none; }
+
+    /* ---- Affichage doigté / cadre note ---- */
+    .note-display { position: relative; display: inline-block; }
+
+    /* Cadre autour de l’image de note (utile pour “Notes arc-en-ciel”) */
+    .note-frame{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 18px;
+      border: 3px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 10px 22px rgba(0,0,0,.08);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .note-frame.rainbow-on{
+      border-color: var(--rainbow-color, rgba(0,0,0,.22));
+      box-shadow:
+        0 10px 22px rgba(0,0,0,.10),
+        0 0 0 5px rgba(0,0,0,.04),
+        0 0 0 7px var(--rainbow-glow, rgba(0,0,0,.10));
+    }
+    #fingering-badge {
+      position: absolute; top: -6px; left: 50%; transform: translate(-50%,-100%);
+      display: none; align-items: center; justify-content: center;
+      min-width: 32px; height: 28px; padding: 0 10px;
+      background: #222; color: #fff; border-radius: 14px;
+      font-weight: 700; font-size: 16px; letter-spacing: .3px;
+      box-shadow: 0 6px 12px rgba(0,0,0,.18);
+    }
+  </style>
+  <link rel="stylesheet" href="notation-adapter.css">
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+  <h1>Violon — Niveau 1 — Cordes à vide</h1>
+
+  <div class="section">
+    <div class="section-topbar">
+      <a class="home-link" href="index.html" aria-label="Revenir à l'accueil">🏠 Accueil</a>
+    </div>
+
+    <!-- (Supprimé) <h2 style="color: red;">Niveau 1 - Clé de sol</h2> -->
+
+    <div id="note-reference">
+      <h2>Voici les quatre notes repères :</h2>
+      <div class="note"><img alt="Sol3" src="Images/sol/G3.png"/><p>Sol</p></div>
+      <div class="note"><img alt="Ré4" src="Images/sol/D4.png"/><p>Ré</p></div>
+      <div class="note"><img alt="La4" src="Images/sol/A4.png"/><p>La</p></div>
+      <div class="note"><img alt="Mi5" src="Images/sol/E5.png"/><p>Mi</p></div>
+      <button class="button" id="start-quiz">Commencer le Quiz</button>
+      <p style="margin-top: 10px; font-size: 14px; color: #555;">
+        💡 Astuce : Vous pouvez aussi répondre avec le clavier !<br>
+        <small>C = Do, G = Sol, A = La</small>
+      </p>
+      <p style="margin-top: 8px; font-size: 14px; color: #555;">
+        🌈 <strong>Notes arc-en-ciel</strong> : pendant le quiz, active cette option pour voir un <strong>cadre coloré</strong> qui correspond à la note, selon le code couleur des boomwhackers.
+      </p>
+    </div>
+
+    <div id="quiz-section" style="display: none;">
+
+      <!-- La toolbar n’apparaît QUE dans le quiz -->
+      <div class="toolbar" aria-label="Options d’affichage">
+        <label class="switch" title="Afficher/masquer le doigté">
+          <input id="toggle-fingering" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Afficher le doigté</span>
+      
+        <label class="switch" title="Afficher/masquer Notes arc-en-ciel">
+          <input id="toggle-rainbow" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Notes arc-en-ciel</span>
+      </div>
+
+      <div id="note-display" class="note-display">
+        <div id="fingering-badge">0</div>
+        <div id="note-frame" class="note-frame">
+          <img alt="Note" id="note-image" src=""/>
+        </div></div>
+      <div id="game-container"></div>
+      <div id="feedback"></div>
+      <div id="progress-container"><div id="progress-bar"></div></div>
+      <div id="score-display"></div>
+    </div>
+
+    <div id="end-buttons" style="display: none;">
+      <button class="button" onclick="window.location.reload();">Recommencer le niveau</button>
+      <button class="button" onclick="window.location.href='index.html';">Revenir à l'accueil</button>
+    </div>
+
+    <!-- Formulaire d'envoi -->
+    <div id="send-score" style="display: none; margin-top: 30px;">
+      <h3>Envoyer mon score au professeur</h3>
+      <input type="text" id="prenom" placeholder="Prénom" required style="margin: 5px;" />
+      <input type="text" id="nom" placeholder="Nom" required style="margin: 5px;" />
+      <select id="prof_fm" style="margin: 5px; padding: 5px;">
+        <option value="Aucun">FM : Aucun / Non concerné</option>
+        <option value="Barbara">Barbara</option>
+        <option value="Benoit">Benoit</option>
+        <option value="Céline">Céline</option>
+        <option value="Chloé">Chloé</option>
+        <option value="Frédéric">Frédéric</option>
+        <option value="Sandrine">Sandrine</option>
+        <option value="Thomas">Thomas</option>
+      </select>
+      <select id="prof_instrument" style="margin: 5px; padding: 5px;">
+        <option value="Aucun">Instrument : Aucun / Non concerné</option>
+        <option value="Alexandre">Alexandre</option>
+      </select>
+      <br>
+      <button class="button" onclick="envoyerScore()">Envoyer</button>
+      <p id="confirmation" style="margin-top:10px; font-weight: bold;"></p>
+      <p id="loading-message" style="display: none; color: blue; font-weight: bold;">⏳ Envoi en cours...</p>
+    </div>
+  </div>
+
+  <!-- Iframe invisible pour envoyer les données -->
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+  <script src="config.js"></script>
+  <script src="violon_niveau1.js"></script>
+  <script src="vendor/vexflow.js"></script>
+  <script src="note-renderer.js"></script>
+  <script src="notation-adapter.js"></script>
+</body>
+</html>

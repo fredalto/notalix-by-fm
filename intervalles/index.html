@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Présentation et Réglages</title>
+<style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+        #settings-container {
+            margin-top: 30px;
+        }
+        .mode-selection {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .mode-card {
+            background-color: #fff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            text-align: center;
+        }
+        .mode-card.selected {
+            background-color: #3498db;
+            color: white;
+        }
+        .mode-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .mode-description {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .interval-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .interval-card {
+            background-color: #fff;
+            border: 2px solid #2ecc71;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .interval-card.selected {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .interval-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>Intervalles Express</h1>
+<p>Écoute deux notes et reconnais l’intervalle.</p>
+<p>Choisis un parcours ou compose ton propre exercice.</p>
+<div id="settings-container">
+<h2>Choisis ton mode de jeu</h2>
+<div class="mode-selection">
+<div class="mode-card" data-mode="custom">
+<h3>À la carte</h3>
+<p class="mode-description">Choisis précisément les intervalles que tu veux travailler.</p>
+</div>
+<div class="mode-card" data-mode="progressive">
+<h3>Mode Aventure 🌟</h3>
+<p class="mode-description">Commence avec les intervalles simples, puis progresse étape par étape.</p>
+</div>
+</div>
+<div id="interval-selection" style="display: none;">
+<h2>Choisis tes intervalles</h2>
+<div class="interval-grid" id="interval-options">
+<div class="interval-card" data-interval="m2">Seconde mineure</div>
+<div class="interval-card" data-interval="M2">Seconde majeure</div>
+<div class="interval-card" data-interval="m3">Tierce mineure</div>
+<div class="interval-card" data-interval="M3">Tierce majeure</div>
+<div class="interval-card" data-interval="P4">Quarte juste</div>
+<div class="interval-card" data-interval="P5">Quinte juste</div>
+<div class="interval-card" data-interval="m6">Sixte mineure</div>
+<div class="interval-card" data-interval="M6">Sixte majeure</div>
+<div class="interval-card" data-interval="m7">Septième mineure</div>
+<div class="interval-card" data-interval="M7">Septième majeure</div>
+<div class="interval-card" data-interval="P8">Octave juste</div>
+</div>
+</div>
+<button id="start-game">C'est parti ! 🚀</button>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modeCards = document.querySelectorAll('.mode-card');
+        const intervalCards = document.querySelectorAll('.interval-card');
+        const intervalSelection = document.getElementById('interval-selection');
+        const startGameButton = document.getElementById('start-game');
+
+        let selectedMode = 'custom';
+
+        modeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                modeCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedMode = this.getAttribute('data-mode');
+
+                if (selectedMode === 'custom') {
+                    intervalSelection.style.display = 'block';
+                } else {
+                    intervalSelection.style.display = 'none';
+                }
+            });
+        });
+
+        // Sélectionner le mode personnalisé par défaut et afficher les intervalles
+        document.querySelector('.mode-card[data-mode="custom"]').classList.add('selected');
+        intervalSelection.style.display = 'block';
+
+        intervalCards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        startGameButton.addEventListener('click', function() {
+            if (selectedMode === 'custom') {
+                const selectedIntervals = Array.from(document.querySelectorAll('.interval-card.selected')).map(card => card.getAttribute('data-interval'));
+                if (selectedIntervals.length >= 2) {
+                    window.location.href = `jeu.html?intervals=${encodeURIComponent(selectedIntervals.join(','))}`;
+                } else {
+                    alert('Veuillez sélectionner au moins deux intervalles pour le Mode Jeu.');
+                }
+            } else {
+                window.location.href = 'aventure.html';
+            }
+        });
+    });
+</script>
+</body>
+</html>

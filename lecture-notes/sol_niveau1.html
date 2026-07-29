@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture de Notes Sol Niveau1</title>
+  <link rel="stylesheet" href="unified.css">
+  <style>
+    .note img { max-width: 100px; height: auto; margin: 10px; }
+    .note { display: inline-block; text-align: center; margin: 10px; }
+    #feedback { font-size: 24px; font-weight: bold; margin-top: 20px; min-height: 40px; transition: color 0.3s ease; }
+    #feedback.correct { color: green; }
+    #feedback.incorrect { color: red; }
+    #progress-container { width: 100%; background-color: #ddd; border-radius: 10px; margin-top: 20px; height: 20px; }
+    #progress-bar { height: 100%; width: 0%; background-color: #4CAF50; border-radius: 10px; transition: width 0.4s ease-in-out; }
+    #score-display { font-size: 28px; font-weight: bold; margin-top: 20px; }
+    .gold-button {
+      background: linear-gradient(to bottom right, #FFD700, #FFA500);
+      color: black;
+      font-weight: bold;
+      border: 2px solid #DAA520;
+      box-shadow: 0 0 10px gold;
+      margin-bottom: 10px;
+    }
+  </style>
+  <link rel="stylesheet" href="notation-adapter.css">
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+  <h1>Lecture de Notes Express</h1>
+
+  <div class="section">
+  <div class="section-topbar">
+  <a class="home-link" href="index.html" aria-label="Revenir à l'accueil">🏠 Accueil</a>
+</div>
+
+    <h2 style="color: red;">Niveau 1 - Clé de sol</h2>
+
+    <div id="note-reference">
+      <h2>Voici les quatre notes repères :</h2>
+      <div class="note"><img alt="Sol4" src="Images/sol/G4.png"/><p>Sol</p></div>
+      <div class="note"><img alt="Do4" src="Images/sol/C4.png"/><p>Do</p></div>
+      <div class="note"><img alt="Do5" src="Images/sol/C5.png"/><p>Do</p></div>
+      <div class="note"><img alt="La5" src="Images/sol/A5.png"/><p>La</p></div>
+      <button class="button" id="start-quiz">Commencer le Quiz</button>
+      <p style="margin-top: 10px; font-size: 14px; color: #555;">
+  💡 Astuce : Vous pouvez aussi répondre avec le clavier !<br>
+  <small>C = Do, G = Sol, A = La</small>
+</p>
+    </div>
+
+    <div id="quiz-section" style="display: none;">
+      <div id="note-display"><img alt="Note" id="note-image" src=""/></div>
+      <div id="game-container"></div>
+      <div id="feedback"></div>
+      <div id="progress-container"><div id="progress-bar"></div></div>
+      <div id="score-display"></div>
+    </div>
+
+    <div id="end-buttons" style="display: none;">
+      <button class="button" onclick="window.location.reload();">Recommencer le niveau</button>
+      <button class="button" onclick="window.location.href='index.html';">Revenir à l'accueil</button>
+    </div>
+
+    <!-- Formulaire d'envoi -->
+    <div id="send-score" style="display: none; margin-top: 30px;">
+      <h3>Envoyer mon score au professeur</h3>
+      <input type="text" id="prenom" placeholder="Prénom" required style="margin: 5px;" />
+      <input type="text" id="nom" placeholder="Nom" required style="margin: 5px;" />
+      <select id="prof_fm" style="margin: 5px; padding: 5px;">
+        <option value="Aucun">FM : Aucun / Non concerné</option>
+        <option value="Barbara">Barbara</option>
+        <option value="Benoit">Benoit</option>
+        <option value="Céline">Céline</option>
+        <option value="Chloé">Chloé</option>
+        <option value="Frédéric">Frédéric</option>
+        <option value="Sandrine">Sandrine</option>
+        <option value="Thomas">Thomas</option>
+      </select>
+      <select id="prof_instrument" style="margin: 5px; padding: 5px;">
+        <option value="Aucun">Instrument : Aucun / Non concerné</option>
+        <option value="Alexandre">Alexandre</option>
+      </select>
+      <br>
+      <button class="button" onclick="envoyerScore()">Envoyer</button>
+      <p id="confirmation" style="margin-top:10px; font-weight: bold;"></p>
+      <p id="loading-message" style="display: none; color: blue; font-weight: bold;">⏳ Envoi en cours...</p>
+    </div>
+  </div>
+
+  <!-- Iframe invisible pour envoyer les données -->
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+  <script src="config.js"></script>
+  <script src="sol_niveau1.js"></script>
+  <script src="vendor/vexflow.js"></script>
+  <script src="note-renderer.js"></script>
+  <script src="notation-adapter.js"></script>
+</body>
+</html>
+

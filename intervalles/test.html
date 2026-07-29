@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Test de son</title>
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+    <button onclick="playSound('F3')">Jouer F3</button>
+    <button onclick="playSound('F#3')">Jouer F#3</button>
+    <button onclick="playSound('G3')">Jouer G3</button>
+    <button onclick="playSound('G#3')">Jouer G#3</button>
+    <button onclick="playSound('A3')">Jouer A3</button>
+    <button onclick="playSound('A#3')">Jouer A#3</button>
+    <button onclick="playSound('B3')">Jouer B3</button>
+    <button onclick="playSound('C4')">Jouer C4</button>
+    <button onclick="playSound('C#4')">Jouer C#4</button>
+    <button onclick="playSound('D4')">Jouer D4</button>
+    <button onclick="playSound('D#4')">Jouer D#4</button>
+    <button onclick="playSound('E4')">Jouer E4</button>
+    <button onclick="playSound('F4')">Jouer F4</button>
+    <button onclick="playSound('F#4')">Jouer F#4</button>
+    <button onclick="playSound('G4')">Jouer G4</button>
+    <button onclick="playSound('G#4')">Jouer G#4</button>
+    <button onclick="playSound('A4')">Jouer A4</button>
+    <button onclick="playSound('A#4')">Jouer A#4</button>
+    <button onclick="playSound('B4')">Jouer B4</button>
+    <button onclick="playSound('C5')">Jouer C5</button>
+    <button onclick="playSound('C#5')">Jouer C#5</button>
+    <button onclick="playSound('D5')">Jouer D5</button>
+    <button onclick="playSound('D#5')">Jouer D#5</button>
+    <button onclick="playSound('E5')">Jouer E5</button>
+    <button onclick="playSound('F5')">Jouer F5</button>
+    <button onclick="playSound('F#5')">Jouer F#5</button>
+    <button onclick="playSound('G5')">Jouer G5</button>
+    <button onclick="playSound('G#5')">Jouer G#5</button>
+    <button onclick="playSound('A5')">Jouer A5</button>
+
+    <script>
+        function playSound(note) {
+            const notesAudio = {
+                'F3': 'assets/sounds/F3.mp3',
+                'F#3': 'assets/sounds/Fsharp3.mp3',
+                'G3': 'assets/sounds/G3.mp3',
+                'G#3': 'assets/sounds/Gsharp3.mp3',
+                'A3': 'assets/sounds/A3.mp3',
+                'A#3': 'assets/sounds/Asharp3.mp3',
+                'B3': 'assets/sounds/B3.mp3',
+                'C4': 'assets/sounds/C4.mp3',
+                'C#4': 'assets/sounds/Csharp4.mp3',
+                'D4': 'assets/sounds/D4.mp3',
+                'D#4': 'assets/sounds/Dsharp4.mp3',
+                'E4': 'assets/sounds/E4.mp3',
+                'F4': 'assets/sounds/F4.mp3',
+                'F#4': 'assets/sounds/Fsharp4.mp3',
+                'G4': 'assets/sounds/G4.mp3',
+                'G#4': 'assets/sounds/Gsharp4.mp3',
+                'A4': 'assets/sounds/A4.mp3',
+                'A#4': 'assets/sounds/Asharp4.mp3',
+                'B4': 'assets/sounds/B4.mp3',
+                'C5': 'assets/sounds/C5.mp3',
+                'C#5': 'assets/sounds/Csharp5.mp3',
+                'D5': 'assets/sounds/D5.mp3',
+                'D#5': 'assets/sounds/Dsharp5.mp3',
+                'E5': 'assets/sounds/E5.mp3',
+                'F5': 'assets/sounds/F5.mp3',
+                'F#5': 'assets/sounds/Fsharp5.mp3',
+                'G5': 'assets/sounds/G5.mp3',
+                'G#5': 'assets/sounds/Gsharp5.mp3',
+                'A5': 'assets/sounds/A5.mp3'
+            };
+
+            const audio = new Audio(notesAudio[note]);
+            audio.addEventListener('canplaythrough', () => {
+                audio.play().catch(e => console.error("Erreur lors de la lecture du son:", e));
+            });
+            audio.addEventListener('error', (e) => {
+                console.error("Erreur de chargement du son:", e);
+            });
+            audio.load();
+        }
+    </script>
+</body>
+</html>
