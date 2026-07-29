@@ -29,12 +29,6 @@
     return (Number(match[3]) + 1) * 12 + pitch;
   }
 
-  function nearest(values, target) {
-    return values.reduce((best, value) =>
-      Math.abs(value - target) < Math.abs(best - target) ? value : best
-    );
-  }
-
   async function loadBuffer(url) {
     if (!context) throw new Error("Audio Web non disponible");
     if (!buffers.has(url)) {
@@ -79,7 +73,11 @@
     const instrument = window.LDN_INSTRUMENTS[instrumentId];
     const urls = new Set(["sounds/duck.mp3"]);
     if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
-      urls.add(window.LDN_INSTRUMENT_BANKS[instrumentId].file);
+      const noteFiles = window.LDN_INSTRUMENT_BANKS[instrumentId].notes;
+      level.notes.forEach(note => {
+        const targetMidi = soundingMidi(note, instrument);
+        if (noteFiles[targetMidi]) urls.add(noteFiles[targetMidi]);
+      });
     } else {
       level.notes.forEach(note => {
         const sample = pianoSourceFor(soundingMidi(note, instrument));
@@ -119,23 +117,15 @@
     stopActive();
     if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
       const bank = window.LDN_INSTRUMENT_BANKS[instrumentId];
-      const anchor = nearest(bank.anchors, targetMidi);
-      const anchorIndex = bank.anchors.indexOf(anchor);
-      const audio = await loadHtmlAudio(bank.file);
+      const noteFile = bank.notes[targetMidi];
+      if (!noteFile) throw new Error(`Son instrumental absent : ${instrumentId} ${targetMidi}`);
+      const audio = await loadHtmlAudio(noteFile);
       audio.pause();
+      audio.currentTime = 0;
       audio.volume = .82;
-      audio.playbackRate = Math.pow(2, (targetMidi - anchor) / 12);
-      audio.preservesPitch = false;
-      audio.currentTime = anchorIndex * bank.segmentSeconds;
+      audio.playbackRate = 1;
       activeHtmlAudio = audio;
       await audio.play();
-      const duration = bank.playableSeconds / audio.playbackRate;
-      activeHtmlTimer = setTimeout(() => {
-        if (activeHtmlAudio === audio) {
-          audio.pause();
-          activeHtmlAudio = null;
-        }
-      }, duration * 1000);
       return;
     }
     const sample = pianoSourceFor(targetMidi);
@@ -158,19 +148,19 @@
 
     if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
       const bank = window.LDN_INSTRUMENT_BANKS[instrumentId];
-      const anchor = nearest(bank.anchors, targetMidi);
-      const anchorIndex = bank.anchors.indexOf(anchor);
+      const noteFile = bank.notes[targetMidi];
+      if (!noteFile) throw new Error(`Son instrumental absent : ${instrumentId} ${targetMidi}`);
       const source = context.createBufferSource();
       const gain = context.createGain();
-      source.buffer = await loadBuffer(bank.file);
-      source.playbackRate.value = Math.pow(2, (targetMidi - anchor) / 12);
+      source.buffer = await loadBuffer(noteFile);
+      source.playbackRate.value = 1;
       source.connect(gain).connect(context.destination);
       const now = context.currentTime + .015;
-      const duration = bank.playableSeconds / source.playbackRate.value;
+      const duration = source.buffer.duration;
       gain.gain.setValueAtTime(.82, now);
-      gain.gain.setValueAtTime(.82, now + Math.max(.05, duration - .09));
+      gain.gain.setValueAtTime(.82, now + Math.max(.05, duration - .32));
       gain.gain.linearRampToValueAtTime(0.0001, now + duration);
-      source.start(now, anchorIndex * bank.segmentSeconds, bank.playableSeconds);
+      source.start(now);
       activeSource = source;
       source.onended = () => { if (activeSource === source) activeSource = null; };
       return;

@@ -277,6 +277,13 @@ html, body { overflow-x: hidden; }
   background: #1f6fc9;
   border-color: #1f6fc9;
 }
+.timbre-explanation {
+  max-width: 580px;
+  margin: 10px auto 2px;
+  color: #425d75;
+  font-size: 14px;
+  line-height: 1.45;
+}
 .launch-instrument-level {
   margin-top: 14px;
   padding: 13px 24px;
@@ -293,4 +300,3 @@ html, body { overflow-x: hidden; }
   .levels-row { grid-template-columns: 1fr; }
   .instrument-level-card { min-height: 0; }
 }
-

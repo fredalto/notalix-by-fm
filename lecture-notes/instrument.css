@@ -9,6 +9,17 @@
 }
 .instrument-card h2 { color: #0b3473; margin: 18px 0 8px; }
 .pedagogy { min-height: 24px; color: #43505b; font-weight: 600; }
+.sound-summary {
+  width: fit-content;
+  max-width: 680px;
+  margin: 6px auto 10px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  color: #31516e;
+  background: #eef6fc;
+  font-size: 14px;
+  font-weight: 700;
+}
 .sound-loading {
   display: grid;
   justify-items: center;

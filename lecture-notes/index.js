@@ -253,9 +253,14 @@ function selectInstrument(id) {
   launcher.innerHTML = `
     <p class="launcher-title">Quel son souhaites-tu entendre ?</p>
     <div class="timbre-choice" role="group" aria-label="Choix du son">
-      <button type="button" data-timbre="piano">Piano</button>
+      <button type="button" data-timbre="piano">Piano en ut</button>
       <button type="button" data-timbre="instrument">${instrument.label}</button>
     </div>
+    <p class="timbre-explanation">${
+      instrument.transpose
+        ? `Instrument transpositeur : même avec le son Piano en ut, la hauteur entendue sera transposée comme celle du ${instrument.label}.`
+        : `Instrument en ut : avec le son Piano, la hauteur entendue correspond à la note écrite.`
+    }</p>
     <button type="button" id="launch-instrument-level" class="launch-instrument-level">Commencer le niveau</button>`;
   cont.after(launcher);
   launcher.querySelectorAll('[data-timbre]').forEach(button => {

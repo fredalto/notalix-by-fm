@@ -19,6 +19,7 @@
 
   const title = document.getElementById("instrument-title");
   const pedagogy = document.getElementById("pedagogy");
+  const soundSummary = document.getElementById("sound-summary");
   const noteTarget = document.getElementById("generated-note");
   const hint = document.getElementById("hint");
   const answers = document.getElementById("answers");
@@ -65,20 +66,30 @@
       answers.appendChild(button);
     });
   }
+  function conciseFingering(value) {
+    if (!value) return "";
+    if (/à vide/i.test(value) || /pistons? ouverts/i.test(value)) return "0";
+    const caseNumber = /case\s+(\d+)/i.exec(value);
+    if (caseNumber) return `Case ${caseNumber[1]}`;
+    const pistons = /pistons?\s+([\d\s]+(?:et\s+\d+)?)/i.exec(value);
+    if (pistons) return pistons[1].replace(/\s+et\s+/i, " + ").trim();
+    const position = /(\d+)(?:re|e)\s+position/i.exec(value);
+    if (position) return `${position[1]}e position`;
+    return value;
+  }
   function renderCurrent() {
     const note = sequence[current];
-    const octaveMatch = /(-?\d+)$/.exec(note.written);
-    const octave = octaveMatch ? Number(octaveMatch[1]) : 4;
-    const renderHeight = note.clef === "sol" && octave <= 3
-      ? 165
-      : note.clef === "fa" && octave <= 1
-        ? 190
-        : 135;
-    noteTarget.style.height = `${Math.round(renderHeight * 1.5)}px`;
-    window.LDNNoteRenderer.renderNote(noteTarget, { note:note.written, clef:note.clef, label:`Clé ${note.clef}`, height:renderHeight });
+    window.LDNNoteRenderer.renderNote(noteTarget, {
+      note:note.written,
+      clef:note.clef,
+      label:`Clé ${note.clef}`,
+      adaptive:true,
+      minHeight:250,
+      width:150
+    });
     const fingering = instrument.fingerings && instrument.fingerings[note.written];
-    hint.textContent = fingering || "";
-    // Le doigté peut contenir le nom de la note : il reste caché jusqu’à la réponse.
+    const displayedFingering = conciseFingering(fingering || note.hint);
+    hint.textContent = displayedFingering;
     hint.hidden = true;
     feedback.textContent = "";
     isWaiting = false;
@@ -99,11 +110,9 @@
       feedback.style.color = "red";
       window.LDNAudio.playDuck().catch(() => {});
     }
-    const fingering = instrument.fingerings && instrument.fingerings[note.written];
-    if (fingeringToggle.checked && fingering) {
-      hint.textContent = `Repère : ${fingering}`;
-      hint.hidden = false;
-    }
+    const displayedFingering = conciseFingering((instrument.fingerings && instrument.fingerings[note.written]) || note.hint);
+    hint.textContent = displayedFingering;
+    hint.hidden = !fingeringToggle.checked || !displayedFingering;
     current++;
     scoreText.textContent = `Score : ${score} / ${total}`;
     progress.style.width = `${current / total * 100}%`;
@@ -183,11 +192,21 @@
   document.title = `${instrument.label} — Niveau ${levelNumber}`;
   title.textContent = `${instrument.label} — Niveau ${levelNumber} : ${level.title}`;
   pedagogy.textContent = level.pedagogy;
+  soundSummary.textContent = instrument.transpose
+    ? `Son choisi : ${timbre === "piano" ? "Piano en ut" : instrument.label}. La hauteur entendue est transposée comme celle de l’instrument.`
+    : `Son choisi : ${timbre === "piano" ? "Piano en ut" : instrument.label}. La hauteur entendue correspond à la note écrite.`;
   fingeringMode.hidden = !instrument.fingerings;
   fingeringToggle.checked = localStorage.getItem(`ldn-fingering-${id}`) === "shown";
   fingeringToggle.addEventListener("change", () => {
     localStorage.setItem(`ldn-fingering-${id}`, fingeringToggle.checked ? "shown" : "hidden");
-    renderCurrent();
+    if (!isWaiting) {
+      hint.hidden = true;
+      return;
+    }
+    const answeredNote = sequence[Math.max(0, current - 1)];
+    const displayedFingering = conciseFingering((instrument.fingerings && instrument.fingerings[answeredNote.written]) || answeredNote.hint);
+    hint.textContent = displayedFingering;
+    hint.hidden = !fingeringToggle.checked || !displayedFingering;
   });
   document.getElementById("restart").addEventListener("click", restart);
   document.getElementById("send-score-button").addEventListener("click", sendScore);

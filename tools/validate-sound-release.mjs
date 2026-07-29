@@ -13,6 +13,14 @@ const instruments = context.window.LDN_INSTRUMENTS;
 const banks = context.window.LDN_INSTRUMENT_BANKS;
 const errors = [];
 
+const rendererContext = { window:{} };
+vm.createContext(rendererContext);
+vm.runInContext(fs.readFileSync(path.join(lecture, "note-renderer.js"), "utf8"), rendererContext);
+for (const [note, clef] of [["F3","sol"],["E6","sol"],["C1","fa"],["D4","fa"],["C3","ut3"],["D5","ut4"]]) {
+  const layout = rendererContext.window.LDNNoteRenderer.adaptiveLayout(note, clef, 250);
+  if (layout.height < 250 || layout.staveY < 30) errors.push(`${clef} ${note}: cadrage adaptatif invalide`);
+}
+
 for (const [id, instrument] of Object.entries(instruments)) {
   if (instrument.levels.length !== 4) errors.push(`${id}: ${instrument.levels.length} niveaux`);
   instrument.levels.forEach((level, index) => {
@@ -20,7 +28,22 @@ for (const [id, instrument] of Object.entries(instruments)) {
   });
   if (id !== "piano") {
     if (!banks[id]) errors.push(`${id}: banque instrument absente`);
-    else if (!fs.existsSync(path.join(lecture, banks[id].file))) errors.push(`${id}: fichier son absent`);
+    else {
+      const expectedMidis = new Set(instrument.levels.flatMap(level =>
+        level.notes.map(note => {
+          const match = /^([A-G])(sharp|flat|#|b)?(-?\d+)$/.exec(note.written);
+          let pitch = { C:0, D:2, E:4, F:5, G:7, A:9, B:11 }[match[1]];
+          if (match[2] === "sharp" || match[2] === "#") pitch++;
+          if (match[2] === "flat" || match[2] === "b") pitch--;
+          return (Number(match[3]) + 1) * 12 + pitch + (instrument.transpose || 0);
+        })
+      ));
+      for (const midiValue of expectedMidis) {
+        const noteFile = banks[id].notes?.[midiValue];
+        if (!noteFile) errors.push(`${id}: son ${midiValue} absent du manifeste`);
+        else if (!fs.existsSync(path.join(lecture, noteFile))) errors.push(`${id}: fichier ${midiValue} absent`);
+      }
+    }
   }
 }
 
@@ -32,8 +55,8 @@ for (const script of ["instrument-config.js", "instrument-sounds/manifest.js", "
 const chordHtml = fs.readFileSync(path.join(root, "accords", "index.html"), "utf8");
 if (!chordHtml.includes('src="audio-engine.js"')) errors.push("accords: moteur audio absent");
 
-const renderedBanks = fs.readdirSync(path.join(lecture, "instrument-sounds")).filter(name => name.endsWith(".mp3"));
-if (renderedBanks.length !== 19) errors.push(`banques MuseScore: ${renderedBanks.length}/19`);
+const renderedNotes = Object.values(banks).flatMap(bank => Object.values(bank.notes || {}));
+if (renderedNotes.length !== 263) errors.push(`notes MuseScore individuelles: ${renderedNotes.length}/263`);
 
 class MockAudio {
   static plays = 0;
@@ -88,4 +111,4 @@ if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`${Object.keys(instruments).length} instruments, 4 niveaux chacun, 19 banques MuseScore vérifiées.`);
+console.log(`${Object.keys(instruments).length} instruments, 4 niveaux chacun, ${renderedNotes.length} sons MuseScore individuels vérifiés.`);

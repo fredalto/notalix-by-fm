@@ -30,7 +30,9 @@
     window.LDNNoteRenderer.renderNote(target, {
       note: parsed.note,
       clef: parsed.clef,
-      label: `Clé ${parsed.clef}`
+      label: `Clé ${parsed.clef}`,
+      adaptive: true,
+      minHeight: dynamic ? 250 : 160
     });
     return true;
   }

@@ -5,14 +5,23 @@ Cette version est séparée de la V2 précédente.
 LECTURE DE NOTES
 - 20 instruments disponibles, avec 4 niveaux décrits clairement.
 - Un seul choix avant de jouer : Piano ou instrument sélectionné.
-- 19 banques instrumentales produites avec MuseScore 4.
+- 263 sons individuels produits avec MuseScore 4 pour les 19 instruments.
+- Chaque hauteur possède son propre fichier : aucun son voisin ne peut déborder.
+- Chaque note se termine avec une courte résonance naturelle, sans coupure sèche.
 - Préchargement avant l’exercice pour éviter les silences et les retards.
 - Fonctionne également quand index.html est ouvert directement depuis Windows.
-- Les doigtés apparaissent seulement après la réponse : ils ne peuvent plus
-  révéler la note pendant la question.
+- Les doigtés sont affichés sous une forme courte qui ne révèle pas la note :
+  0 pour une corde à vide, numéro de doigt, case, piston ou position.
+- L’élève choisit librement cette aide ; le doigté ou la position ne paraît
+  qu’après sa réponse.
+- Pour un instrument transpositeur, le son Piano en ut est lui aussi joué à
+  la hauteur réelle transposée. Cette règle est indiquée avant et pendant le jeu.
 - Violon, alto et violoncelle intégrés au parcours commun.
 - Les notes sont dessinées instantanément avec VexFlow : aucune image de note
   n’est téléchargée pendant le jeu.
+- La position de la portée et la hauteur de la zone de notation s’adaptent aux
+  notes graves et aiguës de chaque clé. Les lignes supplémentaires restent
+  entièrement visibles dans les niveaux, les défis et le mode instruments.
 
 ACCORDS EXPRESS
 - Les sons de piano sont préparés avant le début de la série.
