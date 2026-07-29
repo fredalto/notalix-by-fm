@@ -16,6 +16,9 @@ LECTURE DE NOTES
   qu’après sa réponse.
 - Pour un instrument transpositeur, le son Piano en ut est lui aussi joué à
   la hauteur réelle transposée. Cette règle est indiquée avant et pendant le jeu.
+- Sur ordinateur, la sélection de l’instrument se replie après le choix :
+  les quatre niveaux, le choix du son et le démarrage restent visibles sans
+  descendre toute la page. Un bouton permet de changer d’instrument.
 - Violon, alto et violoncelle intégrés au parcours commun.
 - Les notes sont dessinées instantanément avec VexFlow : aucune image de note
   n’est téléchargée pendant le jeu.

@@ -70,6 +70,10 @@
       <p style="font-size:16px; line-height:1.6; max-width:800px;">
         Choisis une famille, puis ton instrument. Une sous-famille est proposée uniquement lorsqu’elle est utile.
       </p>
+      <div id="instrument-selection-summary" class="instrument-selection-summary hidden-soft">
+        <span>Instrument choisi : <strong id="selected-instrument-label"></strong></span>
+        <button type="button" onclick="changeInstrumentSelection()">Changer d’instrument</button>
+      </div>
 
       <style>
         .families-row, .subfamilies-row, .instruments-row, .levels-row {

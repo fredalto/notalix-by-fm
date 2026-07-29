@@ -258,6 +258,59 @@ html, body { overflow-x: hidden; }
   border: 1px solid #cfe0ef;
   border-radius: 16px;
 }
+.instrument-selection-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  max-width: 980px;
+  margin: 10px auto 14px;
+  padding: 10px 14px;
+  color: #17304e;
+  background: #eef6fc;
+  border: 1px solid #cfe0ef;
+  border-radius: 12px;
+}
+.instrument-selection-summary button {
+  margin: 0;
+  padding: 8px 13px;
+  color: #155daf;
+  background: #fff;
+  border: 1px solid #9fc5e8;
+  font-size: 14px;
+  font-weight: 800;
+}
+#etape-instrument.instrument-ready > p,
+#etape-instrument.instrument-ready > h4,
+#etape-instrument.instrument-ready > .families-row,
+#etape-instrument.instrument-ready > #bloc-sousfamilles,
+#etape-instrument.instrument-ready > #bloc-instruments {
+  display: none !important;
+}
+#etape-instrument.instrument-ready #titre-niveaux {
+  margin-top: 8px !important;
+}
+#etape-instrument.instrument-ready .instrument-level-card {
+  min-height: 92px;
+  padding: 12px 15px;
+}
+#etape-instrument.instrument-ready .instrument-launcher {
+  display: grid;
+  grid-template-columns: minmax(150px, .7fr) minmax(280px, 1.4fr) minmax(180px, .8fr);
+  align-items: center;
+  gap: 8px 14px;
+  max-width: 980px;
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+#etape-instrument.instrument-ready .launcher-title,
+#etape-instrument.instrument-ready .launch-instrument-level {
+  margin: 0;
+}
+#etape-instrument.instrument-ready .timbre-explanation {
+  grid-column: 1 / -1;
+  margin: 0 auto;
+}
 .launcher-title { margin: 0 0 10px; font-weight: 800; }
 .timbre-choice { display: flex; gap: 10px; justify-content: center; }
 .timbre-choice button {
@@ -299,4 +352,15 @@ html, body { overflow-x: hidden; }
 @media (max-width: 700px) {
   .levels-row { grid-template-columns: 1fr; }
   .instrument-level-card { min-height: 0; }
+  #etape-instrument.instrument-ready .instrument-launcher {
+    display: block;
+  }
+  #etape-instrument.instrument-ready .launcher-title,
+  #etape-instrument.instrument-ready .launch-instrument-level {
+    margin-top: 12px;
+  }
+  .instrument-selection-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

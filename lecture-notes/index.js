@@ -156,7 +156,23 @@ const CATALOGUE = {
   }
 };
 
+function reopenInstrumentChoices() {
+  document.getElementById('etape-instrument').classList.remove('instrument-ready');
+  document.getElementById('instrument-selection-summary').classList.add('hidden-soft');
+}
+
+function changeInstrumentSelection() {
+  instrumentChoisi = '';
+  niveauInstrumentChoisi = 0;
+  reopenInstrumentChoices();
+  document.getElementById('bloc-niveaux').classList.add('hidden-soft');
+  document.getElementById('instrument-launcher')?.remove();
+  document.querySelectorAll('#instruments-container .tile').forEach(tile => tile.classList.remove('selected'));
+  document.getElementById('bloc-instruments').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
 function selectFamille(famille) {
+  reopenInstrumentChoices();
   familleChoisie = famille;
   sousFamilleChoisie = '';
   instrumentChoisi = '';
@@ -191,6 +207,7 @@ function selectFamille(famille) {
 }
 
 function selectSousFamille(sf) {
+  reopenInstrumentChoices();
   sousFamilleChoisie = sf;
   instrumentChoisi = '';
   document.getElementById('bloc-instruments').classList.remove('hidden-soft');
@@ -237,6 +254,9 @@ function selectInstrument(id) {
   document.getElementById('instrument-launcher')?.remove();
   const instrument = window.LDN_INSTRUMENTS?.[id];
   if (!instrument) return;
+  document.getElementById('selected-instrument-label').textContent = instrument.label;
+  document.getElementById('instrument-selection-summary').classList.remove('hidden-soft');
+  document.getElementById('etape-instrument').classList.add('instrument-ready');
 
   instrument.levels.forEach((level, index) => {
     const button = document.createElement('button');
@@ -269,6 +289,7 @@ function selectInstrument(id) {
   });
   setInstrumentTimbre(id === 'piano' ? 'piano' : timbreInstrumentChoisi);
   launcher.querySelector('#launch-instrument-level').addEventListener('click', launchInstrumentLevel);
+  document.getElementById('instrument-selection-summary').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function selectInstrumentLevel(levelNumber) {
