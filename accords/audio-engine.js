@@ -14,7 +14,10 @@
     "G1","G2","G3","G4","G5","Gsharp3","Gsharp4","Gsharp5"
   ];
   const buffers = new Map();
+  const htmlAudio = new Map();
+  const useFileFallback = location.protocol === "file:";
   const activeSources = new Set();
+  const activeHtmlAudio = new Set();
 
   function midi(code) {
     const match = /^([A-G])(sharp)?(\d+)$/.exec(code);
@@ -43,10 +46,27 @@
     return buffers.get(url);
   }
 
+  function loadHtml(url) {
+    if (!htmlAudio.has(url)) {
+      const audio = new Audio(url);
+      audio.preload = "auto";
+      htmlAudio.set(url, new Promise(resolve => {
+        if (audio.readyState >= 2) return resolve(audio);
+        const done = () => resolve(audio);
+        audio.addEventListener("canplay", done, { once:true });
+        audio.addEventListener("error", done, { once:true });
+        setTimeout(done, 2500);
+        audio.load();
+      }));
+    }
+    return htmlAudio.get(url);
+  }
+
   async function preloadAll(onProgress) {
     let done = 0;
     await Promise.all(available.map(async code => {
-      await load(`sounds/${code}.mp3`);
+      if (useFileFallback) await loadHtml(`sounds/${code}.mp3`);
+      else await load(`sounds/${code}.mp3`);
       done++;
       onProgress?.(done / available.length);
     }));
@@ -61,6 +81,26 @@
       try { source.stop(); } catch (_) {}
     });
     activeSources.clear();
+    activeHtmlAudio.forEach(audio => audio.pause());
+    activeHtmlAudio.clear();
+  }
+
+  async function playHtml(midis, arpeggio) {
+    stopAll();
+    const prepared = await Promise.all(midis.map(async targetMidi => {
+      const sample = nearestSample(targetMidi);
+      const template = await loadHtml(`sounds/${sample.code}.mp3`);
+      const audio = template.cloneNode(true);
+      audio.volume = arpeggio ? .72 : .58;
+      audio.playbackRate = Math.pow(2, (targetMidi - sample.midi) / 12);
+      audio.preservesPitch = false;
+      activeHtmlAudio.add(audio);
+      return audio;
+    }));
+    prepared.forEach((audio, index) => {
+      if (arpeggio) setTimeout(() => audio.play().catch(() => {}), index * 230);
+      else audio.play().catch(() => {});
+    });
   }
 
   async function scheduleNote(targetMidi, when, volume) {
@@ -77,6 +117,7 @@
   }
 
   async function play(midis, arpeggio) {
+    if (useFileFallback || !context) return playHtml(midis, arpeggio);
     await resume();
     stopAll();
     const start = context.currentTime + .06;

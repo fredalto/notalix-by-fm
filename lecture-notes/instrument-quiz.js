@@ -78,7 +78,8 @@
     window.LDNNoteRenderer.renderNote(noteTarget, { note:note.written, clef:note.clef, label:`Clé ${note.clef}`, height:renderHeight });
     const fingering = instrument.fingerings && instrument.fingerings[note.written];
     hint.textContent = fingering || "";
-    hint.hidden = !fingeringToggle.checked || !fingering;
+    // Le doigté peut contenir le nom de la note : il reste caché jusqu’à la réponse.
+    hint.hidden = true;
     feedback.textContent = "";
     isWaiting = false;
     answers.querySelectorAll("button").forEach(button => { button.disabled = false; });
@@ -97,6 +98,11 @@
       feedback.textContent = `✗ C’était ${NOTE_NAMES[note.written[0]]}`;
       feedback.style.color = "red";
       window.LDNAudio.playDuck().catch(() => {});
+    }
+    const fingering = instrument.fingerings && instrument.fingerings[note.written];
+    if (fingeringToggle.checked && fingering) {
+      hint.textContent = `Repère : ${fingering}`;
+      hint.hidden = false;
     }
     current++;
     scoreText.textContent = `Score : ${score} / ${total}`;

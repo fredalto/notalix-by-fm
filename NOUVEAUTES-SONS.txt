@@ -7,6 +7,9 @@ LECTURE DE NOTES
 - Un seul choix avant de jouer : Piano ou instrument sélectionné.
 - 19 banques instrumentales produites avec MuseScore 4.
 - Préchargement avant l’exercice pour éviter les silences et les retards.
+- Fonctionne également quand index.html est ouvert directement depuis Windows.
+- Les doigtés apparaissent seulement après la réponse : ils ne peuvent plus
+  révéler la note pendant la question.
 - Violon, alto et violoncelle intégrés au parcours commun.
 - Les notes sont dessinées instantanément avec VexFlow : aucune image de note
   n’est téléchargée pendant le jeu.
@@ -16,6 +19,7 @@ ACCORDS EXPRESS
 - Les accords plaqués sont déclenchés exactement au même instant.
 - Les arpèges sont programmés sur une horloge audio régulière.
 - Les exemples du tutoriel utilisent le même moteur audio que le jeu.
+- Un mode audio de secours permet aussi de tester les accords hors connexion.
 
 INSTALLATION SUR GITHUB
 Copier tout le contenu de ce dossier à la racine du dépôt NOTALIX.

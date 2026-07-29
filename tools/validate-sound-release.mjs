@@ -35,6 +35,36 @@ if (!chordHtml.includes('src="audio-engine.js"')) errors.push("accords: moteur a
 const renderedBanks = fs.readdirSync(path.join(lecture, "instrument-sounds")).filter(name => name.endsWith(".mp3"));
 if (renderedBanks.length !== 19) errors.push(`banques MuseScore: ${renderedBanks.length}/19`);
 
+class MockAudio {
+  static plays = 0;
+  constructor(src="") { this.src=src; this.readyState=4; this.currentTime=0; this.playbackRate=1; }
+  addEventListener() {}
+  load() {}
+  pause() {}
+  play() { MockAudio.plays++; return Promise.resolve(); }
+  cloneNode() { return new MockAudio(this.src); }
+}
+const fileAudioContext = {
+  window:{ LDN_INSTRUMENTS:instruments, LDN_INSTRUMENT_BANKS:banks },
+  location:{ protocol:"file:" }, Audio:MockAudio, setTimeout, clearTimeout, console
+};
+vm.createContext(fileAudioContext);
+vm.runInContext(fs.readFileSync(path.join(lecture, "audio-engine.js"), "utf8"), fileAudioContext);
+await fileAudioContext.window.LDNAudio.preloadForLevel("contrebasse", instruments.contrebasse.levels[0], "instrument");
+await fileAudioContext.window.LDNAudio.playNote(instruments.contrebasse.levels[0].notes[0], "contrebasse", "instrument");
+if (!MockAudio.plays) errors.push("lecture de notes: secours audio local inactif");
+
+const chordAudioContext = {
+  window:{}, location:{ protocol:"file:" }, Audio:MockAudio, setTimeout, clearTimeout, console
+};
+vm.createContext(chordAudioContext);
+vm.runInContext(fs.readFileSync(path.join(root, "accords", "audio-engine.js"), "utf8"), chordAudioContext);
+await chordAudioContext.window.AccordsAudio.preloadAll();
+const playsBeforeChord = MockAudio.plays;
+await chordAudioContext.window.AccordsAudio.playBlocked([60,64,67]);
+await new Promise(resolve => setTimeout(resolve, 0));
+if (MockAudio.plays - playsBeforeChord !== 3) errors.push("accords: secours audio local incomplet");
+
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes:true }).flatMap(entry => {
     const full = path.join(directory, entry.name);

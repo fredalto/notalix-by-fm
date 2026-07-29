@@ -4,7 +4,11 @@
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   const context = AudioContextClass ? new AudioContextClass() : null;
   const buffers = new Map();
+  const htmlAudio = new Map();
+  const useFileFallback = location.protocol === "file:";
   let activeSource = null;
+  let activeHtmlAudio = null;
+  let activeHtmlTimer = null;
 
   const pianoSamples = [
     "A1","A2","A3","A4","A5","Asharp3","Asharp4",
@@ -44,6 +48,22 @@
     return buffers.get(url);
   }
 
+  function loadHtmlAudio(url) {
+    if (!htmlAudio.has(url)) {
+      const audio = new Audio(url);
+      audio.preload = "auto";
+      htmlAudio.set(url, new Promise(resolve => {
+        if (audio.readyState >= 2) return resolve(audio);
+        const done = () => resolve(audio);
+        audio.addEventListener("canplay", done, { once:true });
+        audio.addEventListener("error", done, { once:true });
+        setTimeout(done, 2500);
+        audio.load();
+      }));
+    }
+    return htmlAudio.get(url);
+  }
+
   function pianoSourceFor(targetMidi) {
     const candidates = pianoSamples.map(code => ({ code, midi:midi(code) }));
     return candidates.reduce((best, item) =>
@@ -69,7 +89,8 @@
     const list = [...urls];
     let done = 0;
     await Promise.all(list.map(async url => {
-      await loadBuffer(url);
+      if (useFileFallback) await loadHtmlAudio(url);
+      else await loadBuffer(url);
       done++;
       onProgress?.(done / list.length);
     }));
@@ -80,14 +101,58 @@
   }
 
   function stopActive() {
-    if (!activeSource) return;
-    try { activeSource.stop(); } catch (_) {}
-    activeSource = null;
+    if (activeSource) {
+      try { activeSource.stop(); } catch (_) {}
+      activeSource = null;
+    }
+    if (activeHtmlAudio) {
+      activeHtmlAudio.pause();
+      activeHtmlAudio = null;
+    }
+    if (activeHtmlTimer) {
+      clearTimeout(activeHtmlTimer);
+      activeHtmlTimer = null;
+    }
+  }
+
+  async function playWithHtmlAudio(note, instrumentId, timbre, targetMidi) {
+    stopActive();
+    if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
+      const bank = window.LDN_INSTRUMENT_BANKS[instrumentId];
+      const anchor = nearest(bank.anchors, targetMidi);
+      const anchorIndex = bank.anchors.indexOf(anchor);
+      const audio = await loadHtmlAudio(bank.file);
+      audio.pause();
+      audio.volume = .82;
+      audio.playbackRate = Math.pow(2, (targetMidi - anchor) / 12);
+      audio.preservesPitch = false;
+      audio.currentTime = anchorIndex * bank.segmentSeconds;
+      activeHtmlAudio = audio;
+      await audio.play();
+      const duration = bank.playableSeconds / audio.playbackRate;
+      activeHtmlTimer = setTimeout(() => {
+        if (activeHtmlAudio === audio) {
+          audio.pause();
+          activeHtmlAudio = null;
+        }
+      }, duration * 1000);
+      return;
+    }
+    const sample = pianoSourceFor(targetMidi);
+    const audio = await loadHtmlAudio(`sounds/${sample.code}.mp3`);
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = .8;
+    audio.playbackRate = Math.pow(2, (targetMidi - sample.midi) / 12);
+    audio.preservesPitch = false;
+    activeHtmlAudio = audio;
+    await audio.play();
   }
 
   async function playNote(note, instrumentId, timbre) {
     const instrument = window.LDN_INSTRUMENTS[instrumentId];
     const targetMidi = soundingMidi(note, instrument);
+    if (useFileFallback || !context) return playWithHtmlAudio(note, instrumentId, timbre, targetMidi);
     await resume();
     stopActive();
 
@@ -124,6 +189,14 @@
   }
 
   async function playDuck() {
+    if (useFileFallback || !context) {
+      stopActive();
+      const audio = await loadHtmlAudio("sounds/duck.mp3");
+      audio.pause();
+      audio.currentTime = 0;
+      activeHtmlAudio = audio;
+      return audio.play();
+    }
     await resume();
     stopActive();
     const source = context.createBufferSource();
