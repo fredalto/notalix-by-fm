@@ -96,6 +96,8 @@ function lancerDefiChoisi() {
 let familleChoisie = '';
 let sousFamilleChoisie = '';
 let instrumentChoisi = '';
+let niveauInstrumentChoisi = 0;
+let timbreInstrumentChoisi = 'instrument';
 
 const SOUSFAMILLES = {
   'cordes': [
@@ -214,6 +216,7 @@ function renderInstrumentTiles(liste) {
     const d = document.createElement('div');
     d.className = 'tile' + (inst.actif ? '' : ' disabled');
     d.textContent = inst.label;
+    d.dataset.instrument = inst.id;
     if (inst.actif) d.onclick = () => selectInstrument(inst.id);
     cont.appendChild(d);
   });
@@ -221,41 +224,75 @@ function renderInstrumentTiles(liste) {
 
 function selectInstrument(id) {
   instrumentChoisi = id;
+  niveauInstrumentChoisi = 0;
+  timbreInstrumentChoisi = localStorage.getItem(`ldn-timbre-${id}`) || 'instrument';
   document.getElementById('bloc-niveaux').classList.remove('hidden-soft');
 
-  // visuel
   document.querySelectorAll('#instruments-container .tile').forEach(t => t.classList.remove('selected'));
-  // sélection par texte
-  const tiles = Array.from(document.querySelectorAll('#instruments-container .tile'));
-  const found = tiles.find(t => t.textContent.trim().toLowerCase() === id.replace('-', ' '));
+  const found = document.querySelector(`#instruments-container .tile[data-instrument="${id}"]`);
   if (found) found.classList.add('selected');
 
-  // niveaux : on ne met des liens que pour les instruments disponibles
   const cont = document.getElementById('levels-container');
   cont.innerHTML = '';
+  document.getElementById('instrument-launcher')?.remove();
+  const instrument = window.LDN_INSTRUMENTS?.[id];
+  if (!instrument) return;
 
-  const dedicatedInstrument = ['violon', 'alto', 'violoncelle'].includes(id);
-  const genericInstrument = Boolean(window.LDN_GENERIC_INSTRUMENTS?.includes(id));
-  const haveFourLevels = dedicatedInstrument || genericInstrument;
-  if (!haveFourLevels) {
-    for (let n = 1; n <= 4; n++) {
-      const div = document.createElement('div');
-      div.className = 'button level disabled';
-      div.textContent = `Niveau ${n}`;
-      cont.appendChild(div);
-    }
-    return;
-  }
+  instrument.levels.forEach((level, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'instrument-level-card';
+    button.innerHTML = `<span class="level-number">Niveau ${index + 1}</span><strong>${level.title}</strong><small>${level.pedagogy}</small>`;
+    button.addEventListener('click', () => selectInstrumentLevel(index + 1));
+    cont.appendChild(button);
+  });
 
-  for (let n = 1; n <= 4; n++) {
-    const a = document.createElement('a');
-    a.className = 'button level';
-    a.textContent = `Niveau ${n}`;
-    a.href = dedicatedInstrument
-      ? `${id}_niveau${n}.html`
-      : `instrument.html?instrument=${encodeURIComponent(id)}&niveau=${n}`;
-    cont.appendChild(a);
-  }
+  const launcher = document.createElement('div');
+  launcher.id = 'instrument-launcher';
+  launcher.className = 'instrument-launcher hidden-soft';
+  launcher.innerHTML = `
+    <p class="launcher-title">Quel son souhaites-tu entendre ?</p>
+    <div class="timbre-choice" role="group" aria-label="Choix du son">
+      <button type="button" data-timbre="piano">Piano</button>
+      <button type="button" data-timbre="instrument">${instrument.label}</button>
+    </div>
+    <button type="button" id="launch-instrument-level" class="launch-instrument-level">Commencer le niveau</button>`;
+  cont.after(launcher);
+  launcher.querySelectorAll('[data-timbre]').forEach(button => {
+    if (id === 'piano' && button.dataset.timbre === 'instrument') button.hidden = true;
+    button.addEventListener('click', () => setInstrumentTimbre(button.dataset.timbre));
+  });
+  setInstrumentTimbre(id === 'piano' ? 'piano' : timbreInstrumentChoisi);
+  launcher.querySelector('#launch-instrument-level').addEventListener('click', launchInstrumentLevel);
+}
+
+function selectInstrumentLevel(levelNumber) {
+  niveauInstrumentChoisi = levelNumber;
+  document.querySelectorAll('.instrument-level-card').forEach((card, index) => {
+    const selected = index + 1 === levelNumber;
+    card.classList.toggle('selected', selected);
+    card.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
+  document.getElementById('instrument-launcher')?.classList.remove('hidden-soft');
+}
+
+function setInstrumentTimbre(timbre) {
+  timbreInstrumentChoisi = timbre;
+  if (instrumentChoisi) localStorage.setItem(`ldn-timbre-${instrumentChoisi}`, timbre);
+  document.querySelectorAll('#instrument-launcher [data-timbre]').forEach(button => {
+    const selected = button.dataset.timbre === timbre;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
+}
+
+function launchInstrumentLevel() {
+  if (!instrumentChoisi || !niveauInstrumentChoisi) return;
+  const url = new URL('instrument.html', location.href);
+  url.searchParams.set('instrument', instrumentChoisi);
+  url.searchParams.set('niveau', String(niveauInstrumentChoisi));
+  url.searchParams.set('timbre', timbreInstrumentChoisi);
+  location.href = url.href;
 }
 
 /* ============================

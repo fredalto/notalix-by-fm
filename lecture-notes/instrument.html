@@ -16,20 +16,17 @@
     <a class="home-link" href="index.html">🏠 Accueil</a>
     <h2 id="instrument-title">Instrument</h2>
     <p id="pedagogy" class="pedagogy"></p>
-    <div id="sound-mode" class="sound-mode" hidden>
-      <span>Note écrite</span>
-      <label class="sound-switch">
-        <input id="sound-toggle" type="checkbox" checked>
-        <span class="sound-slider"></span>
-      </label>
-      <span>Son réel</span>
-    </div>
-
     <div id="fingering-mode" class="fingering-mode" hidden>
       <label><input id="fingering-toggle" type="checkbox"> Afficher les doigtés / positions</label>
     </div>
 
-    <section id="quiz" aria-live="polite">
+    <section id="sound-loading" class="sound-loading" aria-live="polite">
+      <span class="sound-loading-note">♪</span>
+      <strong>Préparation de l’exercice…</strong>
+      <div class="sound-loading-track"><span id="sound-loading-bar"></span></div>
+    </section>
+
+    <section id="quiz" aria-live="polite" hidden>
       <div id="generated-note" class="instrument-note"></div>
       <div id="hint" class="instrument-hint" hidden></div>
       <div id="answers" class="instrument-answers"></div>
@@ -73,6 +70,8 @@
   <script src="vendor/vexflow.js"></script>
   <script src="note-renderer.js"></script>
   <script src="instrument-config.js"></script>
+  <script src="instrument-sounds/manifest.js"></script>
+  <script src="audio-engine.js"></script>
   <script src="instrument-quiz.js"></script>
 </body>
 </html>

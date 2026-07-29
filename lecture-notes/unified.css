@@ -201,4 +201,96 @@ body {
 * { box-sizing: border-box; }
 html, body { overflow-x: hidden; }
 
+/* Choix des niveaux instrument : lisible, descriptif et cohérent avec NOTALIX */
+.levels-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.instrument-level-card {
+  min-height: 116px;
+  padding: 16px 18px;
+  text-align: left;
+  color: #17304e;
+  background: #fff;
+  border: 2px solid #d7e4f0;
+  border-radius: 16px;
+  box-shadow: 0 7px 20px rgba(17, 52, 86, .07);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.instrument-level-card:hover {
+  transform: translateY(-2px);
+  border-color: #78aee3;
+  box-shadow: 0 10px 24px rgba(17, 52, 86, .12);
+}
+.instrument-level-card.selected {
+  color: #fff;
+  border-color: #1f6fc9;
+  background: linear-gradient(135deg, #2578d2, #155daf);
+}
+.instrument-level-card .level-number {
+  display: block;
+  margin-bottom: 5px;
+  color: #1f6fc9;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.instrument-level-card.selected .level-number { color: #dceeff; }
+.instrument-level-card strong { display: block; font-size: 1.08rem; }
+.instrument-level-card small {
+  display: block;
+  margin-top: 7px;
+  color: #5d7086;
+  font-size: .9rem;
+  line-height: 1.35;
+}
+.instrument-level-card.selected small { color: #eef7ff; }
+.instrument-launcher {
+  max-width: 650px;
+  margin: 18px auto 0;
+  padding: 18px;
+  background: #f4f8fc;
+  border: 1px solid #cfe0ef;
+  border-radius: 16px;
+}
+.launcher-title { margin: 0 0 10px; font-weight: 800; }
+.timbre-choice { display: flex; gap: 10px; justify-content: center; }
+.timbre-choice button {
+  flex: 1;
+  max-width: 250px;
+  padding: 12px 16px;
+  color: #17304e;
+  background: #fff;
+  border: 2px solid #cbddec;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.timbre-choice button.selected {
+  color: #fff;
+  background: #1f6fc9;
+  border-color: #1f6fc9;
+}
+.launch-instrument-level {
+  margin-top: 14px;
+  padding: 13px 24px;
+  color: #fff;
+  background: #ff665e;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 7px 16px rgba(255, 102, 94, .25);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .levels-row { grid-template-columns: 1fr; }
+  .instrument-level-card { min-height: 0; }
+}
 

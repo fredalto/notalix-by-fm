@@ -1,0 +1,22 @@
+NOTALIX by FM — VERSION SONS ET INSTRUMENTS
+
+Cette version est séparée de la V2 précédente.
+
+LECTURE DE NOTES
+- 20 instruments disponibles, avec 4 niveaux décrits clairement.
+- Un seul choix avant de jouer : Piano ou instrument sélectionné.
+- 19 banques instrumentales produites avec MuseScore 4.
+- Préchargement avant l’exercice pour éviter les silences et les retards.
+- Violon, alto et violoncelle intégrés au parcours commun.
+- Les notes sont dessinées instantanément avec VexFlow : aucune image de note
+  n’est téléchargée pendant le jeu.
+
+ACCORDS EXPRESS
+- Les sons de piano sont préparés avant le début de la série.
+- Les accords plaqués sont déclenchés exactement au même instant.
+- Les arpèges sont programmés sur une horloge audio régulière.
+- Les exemples du tutoriel utilisent le même moteur audio que le jeu.
+
+INSTALLATION SUR GITHUB
+Copier tout le contenu de ce dossier à la racine du dépôt NOTALIX.
+Conserver la version précédente en ZIP avant de remplacer les fichiers.

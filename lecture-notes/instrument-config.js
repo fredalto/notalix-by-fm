@@ -6,6 +6,36 @@
   const L = (title, pedagogy, notes) => ({ title, pedagogy, notes });
 
   window.LDN_INSTRUMENTS = {
+    violon: {
+      label: "Violon", transpose: 0,
+      fingerings: { G3:"Corde de Sol · à vide",D4:"Corde de Ré · à vide",A4:"Corde de La · à vide",E5:"Corde de Mi · à vide" },
+      levels: [
+        L("Cordes à vide", "Les quatre cordes à vide : Sol, Ré, La et Mi.", sol("G3","D4","A4","E5")),
+        L("Premier doigt", "Cordes à vide et premières notes avec le premier doigt.", sol("G3","A3","D4","E4","A4","B4","E5","F5")),
+        L("Deuxième doigt", "Ajout des notes jouées avec le deuxième doigt.", sol("G3","A3","B3","D4","E4","F4","A4","B4","C5","E5","F5","G5")),
+        L("Première position", "Lecture mélangée dans toute la première position.", sol("G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5","D5","E5","F5","G5","A5","B5"))
+      ]
+    },
+    alto: {
+      label: "Alto", transpose: 0,
+      fingerings: { C3:"Corde de Do · à vide",G3:"Corde de Sol · à vide",D4:"Corde de Ré · à vide",A4:"Corde de La · à vide" },
+      levels: [
+        L("Cordes à vide", "Les quatre cordes à vide en clé d’Ut 3.", [N("C3","ut3"),N("G3","ut3"),N("D4","ut3"),N("A4","ut3")]),
+        L("Premier doigt", "Cordes à vide et premières notes avec le premier doigt.", ["C3","D3","G3","A3","D4","E4","A4","B4"].map(code=>N(code,"ut3"))),
+        L("Deuxième doigt", "Ajout des notes jouées avec le deuxième doigt.", ["C3","D3","E3","G3","A3","B3","D4","E4","F4","A4","B4","C5"].map(code=>N(code,"ut3"))),
+        L("Première position", "Lecture mélangée dans toute la première position.", ["C3","D3","E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5","D5"].map(code=>N(code,"ut3")))
+      ]
+    },
+    violoncelle: {
+      label: "Violoncelle", transpose: 0,
+      fingerings: { C2:"Corde de Do · à vide",G2:"Corde de Sol · à vide",D3:"Corde de Ré · à vide",A3:"Corde de La · à vide" },
+      levels: [
+        L("Cordes à vide", "Les quatre cordes à vide en clé de Fa.", fa("C2","G2","D3","A3")),
+        L("Premier doigt", "Cordes à vide et premières notes avec le premier doigt.", fa("C2","D2","G2","A2","D3","E3","A3","B3")),
+        L("Position resserrée", "Ajout des repères du deuxième doigt.", fa("C2","D2","E2","G2","A2","B2","D3","E3","F3","A3","B3","C4")),
+        L("Première position", "Lecture mélangée dans toute la première position.", fa("C2","D2","E2","F2","G2","A2","B2","C3","D3","E3","F3","G3","A3","B3","C4","D4"))
+      ]
+    },
     contrebasse: {
       label: "Contrebasse", transpose: -12,
       fingerings: { E2:"Corde de Mi · à vide", A2:"Corde de La · à vide", D3:"Corde de Ré · à vide", G3:"Corde de Sol · à vide" },

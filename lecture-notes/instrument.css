@@ -7,8 +7,43 @@
   box-shadow: 0 3px 12px rgba(0,0,0,.12);
   text-align: center;
 }
-.instrument-card h2 { color: red; margin: 18px 0 8px; }
+.instrument-card h2 { color: #0b3473; margin: 18px 0 8px; }
 .pedagogy { min-height: 24px; color: #43505b; font-weight: 600; }
+.sound-loading {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  max-width: 480px;
+  margin: 34px auto;
+  padding: 28px;
+  color: #17304e;
+  background: #f4f8fc;
+  border: 1px solid #d5e3ef;
+  border-radius: 16px;
+}
+.sound-loading[hidden] { display: none !important; }
+.sound-loading-note {
+  color: #ff665e;
+  font-size: 38px;
+  line-height: 1;
+  animation: soundPulse 1s ease-in-out infinite alternate;
+}
+.sound-loading-track {
+  width: min(320px, 100%);
+  height: 9px;
+  overflow: hidden;
+  background: #dce5ed;
+  border-radius: 999px;
+}
+.sound-loading-track span {
+  display: block;
+  width: 4%;
+  height: 100%;
+  background: linear-gradient(90deg, #1f6fc9, #ff665e);
+  border-radius: inherit;
+  transition: width .2s ease;
+}
+@keyframes soundPulse { to { transform: translateY(-3px) scale(1.08); } }
 .sound-mode { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px auto -4px; font-weight: 700; color: #34424f; }
 .sound-mode[hidden], .instrument-hint[hidden] { display: none !important; }
 .fingering-mode { display: flex; justify-content: center; margin: 14px auto -4px; color: #34424f; font-weight: 700; }

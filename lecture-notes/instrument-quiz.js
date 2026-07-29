@@ -5,10 +5,9 @@
   const params = new URLSearchParams(location.search);
   const id = params.get("instrument") || "flute";
   const levelNumber = Math.max(1, Math.min(4, Number(params.get("niveau")) || 1));
+  const timbre = params.get("timbre") === "piano" ? "piano" : "instrument";
   const instrument = window.LDN_INSTRUMENTS[id];
   if (!instrument) { location.href = "index.html"; return; }
-  const instrumentsAvecSonReel = new Set(["clarinette", "saxophone", "cor", "trompette"]);
-  const instrumentsSonReelImplicite = new Set(["guitare", "contrebasse"]);
   const level = instrument.levels[levelNumber - 1];
   const total = 10;
   let current = 0;
@@ -26,10 +25,10 @@
   const feedback = document.getElementById("feedback");
   const progress = document.getElementById("progress-bar");
   const scoreText = document.getElementById("score");
-  const soundMode = document.getElementById("sound-mode");
-  const soundToggle = document.getElementById("sound-toggle");
   const fingeringMode = document.getElementById("fingering-mode");
   const fingeringToggle = document.getElementById("fingering-toggle");
+  const loadingView = document.getElementById("sound-loading");
+  const loadingBar = document.getElementById("sound-loading-bar");
 
   function midi(code) {
     const match = /^([A-G])(sharp|flat|#|b)?(-?\d+)$/.exec(code);
@@ -41,19 +40,6 @@
   function fromMidi(value) {
     const octave = Math.floor(value / 12) - 1;
     return PITCHES[(value % 12 + 12) % 12] + octave;
-  }
-  function soundingCode(note) { return fromMidi(midi(note.written) + instrument.transpose); }
-  function selectedSoundCode(note) { return soundToggle.checked ? soundingCode(note) : note.written.replace("#", "sharp").replace("b", "flat"); }
-  function frenchSoundName(code) {
-    const match = /^([A-G])(sharp|flat|#|b)?/.exec(code);
-    if (!match) return code;
-    if (instrument.spelling === "flat") {
-      const flatNames = { Csharp:"Ré♭", Dsharp:"Mi♭", Fsharp:"Sol♭", Gsharp:"La♭", Asharp:"Si♭" };
-      const normalized = match[1] + (match[2] === "sharp" || match[2] === "#" ? "sharp" : "");
-      if (flatNames[normalized]) return flatNames[normalized];
-    }
-    const accidental = match[2] === "sharp" || match[2] === "#" ? "♯" : match[2] === "flat" || match[2] === "b" ? "♭" : "";
-    return NOTE_NAMES[match[1]] + accidental;
   }
   function buildSequence() {
     const pool = level.notes;
@@ -97,32 +83,20 @@
     isWaiting = false;
     answers.querySelectorAll("button").forEach(button => { button.disabled = false; });
   }
-  function play(code) {
-    const audio = new Audio(`sounds/${code}.mp3`);
-    const promise = audio.play();
-    if (promise) promise.catch(() => {});
-  }
-  function answer(name) {
+  async function answer(name) {
     if (current >= total || isWaiting) return;
     isWaiting = true;
     answers.querySelectorAll("button").forEach(button => { button.disabled = true; });
     const note = sequence[current];
     if (name === NOTE_NAMES[note.written[0]]) {
       score++;
-      const chosenCode = selectedSoundCode(note);
-      if (instrument.transpose !== 0 && soundToggle.checked) {
-        feedback.textContent = `✓ ${NOTE_NAMES[note.written[0]]} — son réel : ${frenchSoundName(chosenCode)}`;
-      } else if (instrument.transpose !== 0) {
-        feedback.textContent = `✓ ${NOTE_NAMES[note.written[0]]} — hauteur écrite : ${frenchSoundName(chosenCode)}`;
-      } else {
-        feedback.textContent = `✓ ${NOTE_NAMES[note.written[0]]}`;
-      }
+      feedback.textContent = `✓ ${NOTE_NAMES[note.written[0]]}`;
       feedback.style.color = "green";
-      play(chosenCode);
+      window.LDNAudio.playNote(note, id, timbre).catch(() => {});
     } else {
       feedback.textContent = `✗ C’était ${NOTE_NAMES[note.written[0]]}`;
       feedback.style.color = "red";
-      play("duck");
+      window.LDNAudio.playDuck().catch(() => {});
     }
     current++;
     scoreText.textContent = `Score : ${score} / ${total}`;
@@ -203,9 +177,6 @@
   document.title = `${instrument.label} — Niveau ${levelNumber}`;
   title.textContent = `${instrument.label} — Niveau ${levelNumber} : ${level.title}`;
   pedagogy.textContent = level.pedagogy;
-  soundMode.hidden = !instrumentsAvecSonReel.has(id);
-  soundToggle.checked = instrumentsSonReelImplicite.has(id) || localStorage.getItem(`ldn-sound-mode-${id}`) !== "written";
-  soundToggle.addEventListener("change", () => localStorage.setItem(`ldn-sound-mode-${id}`, soundToggle.checked ? "real" : "written"));
   fingeringMode.hidden = !instrument.fingerings;
   fingeringToggle.checked = localStorage.getItem(`ldn-fingering-${id}`) === "shown";
   fingeringToggle.addEventListener("change", () => {
@@ -215,5 +186,20 @@
   document.getElementById("restart").addEventListener("click", restart);
   document.getElementById("send-score-button").addEventListener("click", sendScore);
   document.addEventListener("keydown", event => { const map={c:"Do",d:"Ré",e:"Mi",f:"Fa",g:"Sol",a:"La",b:"Si"}; if(map[event.key.toLowerCase()]) answer(map[event.key.toLowerCase()]); });
-  buildSequence(); renderAnswers(); renderCurrent();
+  async function initialize() {
+    buildSequence();
+    renderAnswers();
+    try {
+      await window.LDNAudio.preloadForLevel(id, level, timbre, ratio => {
+        loadingBar.style.width = `${Math.round(ratio * 100)}%`;
+      });
+    } catch (error) {
+      console.warn("Préchargement audio incomplet", error);
+    }
+    loadingBar.style.width = "100%";
+    loadingView.hidden = true;
+    document.getElementById("quiz").hidden = false;
+    renderCurrent();
+  }
+  initialize();
 }());
