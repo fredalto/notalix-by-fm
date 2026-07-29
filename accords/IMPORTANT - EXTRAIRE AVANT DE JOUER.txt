@@ -1,0 +1,9 @@
+IMPORTANT
+=========
+
+1. Faites un clic droit sur le fichier ZIP.
+2. Choisissez « Extraire tout ».
+3. Ouvrez le dossier obtenu.
+4. Double-cliquez sur index.html.
+
+Ne lancez pas index.html directement depuis la fenêtre du fichier ZIP : Windows n'extrait alors pas toujours app.js, styles.css et le dossier sounds, ce qui empêche les boutons ou les sons de fonctionner.

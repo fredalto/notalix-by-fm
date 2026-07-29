@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Accords Express</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <h1>Accords Express</h1>
+  <section class="section">
+    <div id="home" class="screen show">
+      <div class="home-intro">
+        <div class="home-intro-text">
+          <p class="eyebrow">Apprendre en écoutant</p>
+          <h2>Reconnais les accords à l’oreille</h2>
+          <p class="mini">Écoute un accord et choisis la bonne réponse.</p>
+        </div>
+        <button id="openTuto" class="tutorial-link"><span class="tutorial-icon">?</span><span><strong>Besoin d’aide</strong><small>Tuto et exemples</small></span></button>
+      </div>
+
+      <section class="guided-path">
+        <div class="path-heading"><div><p class="eyebrow">Par où commencer&nbsp;?</p><h2>Choisis une étape</h2></div><p>Commence avec Majeur et Mineur, puis ajoute de nouveaux accords.</p></div>
+        <div class="path-steps">
+          <button class="path-step active" data-preset="M,m"><span>1</span><strong>Majeur · Mineur</strong><small>Le contraste fondamental</small></button>
+          <button class="path-step" data-preset="M,m,7"><span>2</span><strong>+ 7e de dominante</strong><small>Les trois accords essentiels</small></button>
+          <button class="path-step" data-preset="M,m,dim,aug"><span>3</span><strong>Les quatre triades</strong><small>Diminué et augmenté</small></button>
+          <button class="path-step" data-preset="M7,7,m7"><span>4</span><strong>Les septièmes usuelles</strong><small>Majeure, dominante, mineure</small></button>
+          <button class="path-step" data-preset="dim,m7b5,dim7"><span>5</span><strong>Couleurs avancées</strong><small>Diminué et demi-diminué</small></button>
+        </div>
+      </section>
+
+      <details id="customChoice" class="custom-choice">
+        <summary><span class="summary-icon">＋</span><span><strong>Choisir moi-même</strong><small>Créer mon propre exercice</small></span></summary>
+      <div id="directChoice" class="families">
+        <section class="choice-group triads">
+          <div class="family-heading"><span class="family-count">3 notes</span><div><h3>Accords à 3 notes</h3><p>Majeur, mineur, diminué et augmenté</p></div></div>
+          <div class="direct-choice">
+            <label class="chord-option essential"><input type="checkbox" value="M" checked><span><strong>★ Majeur</strong><small>Accord essentiel · lumineux et stable</small></span></label>
+            <label class="chord-option essential"><input type="checkbox" value="m" checked><span><strong>★ Mineur</strong><small>Accord essentiel · plus sombre</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="dim"><span><strong>Diminué</strong><small>tendu et instable</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="aug"><span><strong>Augmenté</strong><small>suspendu et mystérieux</small></span></label>
+          </div>
+        </section>
+
+        <div class="mix-message" aria-hidden="true"><span>+</span><strong>Tu peux mélanger les deux familles</strong></div>
+
+        <section class="choice-group sevenths-family">
+          <div class="family-heading"><span class="family-count">4 notes</span><div><h3>Accords à 4 notes</h3><p>Les principaux accords de septième</p></div></div>
+          <div class="direct-choice sevenths">
+            <label class="chord-option essential"><input type="checkbox" value="7"><span><strong>★ 7e de dominante</strong><small>Accord essentiel · donne envie d’entendre la suite</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="M7"><span><strong>7e majeure</strong><small>majeur + 7e majeure</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="m7"><span><strong>7e mineure</strong><small>mineur + 7e mineure</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="m7b5"><span><strong>Demi-diminuée</strong><small>mineur 7 + quinte diminuée</small></span></label>
+            <label class="chord-option"><input type="checkbox" value="dim7"><span><strong>7e diminuée</strong><small>tierces mineures empilées</small></span></label>
+          </div>
+        </section>
+      </div>
+      </details>
+
+      <div class="start-zone">
+        <div id="selectionStatus" class="selection-status" aria-live="polite"></div>
+        <div class="mode-choice">
+          <button class="mode-card selected" data-mode="training"><span class="mode-emoji">🎧</span><span><strong>Entraînement</strong><small>10 questions, sans chrono</small></span><b>Choisi</b></button>
+          <button class="mode-card challenge" data-mode="challenge"><span class="mode-emoji">⏱</span><span><strong>Défi</strong><small>60 secondes et 3 vies</small></span><b>Jouer</b></button>
+        </div>
+        <button id="start" class="red">Commencer l’entraînement</button>
+      </div>
+      <section id="progressCard" class="progress-card"><div><h3>Mes résultats</h3><p id="progressSummary">Aucun exercice terminé pour le moment.</p></div><button id="resetStats" class="secondary">Effacer</button><div id="homeStats" class="stats-grid"></div></section>
+    </div>
+
+    <div id="tuto" class="screen"><div class="topbar"><button id="tutoBack" class="secondary">← Accueil</button><span class="pill">Exemples</span></div><h2>Découvrir les accords</h2><p class="mini">Choisis un accord. Écoute-le d’abord à partir de Do, puis essaie avec une autre note de départ.</p><div class="sing-banner"><span>🎤</span><strong>Essaie avec ta voix</strong><small>Écoute les notes séparées, puis chante-les.</small></div><div id="tutoNav" class="tuto-nav"></div><article id="tutoDetail" class="tuto-detail"></article><div class="tip"><strong>Commence par :</strong> Majeur, Mineur, puis Septième de dominante.</div></div>
+    <div id="game" class="screen">
+      <div class="topbar"><button id="back" class="secondary">← Accueil</button><span id="count" class="pill"></span></div>
+      <p id="gameLabel" class="eyebrow game-eyebrow">Entraînement</p><h2>Quel accord entends-tu ?</h2>
+      <div class="hud"><span id="score" class="pill">Score 0</span><div class="progress"><span id="bar"></span></div><div id="challengeHud" class="challenge-hud hidden"><span id="timer">⏱ 60 s</span><span id="lives">❤️❤️❤️</span><span id="combo">Série ×0</span></div></div>
+      <div id="listeningHint" class="listening-hint">Toutes les notes sont jouées simultanément</div>
+      <button id="play" class="play"><span>▶</span> Écouter l’accord</button>
+      <div id="answers" class="answers"></div><div id="feedback" class="feedback"></div>
+      <div id="visualAnswer" class="visual-answer hidden"><div class="answer-summary"><div><div id="chordName" class="chord-name"></div><div id="noteNames" class="note-names"></div></div><div id="staff"></div></div></div>
+      <button id="next" class="red hidden">Question suivante</button>
+    </div>
+    <div id="results" class="screen"><h2>Ton résultat</h2><div class="result-score"><div id="result" class="result"></div><div id="grade" class="grade"></div></div><p id="message"></p><div id="sessionStats" class="stats-grid result-stats"></div><div id="recommendation" class="recommendation"></div><button id="again">Rejouer</button><button class="red" id="homeBtn">Accueil</button></div>
+  </section>
+</main>
+<script src="vendor/vexflow.js"></script><script src="app.js"></script>
+</body>
+</html>

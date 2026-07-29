@@ -1,0 +1,9 @@
+ÉTAPE 1 — MUSICLAB NOUVELLE VERSION
+
+Copier index.html et le dossier accords dans le dépôt local
+musiclab-nouvelle-version.
+
+Cette première publication de test :
+- conserve les liens actuels de Lecture de notes, Intervalles et Tonalités ;
+- ajoute Accords Express dans le nouveau dépôt ;
+- ne modifie aucun des trois anciens dépôts GitHub.
