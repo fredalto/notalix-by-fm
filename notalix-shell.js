@@ -9,6 +9,7 @@
     'accords': 'Accords'
   };
   var moduleName = modules[folder] || 'Formation musicale';
+  if (folder) document.body.classList.add('notalix-module-' + folder);
 
   var bar = document.createElement('header');
   bar.className = 'notalix-bar';

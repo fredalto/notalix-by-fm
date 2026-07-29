@@ -1,0 +1,17 @@
+NOTALIX by FM - VERSION GRAND ECRAN
+
+Cette version conserve les quatre modules et leur fonctionnement.
+
+Ameliorations de presentation :
+- page d'accueil sur trois colonnes en grand ecran ;
+- bandeau commun et zones de travail plus larges ;
+- cinq niveaux de Lecture de notes alignes sur ordinateur ;
+- choix d'intervalles repartis sur six colonnes ;
+- accueil Tonalites organise en quatre blocs ;
+- ecrans Accords et exercices elargis ;
+- boutons de reponse harmonises ;
+- adaptation controlee pour tablette et telephone ;
+- aucun defilement horizontal sur les formats testes.
+
+Pour publier, remplacer tout le contenu du depot notalix-by-fm par le
+contenu de ce dossier, puis valider et pousser avec GitHub Desktop.
