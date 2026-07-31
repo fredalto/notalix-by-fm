@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cadences Express — NOTALIX by FM</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../notalix-theme.css">
+  <script defer src="../notalix-shell.js"></script>
+</head>
+<body>
+<main>
+  <h1>Cadences Express</h1>
+  <section class="section">
+    <div id="home" class="screen show">
+      <p class="mini">Écoute une courte suite d’accords et reconnais la cadence formée par les deux derniers.</p>
+      <button id="openTuto" class="blue">Tuto et exemples</button>
+      <h2>Choisis les cadences à travailler</h2>
+      <p class="mini">Sélectionne au minimum deux types de cadences.</p>
+      <div id="directChoice" class="direct-choice">
+        <label class="cadence-option"><input type="checkbox" value="perfect" checked><span><strong>Cadence parfaite</strong><small>V → I · conclusion forte</small></span></label>
+        <label class="cadence-option"><input type="checkbox" value="half" checked><span><strong>Demi-cadence</strong><small>I → V · impression d’attente</small></span></label>
+        <label class="cadence-option"><input type="checkbox" value="deceptive"><span><strong>Cadence rompue</strong><small>V → VI · résolution évitée</small></span></label>
+        <label class="cadence-option"><input type="checkbox" value="plagal"><span><strong>Cadence plagale</strong><small>IV → I · conclusion douce</small></span></label>
+      </div>
+      <div id="selectionStatus" class="selection-status" aria-live="polite"></div>
+      <button id="start" class="red">On y va 🚀</button>
+    </div>
+
+    <div id="tuto" class="screen">
+      <div class="topbar"><button id="tutoBack" class="secondary">← Accueil</button><span class="pill">Tuto</span></div>
+      <h2>Découvre les quatre cadences</h2>
+      <p class="mini">Les deux premiers accords installent la tonalité. Les deux accords bleus forment la cadence à reconnaître.</p>
+      <div id="tutoNav" class="tuto-nav"></div>
+      <article id="tutoDetail" class="tuto-detail"></article>
+      <div class="tip"><strong>Conseil :</strong> écoute surtout les deux derniers accords. La cadence parfaite et la plagale se posent sur I ; la demi-cadence reste suspendue sur V ; la cadence rompue évite I.</div>
+    </div>
+
+    <div id="game" class="screen">
+      <div class="topbar"><button id="back" class="secondary">← Accueil</button><span id="count" class="pill"></span></div>
+      <h2>Quelle cadence entends-tu ?</h2>
+      <div class="hud"><span id="score" class="pill">Score 0</span><div class="progress"><span id="bar"></span></div></div>
+      <button id="play" class="play">▶ Écouter la cadence</button>
+      <div id="answers" class="answers"></div>
+      <div id="visualAnswer" class="visual-answer hidden">
+        <div id="cadenceName" class="cadence-name"></div>
+        <div id="gameNotation" class="notation"></div>
+        <div id="gameDegrees"></div>
+        <div id="gameTonality" class="tonality"></div>
+        <button id="replayExample">▶ Réécouter</button>
+      </div>
+      <div id="feedback" class="feedback"></div>
+      <button id="next" class="red hidden">Question suivante 🚀</button>
+    </div>
+
+    <div id="results" class="screen">
+      <h2>Résultat</h2>
+      <div id="result" class="result"></div>
+      <p id="message"></p>
+      <button id="again">Rejouer</button>
+      <button class="red" id="homeBtn">Accueil</button>
+    </div>
+  </section>
+</main>
+<script src="vendor/vexflow.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

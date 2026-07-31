@@ -389,3 +389,35 @@ button.secondary,.secondary,.small { background: #eef4f8 !important; color: var(
     font-size: .72rem !important;
   }
 }
+
+
+/* Cadences Express — intégration NOTALIX */
+@media (min-width: 1100px) {
+  .notalix-module-cadences > main { max-width: 1180px !important; }
+  .notalix-module-cadences .section { padding: 28px 34px !important; }
+  .notalix-module-cadences .direct-choice { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .notalix-module-cadences .answers { grid-template-columns: repeat(2, minmax(0,1fr)); max-width: 850px; margin-left:auto; margin-right:auto; }
+}
+
+
+/* Modules de dictée et de lecture rythmique intégrés à NOTALIX */
+.notalix-module-dictee-melodique > main,
+.notalix-module-dictee-rythmique > main,
+.notalix-module-lecture-rythmique > main {
+  width: min(1060px, 100%) !important;
+  max-width: 1060px !important;
+}
+
+.notalix-module-dictee-melodique .gray,
+.notalix-module-dictee-rythmique .gray,
+.notalix-module-lecture-rythmique .gray {
+  background: #607d8b !important;
+}
+
+@media (min-width: 1100px) {
+  .notalix-module-dictee-melodique > main { max-width: 1180px !important; }
+  .notalix-module-dictee-melodique .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .notalix-module-dictee-melodique .grid .wide { grid-column: 2; }
+  .notalix-module-dictee-rythmique .grid,
+  .notalix-module-lecture-rythmique .grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}

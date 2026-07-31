@@ -1,0 +1,9 @@
+NOTALIX — intégration du 31 juillet 2026
+
+Modules ajoutés :
+- Dictée mélodique
+- Dictée rythmique
+- Lecture rythmique
+
+Le module Cadences précédemment intégré est conservé.
+Ouvrir index.html à la racine après avoir extrait toute l’archive.

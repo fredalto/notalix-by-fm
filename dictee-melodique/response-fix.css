@@ -1,0 +1,36 @@
+.staff svg>g:has(>circle),.response-staff svg>g:has(>circle){transform:none}
+.response-zone{overflow:hidden;padding-bottom:10px}
+.response-zone .sequence{display:flex;flex-wrap:wrap;justify-content:center;width:100%;max-width:100%;gap:7px;padding:4px 2px}
+.response-zone .chip{flex:0 1 auto;max-width:100%;overflow-wrap:anywhere}
+.chip.answer-correct{background:#e8f5e9;border-color:#4caf50;color:#216b2c}
+.chip.answer-wrong{background:#ffebee;border-color:#f44336;color:#b71c1c}
+#listenAnswer{margin-top:4px;background:#2196f3}
+#listenAnswer:disabled{background:#b8c5d1}
+.feedback.error-detail{background:#fff3f3;border:2px solid #ffcdd2;border-radius:10px;text-align:left;max-width:690px;margin:8px auto;line-height:1.5}
+.response-zone .sequence{display:none}
+.staff-note-label{paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+
+/* Version compacte : tout l'exercice reste visible sans ascenseur sur un écran courant. */
+#game .topbar button{padding:9px 18px}
+#game .staff{min-height:142px;margin:10px auto 12px;padding:4px}
+#game #listen{margin:2px 6px 7px;padding:10px 20px}
+#game .response-zone{margin:7px auto 6px;padding:8px 12px}
+#game .response-title{margin-bottom:2px}
+#game .response-title h3{font-size:18px}
+#game .remaining{padding:5px 10px;font-size:15px}
+#game .response-staff{min-height:88px}
+#game .sequence{min-height:34px;margin-top:2px;gap:5px}
+#game .chip{padding:6px 9px;font-size:15px}
+#game #listenAnswer{padding:9px 17px;font-size:16px}
+#game .keyboard{margin:7px auto 5px;gap:6px}
+#game .keyboard button{padding:9px 15px;min-width:55px;font-size:16px}
+#game #undo,#game #check{padding:9px 19px;font-size:16px;margin:3px}
+#game .feedback{min-height:34px;padding:5px;font-size:17px}
+
+@media(max-height:820px) and (min-width:561px){
+  body{padding-top:6px}
+  h1{font-size:1.8rem;margin:5px 0 9px}
+  .section{padding:10px 16px}
+  #game .staff{min-height:126px;margin:7px auto 8px}
+  #game .response-staff{min-height:78px}
+}

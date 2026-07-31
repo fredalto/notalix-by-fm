@@ -21,11 +21,25 @@
 .module-copy p { margin:0;color:var(--notalix-muted); }
 .module-card>a,.coming { grid-column:2;justify-self:start;align-self:end;padding:10px 16px;border-radius:11px;background:var(--notalix-blue);color:#fff;font-weight:800;text-decoration:none; }
 .module-card>a:hover { transform:translateY(-1px);filter:brightness(.96); }
+
+.cadence-card { border-color:#c8d8ff; }
+.cadence-card .module-icon { background:#edf2ff;color:#4857a8;font-size:1.2rem;letter-spacing:-.08em; }
+.cadence-card>a { background:#4857a8; }
 .chord-card { border-color:#ffc5bf; }
 .chord-card .module-icon { background:#fff0ed;color:var(--notalix-coral); }
 .chord-card>a { background:var(--notalix-coral); }
 .tonality-card .module-icon { background:#fff6df;color:#a56a00; }
 .lecture-card .module-icon { background:#e8f6ee;color:#1e8952; }
+
+.melody-dictation-card { border-color:#bfe0d0; }
+.melody-dictation-card .module-icon { background:#e8f7ef;color:#237c50;font-size:1.25rem; }
+.melody-dictation-card>a { background:#237c50; }
+.rhythm-dictation-card { border-color:#ffd8a8; }
+.rhythm-dictation-card .module-icon { background:#fff5e6;color:#a65d00;font-size:1.35rem; }
+.rhythm-dictation-card>a { background:#b86b09; }
+.rhythm-reading-card { border-color:#d6c8f3; }
+.rhythm-reading-card .module-icon { background:#f3effc;color:#6548a3; }
+.rhythm-reading-card>a { background:#6548a3; }
 .future-card { background:rgba(255,255,255,.58);box-shadow:none; }
 .future-card .module-icon { background:#eef1f4;color:#8390a0; }
 .future-card .module-kicker { color:#7f8a97; }

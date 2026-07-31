@@ -6,7 +6,11 @@
     'lecture-notes': 'Lecture de notes',
     'intervalles': 'Intervalles',
     'tonalites': 'Tonalités',
-    'accords': 'Accords'
+    'accords': 'Accords',
+    'cadences': 'Cadences',
+    'dictee-melodique': 'Dictée mélodique',
+    'dictee-rythmique': 'Dictée rythmique',
+    'lecture-rythmique': 'Lecture rythmique'
   };
   var moduleName = modules[folder] || 'Formation musicale';
   if (folder) document.body.classList.add('notalix-module-' + folder);
