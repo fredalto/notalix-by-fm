@@ -10,76 +10,170 @@
 <body class="home-page">
   <main class="home-main">
     <nav class="home-nav" aria-label="Navigation principale">
-      <a href="https://sites.google.com/view/fmcrdcalais/musiclab">← Site Formation Musicale</a>
-      <span>Version en développement</span>
+      <a class="site-link" href="https://sites.google.com/view/fmcrdcalais/musiclab">← Site Formation Musicale</a>
     </nav>
 
     <header class="home-hero">
       <div class="home-brand"><span aria-hidden="true">♪</span><strong>NOTALIX</strong><em>by FM</em></div>
-      <p>Le remède aux petits maux du solfège</p>
+      <p class="home-tagline">Le remède aux petits maux du solfège</p>
       <h1>Choisis ton entraînement</h1>
-      <p class="home-lead">Des outils simples et progressifs pour entraîner l’oreille et la lecture musicale.</p>
+      <p class="home-lead">Des exercices classés par grande famille, accessibles en un clic.</p>
+      <p class="home-note">En grisé : pistes de développement pour enrichir NOTALIX, sans chercher à copier les autres logiciels.</p>
     </header>
 
-    <section class="module-grid" aria-label="Mini-logiciels NOTALIX">
-      <article class="module-card lecture-card">
-        <div class="module-icon" aria-hidden="true">♩</div>
-        <div class="module-copy"><span class="module-kicker">Lire</span><h2>Lecture de notes</h2><p>Clés, instruments et défis progressifs.</p></div>
-        <a href="lecture-notes/index.html">Commencer</a>
-      </article>
+    <section class="dashboard-grid" aria-label="Tableau de bord des modules">
+      <section class="family-panel family-read" aria-labelledby="famille-lire">
+        <div class="family-head">
+          <p class="family-kicker" id="famille-lire">Lire</p>
+        </div>
+        <div class="family-links">
+          <a class="module-tile" href="lecture-notes/index.html">
+            <span class="tile-icon" aria-hidden="true">♪</span>
+            <span class="tile-copy">
+              <strong>Lecture de notes</strong>
+              <small>Clés, instruments et défis</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="module-tile" href="lecture-rythmique/index.html">
+            <span class="tile-icon" aria-hidden="true">♬</span>
+            <span class="tile-copy">
+              <strong>Lecture rythmique</strong>
+              <small>Lire et frapper le rythme</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">🎤</span>
+            <span class="tile-copy">
+              <strong>Lecture chantée</strong>
+              <small>Justesse et lecture vocale</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">👁</span>
+            <span class="tile-copy">
+              <strong>Lecture à vue</strong>
+              <small>Phrases complètes et lecture fluide</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+        </div>
+      </section>
 
-      <article class="module-card interval-card-home">
-        <div class="module-icon" aria-hidden="true">↗♫</div>
-        <div class="module-copy"><span class="module-kicker">Écouter</span><h2>Intervalles</h2><p>Reconnaître les intervalles à l’oreille.</p></div>
-        <a href="intervalles/index.html">Commencer</a>
-      </article>
+      <section class="family-panel family-ear" aria-labelledby="famille-ecouter">
+        <div class="family-head">
+          <p class="family-kicker" id="famille-ecouter">Écouter</p>
+        </div>
+        <div class="family-links">
+          <a class="module-tile" href="intervalles/index.html">
+            <span class="tile-icon" aria-hidden="true">↗</span>
+            <span class="tile-copy">
+              <strong>Intervalles</strong>
+              <small>Reconnaissance auditive</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="module-tile" href="accords/index.html">
+            <span class="tile-icon" aria-hidden="true">♫</span>
+            <span class="tile-copy">
+              <strong>Accords</strong>
+              <small>Triades et accords de septième</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="module-tile" href="cadences/index.html">
+            <span class="tile-icon" aria-hidden="true">Ⅴ→Ⅰ</span>
+            <span class="tile-copy">
+              <strong>Cadences</strong>
+              <small>Conclusions et suspensions</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">◎</span>
+            <span class="tile-copy">
+              <strong>Oreille tonale</strong>
+              <small>Degrés, fonctions et repères</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">𝄞</span>
+            <span class="tile-copy">
+              <strong>Harmonie</strong>
+              <small>Progressions et enchaînements</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+        </div>
+      </section>
 
-      <article class="module-card tonality-card">
-        <div class="module-icon" aria-hidden="true">♯♭</div>
-        <div class="module-copy"><span class="module-kicker">Comprendre</span><h2>Tonalités</h2><p>Armures, tonalités majeures et tutoriel.</p></div>
-        <a href="tonalites/index.html">Commencer</a>
-      </article>
+      <section class="family-panel family-write" aria-labelledby="famille-ecrire">
+        <div class="family-head">
+          <p class="family-kicker" id="famille-ecrire">Écrire</p>
+        </div>
+        <div class="family-links">
+          <a class="module-tile" href="dictee-melodique/index.html">
+            <span class="tile-icon" aria-hidden="true">✎♪</span>
+            <span class="tile-copy">
+              <strong>Dictée mélodique</strong>
+              <small>Retrouver une courte mélodie</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="module-tile" href="dictee-rythmique/index.html">
+            <span class="tile-icon" aria-hidden="true">♩?</span>
+            <span class="tile-copy">
+              <strong>Dictée rythmique</strong>
+              <small>Reconstruire une mesure</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">✎♫</span>
+            <span class="tile-copy">
+              <strong>Dictée harmonique</strong>
+              <small>Entendre puis noter les accords</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+        </div>
+      </section>
 
-      <article class="module-card chord-card">
-        <div class="module-icon" aria-hidden="true">♫</div>
-        <div class="module-copy"><span class="module-kicker">Nouveau · Écouter</span><h2>Accords</h2><p>Triades, accords de septième et exemples.</p></div>
-        <a href="accords/index.html">Commencer</a>
-      </article>
-
-      <article class="module-card cadence-card">
-        <div class="module-icon" aria-hidden="true">Ⅴ→Ⅰ</div>
-        <div class="module-copy"><span class="module-kicker">Nouveau · Écouter</span><h2>Cadences</h2><p>Reconnaître les conclusions et suspensions harmoniques.</p></div>
-        <a href="cadences/index.html">Commencer</a>
-      </article>
-
-      <article class="module-card melody-dictation-card">
-        <div class="module-icon" aria-hidden="true">✎♪</div>
-        <div class="module-copy"><span class="module-kicker">Écouter · Écrire</span><h2>Dictée mélodique</h2><p>Reconstituer de courtes mélodies, avec la première note donnée.</p></div>
-        <a href="dictee-melodique/index.html">Commencer</a>
-      </article>
-
-      <article class="module-card rhythm-dictation-card">
-        <div class="module-icon" aria-hidden="true">♩?</div>
-        <div class="module-copy"><span class="module-kicker">Écouter · Construire</span><h2>Dictée rythmique</h2><p>Écouter puis reconstruire une mesure avec des briques rythmiques.</p></div>
-        <a href="dictee-rythmique/index.html">Commencer</a>
-      </article>
-
-      <article class="module-card rhythm-reading-card">
-        <div class="module-icon" aria-hidden="true">♬</div>
-        <div class="module-copy"><span class="module-kicker">Lire · Frapper</span><h2>Lecture rythmique</h2><p>Lire un rythme et frapper chaque attaque avec précision.</p></div>
-        <a href="lecture-rythmique/index.html">Commencer</a>
-      </article>
+      <section class="family-panel family-know" aria-labelledby="famille-comprendre">
+        <div class="family-head">
+          <p class="family-kicker" id="famille-comprendre">Comprendre</p>
+        </div>
+        <div class="family-links">
+          <a class="module-tile" href="tonalites/index.html">
+            <span class="tile-icon" aria-hidden="true">♯♭</span>
+            <span class="tile-copy">
+              <strong>Tonalités</strong>
+              <small>Armures et relatives mineures</small>
+            </span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">♮</span>
+            <span class="tile-copy">
+              <strong>Gammes &amp; modes</strong>
+              <small>Construction, formes et repères</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+          <div class="module-tile module-tile-disabled" aria-disabled="true">
+            <span class="tile-icon" aria-hidden="true">𝄽</span>
+            <span class="tile-copy">
+              <strong>Théorie musicale</strong>
+              <small>Signes, mesures, vocabulaire</small>
+            </span>
+            <span class="tile-state" aria-hidden="true">Bientôt</span>
+          </div>
+        </div>
+      </section>
     </section>
-
-    <details class="backup-box">
-      <summary>Versions de secours déjà utilisées</summary>
-      <p>Ces liens restent disponibles pendant les essais de la nouvelle présentation.</p>
-      <div>
-        <a href="https://fredalto.github.io/lecturedenotes/">Lecture de notes</a>
-        <a href="https://fredalto.github.io/jeu-intervalles/">Intervalles</a>
-        <a href="https://fredalto.github.io/Tonalit-Express/">Tonalités</a>
-      </div>
-    </details>
   </main>
 </body>
 </html>
