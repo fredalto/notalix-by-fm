@@ -1,113 +1,95 @@
-# Notalix — étapes du projet
+# NOTALIX — Feuille de route technique
 
-## État actuel
+## Version actuelle
 
-- Le projet actif se trouve dans `01_PROJET_ACTIF/notalix`.
-- L’architecture est organisée par modules pédagogiques.
-- Le module `lecture-notes` utilise désormais VexFlow pour afficher les notes.
-- Les 78 anciens fichiers PNG de notes ont été supprimés de ce module.
-- Le parcours Instruments demande explicitement de choisir un niveau avant de commencer.
-- L’écran d’exercice a été adapté au format Surface : note mise en avant, mise en page compacte et barre d’avancement stable.
-- Une sauvegarde antérieure à la réorganisation est documentée dans `90_SAUVEGARDES`.
+| Élément | État |
+| --- | --- |
+| Version publiée | **v0.5.2** |
+| Date | 5 août 2026 |
+| Jalon | Module Lecture de notes et migration VexFlow |
+| Commit de référence | `00f22d8` |
+| Projet actif | `01_PROJET_ACTIF/notalix` |
+| Sauvegarde | Créée et contrôlée |
+| Publication GitHub | Effectuée |
 
-## Étape immédiate — enregistrer le point de contrôle
+## Étapes terminées
 
-1. Laisser Google Drive terminer sa synchronisation.
-2. Dans GitHub Desktop, vérifier que le dépôt ouvert est bien `01_PROJET_ACTIF/notalix`.
-3. Examiner la liste des fichiers modifiés et supprimés.
-4. Créer un commit nommé par exemple :
-   `Migrer Lecture de notes vers VexFlow et améliorer l’interface Surface`
-5. Publier ou pousser ce commit sur GitHub.
-6. Ajouter si possible une étiquette de version : `vexflow-surface-2026-08-05`.
+### v0.5.0 — Point de départ structuré
 
-Cette publication constitue un point de retour sûr. Elle ne signifie pas encore que tous les parcours ont été testés.
+- [x] Sauvegarde complète.
+- [x] Installation du projet actif dans Google Drive.
+- [x] Audit général.
+- [x] Conservation du fonctionnement existant.
 
-## Étape 1 — recette complète de Lecture de notes
+### v0.5.1 — Architecture modulaire
 
-Tester sans modifier le code :
+- [x] Organisation des dossiers et des modules.
+- [x] Identification des éléments communs.
+- [x] Documentation de l’architecture.
+- [x] Création d’un point de retour GitHub.
 
-- les clés de sol, fa, ut 3 et ut 4 ;
-- les niveaux disponibles de chaque clé ;
-- les parcours Instruments, au moins un instrument par famille ;
-- les quatre niveaux d’un instrument transpositeur ;
-- les défis et le mélange des clés ;
-- les sons corrects et incorrects ;
-- les raccourcis clavier ;
-- le score, la progression et le redémarrage ;
-- l’aide de doigté ou de position ;
-- l’envoi du score ;
-- l’affichage sur Surface et sur téléphone.
+### v0.5.2 — Module Lecture de notes
 
-Noter chaque anomalie dans un seul document avant de commencer les corrections.
+- [x] Migration du rendu des notes vers VexFlow.
+- [x] Suppression des 78 anciennes images PNG.
+- [x] Choix du niveau rendu obligatoire et visible.
+- [x] Amélioration de l’utilisation de l’espace.
+- [x] Adaptation de l’exercice à la Surface.
+- [x] Stabilisation de la barre d’avancement.
+- [x] Affichage de la version dans Notalix.
 
-## Étape 2 — stabilisation du rendu VexFlow
+## Prochaine étape — v0.5.3
 
-- Vérifier les notes très graves et très aiguës ainsi que leurs lignes supplémentaires.
-- Contrôler les quatre clés avec la nouvelle taille de portée.
-- Définir des tailles communes pour les notes de référence et les notes de quiz.
-- Vérifier que l’aide, le retour de réponse et la progression ne déplacent aucun élément.
-- Supprimer les dossiers `lecture-notes/Images` uniquement après confirmation qu’ils sont toujours vides et inutilisés.
+### Affichage musical commun
 
-## Étape 3 — nettoyage interne de Lecture de notes
+- [ ] Tester les clés de sol, fa, ut 3 et ut 4.
+- [ ] Vérifier les notes très graves et très aiguës.
+- [ ] Tester les parcours Instruments et les défis.
+- [ ] Définir un composant VexFlow commun et réutilisable.
+- [ ] Harmoniser la taille des portées et des notes.
+- [ ] Préparer son utilisation dans plusieurs modules.
+- [ ] Vérifier ordinateur, Surface, tablette et smartphone.
 
-Procéder par petits changements réversibles :
+## Étapes suivantes du cycle 0.5
 
-1. Renommer les anciennes propriétés techniques comme `image` ou `img` en `note` lorsque leur valeur est désormais un descripteur VexFlow.
-2. Centraliser la conversion entre hauteur, nom français, clé et son.
-3. Centraliser les comportements réellement identiques : progression, réponses, score et temporisation.
-4. Conserver dans chaque niveau ses règles pédagogiques propres.
-5. Tester après chaque extraction commune.
+### v0.5.4 — Sons et lecture audio
 
-Ne pas réécrire tous les niveaux en une seule opération.
+- moteur sonore commun ;
+- banque sonore officielle ;
+- faible latence ;
+- tempo et volume communs ;
+- licences documentées.
 
-## Étape 4 — contrôles automatiques
+### v0.5.5 — Stabilisation du socle
 
-Créer progressivement des outils capables de vérifier :
+- tests des modules existants ;
+- correction des régressions ;
+- vérification sur plusieurs appareils et navigateurs ;
+- sauvegarde stable avant le cycle 0.6.
 
-- les liens locaux manquants ;
-- les descripteurs VexFlow invalides ;
-- les sons absents ;
-- les pages qui oublient de charger VexFlow ;
-- les erreurs JavaScript de démarrage ;
-- les déplacements de mise en page sur les formats Surface et mobile.
+## Cycle 0.6 — Interface commune
 
-Commencer par un contrôle en lecture seule, puis ajouter quelques tests représentatifs.
+- `0.6.0` : identité visuelle générale ;
+- `0.6.1` : page d’accueil Lire / Écouter / Écrire / Comprendre ;
+- `0.6.2` : navigation commune ;
+- `0.6.3` : adaptation aux écrans ;
+- `0.6.4` : uniformisation des modules ;
+- `0.6.5` : validation générale.
 
-## Étape 5 — généralisation aux autres modules
+## Vision générale
 
-Une fois `lecture-notes` stable :
+- `0.x` : construire Notalix ;
+- `1.x` : s’entraîner librement ;
+- `2.x` : accompagner les élèves ;
+- `3.x` : apprendre et découvrir la musique ;
+- `4.x` : personnaliser les apprentissages ;
+- `5.x` : ouvrir Notalix à d’autres établissements.
 
-1. Auditer un seul autre module.
-2. Identifier ce qui est réellement commun.
-3. Déplacer un seul type de ressource ou de composant vers `shared`.
-4. Tester le module concerné et l’accueil.
-5. Créer un commit séparé.
-
-Ordre conseillé :
-
-1. `intervalles` ;
-2. `tonalites` ;
-3. `accords` et `cadences` ;
-4. dictées ;
-5. lecture rythmique.
-
-## Règles de sécurité
+## Règles de travail
 
 - Travailler uniquement dans `01_PROJET_ACTIF/notalix`.
-- Ne pas modifier les sauvegardes ni les anciennes versions.
-- Faire un commit avant chaque nouvelle phase importante.
-- Ne déplacer aucun son ou fichier tiers sans contrôler tous ses chemins.
-- Préférer une petite modification testable à une refonte générale.
-- Conserver une version GitHub connue comme fonctionnelle.
-
-## Définition d’une version publiable
-
-Une version peut être considérée comme stable lorsque :
-
-- la recette de Lecture de notes est terminée ;
-- aucune erreur bloquante n’est connue ;
-- les quatre clés et plusieurs instruments ont été vérifiés ;
-- l’affichage Surface et mobile est acceptable ;
-- les sons et les scores fonctionnent ;
-- le dépôt Git est propre après le commit ;
-- une étiquette de version permet de revenir précisément à cet état.
+- Ne jamais modifier les sauvegardes ou les anciennes versions.
+- Une version est validée lorsqu’elle est testée, sauvegardée et identifiable dans Git.
+- Créer un commit avant chaque nouvelle phase importante.
+- Préférer une petite amélioration testable à une refonte générale.
+- Toujours conserver sur GitHub une version fonctionnelle permettant un retour en arrière.

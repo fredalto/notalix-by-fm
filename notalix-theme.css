@@ -67,7 +67,7 @@ body {
 .notalix-note { color: var(--notalix-coral); font-size: 30px; line-height: 1; }
 .notalix-word { color: var(--notalix-navy); font-size: 22px; font-weight: 850; letter-spacing: .035em; }
 .notalix-by { color: var(--notalix-blue); font-size: 13px; font-style: italic; font-weight: 750; }
-.notalix-module { padding-left: 9px; border-left: 1px solid var(--notalix-line); color: var(--notalix-muted); font-size: 13px; font-weight: 700; }
+.notalix-module { padding-left: 11px; border-left: 1px solid var(--notalix-line); color: var(--notalix-muted); font-size: 16px; font-weight: 750; }
 
 body > main,
 body > .container {
@@ -420,4 +420,37 @@ button.secondary,.secondary,.small { background: #eef4f8 !important; color: var(
   .notalix-module-dictee-melodique .grid .wide { grid-column: 2; }
   .notalix-module-dictee-rythmique .grid,
   .notalix-module-lecture-rythmique .grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}
+
+/* Lecture de Notes Express : nom principal, Notalix en signature */
+.notalix-module-lecture-notes .notalix-module {
+  order: 1;
+  padding-left: 0;
+  border-left: 0;
+  color: var(--notalix-navy);
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: -.02em;
+}
+.notalix-module-lecture-notes .notalix-note { order: 0; }
+.notalix-module-lecture-notes .notalix-word {
+  order: 2;
+  margin-left: 5px;
+  padding-left: 11px;
+  border-left: 1px solid var(--notalix-line);
+  color: var(--notalix-muted);
+  font-size: 14px;
+  letter-spacing: .025em;
+}
+.notalix-module-lecture-notes .notalix-by {
+  order: 3;
+  color: var(--notalix-muted);
+  font-size: 10px;
+}
+@media (max-width: 720px) {
+  .notalix-module-lecture-notes .notalix-module {
+    display: inline;
+    font-size: 18px;
+  }
+  .notalix-module-lecture-notes .notalix-word { font-size: 12px; }
 }

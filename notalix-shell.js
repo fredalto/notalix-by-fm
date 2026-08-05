@@ -1,9 +1,10 @@
 (function () {
   if (document.querySelector('.notalix-bar')) return;
 
+
   var folder = (location.pathname.split('/').filter(Boolean).slice(-2, -1)[0] || '').toLowerCase();
   var modules = {
-    'lecture-notes': 'Lecture de notes',
+    'lecture-notes': 'Lecture de Notes Express',
     'intervalles': 'Intervalles',
     'tonalites': 'Tonalités',
     'accords': 'Accords',
@@ -23,6 +24,7 @@
       '<span class="notalix-note" aria-hidden="true">♪</span>' +
       '<span class="notalix-word">NOTALIX</span>' +
       '<span class="notalix-by">by FM</span>' +
+      
       '<span class="notalix-module">' + moduleName + '</span>' +
     '</div>' +
     '<a class="notalix-site" href="https://sites.google.com/view/fmcrdcalais/musiclab">Site Formation Musicale ↗</a>';

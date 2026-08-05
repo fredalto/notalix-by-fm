@@ -204,3 +204,14 @@
   .module-tile{min-height:48px}
   .tile-state{display:none}
 }
+
+.home-version {
+  margin-left: 3px;
+  color: #6f8192;
+  font-size: .58rem;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: .02em;
+  opacity: .72;
+  vertical-align: middle;
+}

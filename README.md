@@ -2,6 +2,12 @@
 
 Notalix est un ensemble de modules pedagogiques musicaux utilisables directement dans un navigateur.
 
+## Version actuelle
+
+**Notalix 0.5.2 — Module Lecture de notes**
+
+Commit de reference : `00f22d8`. La prochaine etape planifiee est la version 0.5.3, consacree a l'affichage musical commun.
+
 ## Demarrage
 
 Ouvrir `index.html` pour acceder a l'accueil, puis choisir un module.
