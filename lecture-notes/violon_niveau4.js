@@ -4,39 +4,39 @@
 const STRINGS = [
   { // Sol
     idx: 0, name: "Sol",
-    open: { nom:"Sol", image:"Images/sol/G3.png", fingering:"0", s:0 },
+    open: { nom:"Sol", image:"note:sol:G3", fingering:"0", s:0 },
     fingers: [
-      { nom:"La", image:"Images/sol/A3.png", fingering:"1", s:0 },
-      { nom:"Si", image:"Images/sol/B3.png", fingering:"2", s:0 },
-      { nom:"Do", image:"Images/sol/C4.png", fingering:"3", s:0 }
+      { nom:"La", image:"note:sol:A3", fingering:"1", s:0 },
+      { nom:"Si", image:"note:sol:B3", fingering:"2", s:0 },
+      { nom:"Do", image:"note:sol:C4", fingering:"3", s:0 }
     ]
   },
   { // Ré
     idx: 1, name: "Ré",
-    open: { nom:"Ré", image:"Images/sol/D4.png", fingering:"0", s:1 },
+    open: { nom:"Ré", image:"note:sol:D4", fingering:"0", s:1 },
     fingers: [
-      { nom:"Mi",  image:"Images/sol/E4.png", fingering:"1", s:1 },
-      { nom:"Fa",  image:"Images/sol/F4.png", fingering:"2", s:1 },
-      { nom:"Sol", image:"Images/sol/G4.png", fingering:"3", s:1 }
+      { nom:"Mi",  image:"note:sol:E4", fingering:"1", s:1 },
+      { nom:"Fa",  image:"note:sol:F4", fingering:"2", s:1 },
+      { nom:"Sol", image:"note:sol:G4", fingering:"3", s:1 }
     ]
   },
   { // La
     idx: 2, name: "La",
-    open: { nom:"La", image:"Images/sol/A4.png", fingering:"0", s:2 },
+    open: { nom:"La", image:"note:sol:A4", fingering:"0", s:2 },
     fingers: [
-      { nom:"Si", image:"Images/sol/B4.png", fingering:"1", s:2 },
-      { nom:"Do", image:"Images/sol/C5.png", fingering:"2", s:2 },
-      { nom:"Ré", image:"Images/sol/D5.png", fingering:"3", s:2 }
+      { nom:"Si", image:"note:sol:B4", fingering:"1", s:2 },
+      { nom:"Do", image:"note:sol:C5", fingering:"2", s:2 },
+      { nom:"Ré", image:"note:sol:D5", fingering:"3", s:2 }
     ]
   },
   { // Mi (avec 4)
     idx: 3, name: "Mi",
-    open: { nom:"Mi", image:"Images/sol/E5.png", fingering:"0", s:3 },
+    open: { nom:"Mi", image:"note:sol:E5", fingering:"0", s:3 },
     fingers: [
-      { nom:"Fa",  image:"Images/sol/F5.png", fingering:"1", s:3 },
-      { nom:"Sol", image:"Images/sol/G5.png", fingering:"2", s:3 },
-      { nom:"La",  image:"Images/sol/A5.png", fingering:"3", s:3 },
-      { nom:"Si",  image:"Images/sol/B5.png", fingering:"4", s:3 }
+      { nom:"Fa",  image:"note:sol:F5", fingering:"1", s:3 },
+      { nom:"Sol", image:"note:sol:G5", fingering:"2", s:3 },
+      { nom:"La",  image:"note:sol:A5", fingering:"3", s:3 },
+      { nom:"Si",  image:"note:sol:B5", fingering:"4", s:3 }
     ]
   }
 ];
@@ -261,7 +261,7 @@ function checkAnswer(selected){
     score++;
     feedback.textContent = "Bonne réponse !";
     feedback.className = "correct";
-    const noteFile = noteImage.src.split("/").pop().replace(".png",".mp3");
+    const noteFile = noteImage.src.split(":").pop() + ".mp3";
     playSound(noteFile);
   } else {
     feedback.textContent = `Incorrect ! C'était "${currentCorrectAnswer}".`;

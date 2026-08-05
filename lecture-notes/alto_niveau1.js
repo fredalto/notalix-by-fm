@@ -1,8 +1,8 @@
 const notes = [
-  { nom: "Do", image: "Images/ut3/C3.png", fingering: "0" },
-  { nom: "Sol", image: "Images/ut3/G3.png", fingering: "0" },
-  { nom: "Ré", image: "Images/ut3/D4.png", fingering: "0" },
-  { nom: "La", image: "Images/ut3/A4.png", fingering: "0" }
+  { nom: "Do", image: "note:ut3:C3", fingering: "0" },
+  { nom: "Sol", image: "note:ut3:G3", fingering: "0" },
+  { nom: "Ré", image: "note:ut3:D4", fingering: "0" },
+  { nom: "La", image: "note:ut3:A4", fingering: "0" }
 ];
 
 const labels = ['Do', 'Ré', 'Mi', 'Fa', 'Sol', 'La', 'Si'];
@@ -137,7 +137,7 @@ function checkAnswer(selected) {
     score++;
     feedback.textContent = "Bonne réponse !";
     feedback.className = "correct";
-    const noteFile = noteImage.src.split("/").pop().replace(".png", ".mp3");
+    const noteFile = noteImage.src.split(":").pop() + ".mp3";
     playSound(noteFile);
   } else {
     feedback.textContent = `Incorrect ! C'était "${currentCorrectAnswer}".`;

@@ -30,7 +30,7 @@ var FA_REPERES = { "F3":1, "C4":1, "E2":1, "B2":1 };
 // === Variables dynamiques pour le mix 50/50 ===
 var RANGE = SOL_RANGE.slice(0);
 var REPERES = Object.assign({}, SOL_REPERES);
-var IMG_DIR = 'Images/sol';
+var IMG_DIR = 'note:sol';
 
 
 // Mappings
@@ -149,7 +149,7 @@ function pick(pool){
   var cand, tries=0, path;
   do {
     cand = pool[Math.floor(Math.random()*pool.length)];
-    path = "Images/sol/" + cand + ".png";
+    path = "note:sol:" + cand;
     tries++;
   } while (path === lastImg && tries < 50);
   lastImg = path;
@@ -158,8 +158,8 @@ function pick(pool){
 function showQuestion(){
   // Choix 50/50 de la clé
   var clef = (Math.random() < 0.5) ? "sol" : "fa";
-  if (clef === "sol") { RANGE = SOL_RANGE.slice(0); REPERES = Object.assign({}, SOL_REPERES); IMG_DIR="Images/sol"; }
-  else { RANGE = FA_RANGE.slice(0); REPERES = Object.assign({}, FA_REPERES); IMG_DIR="Images/fa"; }
+  if (clef === "sol") { RANGE = SOL_RANGE.slice(0); REPERES = Object.assign({}, SOL_REPERES); IMG_DIR="note:sol"; }
+  else { RANGE = FA_RANGE.slice(0); REPERES = Object.assign({}, FA_REPERES); IMG_DIR="note:fa"; }
 
   var pool = poolFor(level);
   currentCode = pick(pool);
@@ -169,11 +169,7 @@ function showQuestion(){
   noteImage.className = isRep ? "repere" : "";
 
   // affiche l'image
-  noteImage.onerror = function(){
-    // si un fichier manque, on essaie une autre note du même pool
-    showQuestion();
-  };
-  noteImage.src = IMG_DIR + "/" + currentCode + ".png";
+  noteImage.src = IMG_DIR + ":" + currentCode;
 }
 
 /* ===== TIMER ===== */

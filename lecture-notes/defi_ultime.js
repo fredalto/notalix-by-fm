@@ -40,12 +40,12 @@ var UT4_RANGE = [
 var UT4_REPERES = { "C4":1, "F4":1, "D3":1, "G3":1 };
 
 /* Dossiers par clé */
-var DIRS = { sol:"Images/sol", fa:"Images/fa", ut3:"Images/ut3", ut4:"Images/ut4" };
+var DIRS = { sol:"note:sol", fa:"note:fa", ut3:"note:ut3", ut4:"note:ut4" };
 
 /* === Variables dynamiques (MAJ par question) === */
 var RANGE = SOL_RANGE.slice(0);
 var REPERES = Object.assign({}, SOL_REPERES);
-var IMG_DIR = 'Images/sol';
+var IMG_DIR = 'note:sol';
 
 /* Mappings */
 var LETTER2NAME = { C:"Do", D:"Ré", E:"Mi", F:"Fa", G:"Sol", A:"La", B:"Si" };
@@ -154,7 +154,7 @@ function pick(pool){
   var cand, tries=0, path;
   do {
     cand = pool[Math.floor(Math.random()*pool.length)];
-    path = IMG_DIR + "/" + cand + ".png"; // <-- IMG_DIR dynamique (plus de "Images/sol" en dur)
+    path = IMG_DIR + ":" + cand; // <-- IMG_DIR dynamique (plus de "note:sol" en dur)
     tries++;
   } while (path === lastImg && tries < 50);
   lastImg = path;
@@ -174,9 +174,7 @@ function showQuestion(){
 
   var isRep = LEVELS[level].hintRepere && !!REPERES[currentCode];
   noteImage.className = isRep ? "repere" : "";
-
-  noteImage.onerror = function(){ showQuestion(); };
-  noteImage.src = IMG_DIR + "/" + currentCode + ".png";
+  noteImage.src = IMG_DIR + ":" + currentCode;
 }
 
 /* ===== TIMER ===== */

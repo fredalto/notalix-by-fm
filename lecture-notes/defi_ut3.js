@@ -135,7 +135,7 @@ function pick(pool){
   var cand, tries=0, path;
   do {
     cand = pool[Math.floor(Math.random()*pool.length)];
-    path = "Images/ut3/" + cand + ".png";
+    path = "note:ut3:" + cand;
     tries++;
   } while (path === lastImg && tries < 50);
   lastImg = path;
@@ -150,11 +150,7 @@ function showQuestion(){
   noteImage.className = isRep ? "repere" : "";
 
   // affiche l'image
-  noteImage.onerror = function(){
-    // si un fichier manque, on essaie une autre note du même pool
-    showQuestion();
-  };
-  noteImage.src = "Images/ut3/" + currentCode + ".png";
+  noteImage.src = "note:ut3:" + currentCode;
 }
 
 /* ===== TIMER ===== */

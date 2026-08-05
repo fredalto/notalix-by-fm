@@ -4,27 +4,27 @@
 const STRINGS = [
   { // Do
     idx: 3, name: "Do",
-    open:  { nom:"Do",  image:"Images/fa/C2.png", fingering:"0", s:3 },
-    f1:    { nom:"Ré",  image:"Images/fa/D2.png", fingering:"1", s:3 },
-    f2:    { nom:"Mi", image:"Images/fa/E2.png", fingering:"3", s:3 }
+    open:  { nom:"Do",  image:"note:fa:C2", fingering:"0", s:3 },
+    f1:    { nom:"Ré",  image:"note:fa:D2", fingering:"1", s:3 },
+    f2:    { nom:"Mi", image:"note:fa:E2", fingering:"3", s:3 }
   },
   { // Sol
     idx: 0, name: "Sol",
-    open:  { nom:"Sol", image:"Images/fa/G2.png", fingering:"0", s:0 },
-    f1:    { nom:"La",  image:"Images/fa/A2.png", fingering:"1", s:0 },
-    f2:    { nom:"Si",  image:"Images/fa/B2.png", fingering:"3", s:0 }
+    open:  { nom:"Sol", image:"note:fa:G2", fingering:"0", s:0 },
+    f1:    { nom:"La",  image:"note:fa:A2", fingering:"1", s:0 },
+    f2:    { nom:"Si",  image:"note:fa:B2", fingering:"3", s:0 }
   },
   { // Ré
     idx: 1, name: "Ré",
-    open:  { nom:"Ré",  image:"Images/fa/D3.png", fingering:"0", s:1 },
-    f1:    { nom:"Mi",  image:"Images/fa/E3.png", fingering:"1", s:1 },
-    f2:    { nom:"Fa",  image:"Images/fa/F3.png", fingering:"2", s:1 }
+    open:  { nom:"Ré",  image:"note:fa:D3", fingering:"0", s:1 },
+    f1:    { nom:"Mi",  image:"note:fa:E3", fingering:"1", s:1 },
+    f2:    { nom:"Fa",  image:"note:fa:F3", fingering:"2", s:1 }
   },
   { // La
     idx: 2, name: "La",
-    open:  { nom:"La",  image:"Images/fa/A3.png", fingering:"0", s:2 },
-    f1:    { nom:"Si",  image:"Images/fa/B3.png", fingering:"1", s:2 },
-    f2:    { nom:"Do",  image:"Images/fa/C4.png", fingering:"2", s:2 }
+    open:  { nom:"La",  image:"note:fa:A3", fingering:"0", s:2 },
+    f1:    { nom:"Si",  image:"note:fa:B3", fingering:"1", s:2 },
+    f2:    { nom:"Do",  image:"note:fa:C4", fingering:"2", s:2 }
   },
 ];
 
@@ -191,7 +191,7 @@ function checkAnswer(selected) {
     score++;
     feedback.textContent = "Bonne réponse !";
     feedback.className = "correct";
-    const noteFile = noteImage.src.split("/").pop().replace(".png", ".mp3");
+    const noteFile = noteImage.src.split(":").pop() + ".mp3";
     playSound(noteFile);
   } else {
     feedback.textContent = `Incorrect ! C'était "${currentCorrectAnswer}".`;

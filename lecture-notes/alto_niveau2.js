@@ -2,23 +2,23 @@
 const STRINGS = [
   {
     name: "Do",
-    open:   { nom: "Do", image: "Images/ut3/C3.png", fingering: "0" },
-    first:  { nom: "Ré",  image: "Images/ut3/D3.png", fingering: "1" }
+    open:   { nom: "Do", image: "note:ut3:C3", fingering: "0" },
+    first:  { nom: "Ré",  image: "note:ut3:D3", fingering: "1" }
   },
   {
     name: "Sol",
-    open:   { nom: "Sol", image: "Images/ut3/G3.png", fingering: "0" },
-    first:  { nom: "La",  image: "Images/ut3/A3.png", fingering: "1" }
+    open:   { nom: "Sol", image: "note:ut3:G3", fingering: "0" },
+    first:  { nom: "La",  image: "note:ut3:A3", fingering: "1" }
   },
   {
     name: "Ré",
-    open:   { nom: "Ré",  image: "Images/ut3/D4.png", fingering: "0" },
-    first:  { nom: "Mi",  image: "Images/ut3/E4.png", fingering: "1" }
+    open:   { nom: "Ré",  image: "note:ut3:D4", fingering: "0" },
+    first:  { nom: "Mi",  image: "note:ut3:E4", fingering: "1" }
   },
   {
     name: "La",
-    open:   { nom: "La",  image: "Images/ut3/A4.png", fingering: "0" },
-    first:  { nom: "Si",  image: "Images/ut3/B4.png", fingering: "1" }
+    open:   { nom: "La",  image: "note:ut3:A4", fingering: "0" },
+    first:  { nom: "Si",  image: "note:ut3:B4", fingering: "1" }
   },
 ];
 
@@ -145,7 +145,7 @@ function checkAnswer(selected) {
     score++;
     feedback.textContent = "Bonne réponse !";
     feedback.className = "correct";
-    const noteFile = noteImage.src.split("/").pop().replace(".png", ".mp3");
+    const noteFile = noteImage.src.split(":").pop() + ".mp3";
     playSound(noteFile);
   } else {
     feedback.textContent = `Incorrect ! C'était "${currentCorrectAnswer}".`;

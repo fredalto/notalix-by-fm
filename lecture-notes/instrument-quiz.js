@@ -84,8 +84,11 @@
       clef:note.clef,
       label:`Clé ${note.clef}`,
       adaptive:true,
-      minHeight:250,
-      width:150
+      compact:true,
+      minHeight:180,
+      width:165,
+      lineSpacing:17,
+      noteScale:1.28
     });
     const fingering = instrument.fingerings && instrument.fingerings[note.written];
     const displayedFingering = conciseFingering(fingering || note.hint);

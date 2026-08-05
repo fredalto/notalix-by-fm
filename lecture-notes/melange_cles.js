@@ -14,7 +14,7 @@ var UT3_REPERES = { "C4":1, "G4":1, "C3":1, "F3":1 };
 var UT4_RANGE = ["B2","C3","D3","E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4"];
 var UT4_REPERES = { "C4":1, "F4":1, "D3":1, "G3":1 };
 
-var DIRS = { sol:"Images/sol", fa:"Images/fa", ut3:"Images/ut3", ut4:"Images/ut4" };
+var DIRS = { sol:"note:sol", fa:"note:fa", ut3:"note:ut3", ut4:"note:ut4" };
 
 /* ===== MAPPINGS ===== */
 var LETTER2NAME = { C:"Do", D:"Ré", E:"Mi", F:"Fa", G:"Sol", A:"La", B:"Si" };
@@ -95,11 +95,9 @@ function showQuestion(){
   var pool = poolFrom(cfg.RANGE, cfg.REPERES);
   currentCode = pick(pool);
 
-  var src = cfg.dir + "/" + currentCode + ".png";
+  var src = cfg.dir + ":" + currentCode;
   if(src===lastImg){ return showQuestion(); } // évite doublon strict
   lastImg = src;
-
-  noteImage.onerror = function(){ showQuestion(); };
   noteImage.src = src;
   setFeedback("", true);
 }

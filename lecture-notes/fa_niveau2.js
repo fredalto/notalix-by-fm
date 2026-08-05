@@ -48,12 +48,12 @@ const candidats = prevRepere
         ? repereKeys.filter(r => r !== prevRepere)
         : repereKeys.slice(); 
       const r = candidats[Math.floor(Math.random() * candidats.length)];
-      result.push({ code: r, nom: noteToNom[r], img: r + ".png", repere: r });
+      result.push({ code: r, nom: noteToNom[r], img: r, repere: r });
       prevRepere = r; 
     } else {
       const conj = notesRepereEtConjointes[prevRepere].conjointes;
       const c = conj[Math.floor(Math.random() * conj.length)];
-      result.push({ code: c, nom: noteToNom[c], img: c + ".png", repere: prevRepere });
+      result.push({ code: c, nom: noteToNom[c], img: c, repere: prevRepere });
     }
   }
   return result;
@@ -67,7 +67,7 @@ function nextNote() {
 
   const note = quizNotes[current];
   correct = note.nom;
-  noteImg.src = "Images/fa/" + note.img;
+  noteImg.src = "note:fa:" + note.img;
   container.innerHTML = "";
   enableButtons();
   feedback.textContent = "";
@@ -304,25 +304,6 @@ function enableButtons() {
 
           
 // === Preload images & sounds ===
-(function preloadAssets() {
-  // Images
-  const images = [
-    "F3.png","G3.png","E3.png","C4.png","D4.png","B4.png",
-    "E2.png","F2.png","D2.png","B2.png","C3.png","A2.png"
-  ].map(n => "Images/fa/" + n);
-
-  images.forEach(src => { const img = new Image(); img.src = src; });
-
-  // Sons
-  const sons = [
-    "duck.mp3",
-    "F3.mp3","G3.mp3","E3.mp3","C4.mp3","D4.mp3","B3.mp3",
-    "E2.mp3","F2.mp3","D2.mp3","B2.mp3","C3.mp3","A2.mp3"
-  ].map(n => "sounds/" + n);
-
-  sons.forEach(src => { const a = new Audio(); a.preload = "auto"; a.src = src; });
-})();
-
 function playSound(file) {
   const audio = new Audio("sounds/" + file);
   const p = audio.play();

@@ -269,8 +269,9 @@ function selectInstrument(id) {
 
   const launcher = document.createElement('div');
   launcher.id = 'instrument-launcher';
-  launcher.className = 'instrument-launcher hidden-soft';
+  launcher.className = 'instrument-launcher';
   launcher.innerHTML = `
+    <div class="launcher-status" aria-live="polite"><span>Niveau</span><strong id="selected-level-label">Choisis un niveau ci-dessus</strong></div>
     <p class="launcher-title">Quel son souhaites-tu entendre ?</p>
     <div class="timbre-choice" role="group" aria-label="Choix du son">
       <button type="button" data-timbre="piano">Piano en ut</button>
@@ -281,7 +282,7 @@ function selectInstrument(id) {
         ? `Instrument transpositeur : même avec le son Piano en ut, la hauteur entendue sera transposée comme celle du ${instrument.label}.`
         : `Instrument en ut : avec le son Piano, la hauteur entendue correspond à la note écrite.`
     }</p>
-    <button type="button" id="launch-instrument-level" class="launch-instrument-level">Commencer le niveau</button>`;
+    <button type="button" id="launch-instrument-level" class="launch-instrument-level" disabled>Choisis d’abord un niveau</button>`;
   cont.after(launcher);
   launcher.querySelectorAll('[data-timbre]').forEach(button => {
     if (id === 'piano' && button.dataset.timbre === 'instrument') button.hidden = true;
@@ -299,7 +300,15 @@ function selectInstrumentLevel(levelNumber) {
     card.classList.toggle('selected', selected);
     card.setAttribute('aria-pressed', selected ? 'true' : 'false');
   });
-  document.getElementById('instrument-launcher')?.classList.remove('hidden-soft');
+  const level = window.LDN_INSTRUMENTS?.[instrumentChoisi]?.levels[levelNumber - 1];
+  const label = document.getElementById('selected-level-label');
+  const launchButton = document.getElementById('launch-instrument-level');
+  if (label) label.textContent = `Niveau ${levelNumber} choisi — ${level?.title || ''}`;
+  if (launchButton) {
+    launchButton.disabled = false;
+    launchButton.textContent = `Commencer le niveau ${levelNumber}`;
+  }
+  document.getElementById('instrument-launcher')?.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function setInstrumentTimbre(timbre) {

@@ -4,39 +4,39 @@
 const STRINGS = [
   { // Do
     idx: 0, name: "Do",
-    open: { nom:"Do", image:"Images/ut3/C3.png", fingering:"0", s:0 },
+    open: { nom:"Do", image:"note:ut3:C3", fingering:"0", s:0 },
     fingers: [
-      { nom:"Ré", image:"Images/ut3/D3.png", fingering:"1", s:0 },
-      { nom:"Mi", image:"Images/ut3/E3.png", fingering:"2", s:0 },
-      { nom:"Fa", image:"Images/ut3/F3.png", fingering:"3", s:0 }
+      { nom:"Ré", image:"note:ut3:D3", fingering:"1", s:0 },
+      { nom:"Mi", image:"note:ut3:E3", fingering:"2", s:0 },
+      { nom:"Fa", image:"note:ut3:F3", fingering:"3", s:0 }
     ]
   },
   { // Sol
     idx: 0, name: "Sol",
-    open: { nom:"Sol", image:"Images/ut3/G3.png", fingering:"0", s:0 },
+    open: { nom:"Sol", image:"note:ut3:G3", fingering:"0", s:0 },
     fingers: [
-      { nom:"La", image:"Images/ut3/A3.png", fingering:"1", s:0 },
-      { nom:"Si", image:"Images/ut3/B3.png", fingering:"2", s:0 },
-      { nom:"Do", image:"Images/ut3/C4.png", fingering:"3", s:0 }
+      { nom:"La", image:"note:ut3:A3", fingering:"1", s:0 },
+      { nom:"Si", image:"note:ut3:B3", fingering:"2", s:0 },
+      { nom:"Do", image:"note:ut3:C4", fingering:"3", s:0 }
     ]
   },
   { // Ré
     idx: 1, name: "Ré",
-    open: { nom:"Ré", image:"Images/ut3/D4.png", fingering:"0", s:1 },
+    open: { nom:"Ré", image:"note:ut3:D4", fingering:"0", s:1 },
     fingers: [
-      { nom:"Mi",  image:"Images/ut3/E4.png", fingering:"1", s:1 },
-      { nom:"Fa",  image:"Images/ut3/F4.png", fingering:"2", s:1 },
-      { nom:"Sol", image:"Images/ut3/G4.png", fingering:"3", s:1 }
+      { nom:"Mi",  image:"note:ut3:E4", fingering:"1", s:1 },
+      { nom:"Fa",  image:"note:ut3:F4", fingering:"2", s:1 },
+      { nom:"Sol", image:"note:ut3:G4", fingering:"3", s:1 }
     ]
   },
   { // La
     idx: 2, name: "La",
-    open: { nom:"La", image:"Images/ut3/A4.png", fingering:"0", s:2 },
+    open: { nom:"La", image:"note:ut3:A4", fingering:"0", s:2 },
     fingers: [
-      { nom:"Si", image:"Images/ut3/B4.png", fingering:"1", s:2 },
-      { nom:"Do", image:"Images/ut3/C5.png", fingering:"2", s:2 },
-      { nom:"Ré", image:"Images/ut3/D5.png", fingering:"3", s:2 },
-      { nom:"Mi", image:"Images/ut3/E5.png", fingering:"4", s:2 }
+      { nom:"Si", image:"note:ut3:B4", fingering:"1", s:2 },
+      { nom:"Do", image:"note:ut3:C5", fingering:"2", s:2 },
+      { nom:"Ré", image:"note:ut3:D5", fingering:"3", s:2 },
+      { nom:"Mi", image:"note:ut3:E5", fingering:"4", s:2 }
     ]
   }
 ];
@@ -195,7 +195,7 @@ function checkAnswer(selected){
     score++;
     feedback.textContent = "Bonne réponse !";
     feedback.className = "correct";
-    const noteFile = noteImage.src.split("/").pop().replace(".png",".mp3");
+    const noteFile = noteImage.src.split(":").pop() + ".mp3";
     playSound(noteFile);
   } else {
     feedback.textContent = `Incorrect ! C'était "${currentCorrectAnswer}".`;

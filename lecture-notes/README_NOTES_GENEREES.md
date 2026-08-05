@@ -1,7 +1,9 @@
-# Lecture de Notes Express — version finale
+# Lecture de Notes Express — rendu VexFlow
 
-Cette version conserve l'apparence et le fonctionnement du logiciel d'origine.
+VexFlow est l'unique moteur d'affichage des notes.
 
-Les notes des exercices sont maintenant dessinées automatiquement avec VexFlow dans les quatre clés : sol, fa, ut 3 et ut 4. Les anciennes images restent présentes comme données de compatibilité pour ne pas modifier les règles des quiz, les sons, le clavier, les scores, les instruments et les défis.
+Les exercices utilisent des descripteurs `note:clé:hauteur` dans les quatre clés : sol, fa, ut 3 et ut 4. Le module ne contient plus d'images PNG et ne dépend plus de fichiers image pour afficher les partitions.
+
+Les sons, le clavier, les scores, les instruments et les défis restent indépendants du rendu des notes.
 
 Pour lancer le logiciel, ouvrir `index.html`.

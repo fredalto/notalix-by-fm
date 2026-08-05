@@ -43,6 +43,10 @@
     const layout = options.adaptive
       ? adaptiveLayout(options.note, options.clef, options.minHeight || options.height)
       : { height:options.height || 135, staveY:25 };
+    if (options.compact) {
+      layout.height = Math.max(options.minHeight || 145, layout.height - 34);
+      layout.staveY = Math.max(20, layout.staveY - 12);
+    }
     const height = layout.height;
 
     target.replaceChildren();
@@ -53,7 +57,7 @@
     const renderer = new Renderer(target, Renderer.Backends.SVG);
     renderer.resize(width, height);
     const context = renderer.getContext();
-    const stave = new Stave(3, layout.staveY, width - 6);
+    const stave = new Stave(3, layout.staveY, width - 6, options.lineSpacing ? { spacing_between_lines_px: options.lineSpacing } : undefined);
     stave.addClef(clef).setContext(context).draw();
 
     const staveNote = new StaveNote({
@@ -63,7 +67,7 @@
       autoStem: true
     });
     staveNote.noteHeads.forEach(noteHead => {
-      noteHead.setFontSize(noteHead.fontSizeInPoints * 1.25);
+      noteHead.setFontSize(noteHead.fontSizeInPoints * (options.noteScale || 1.25));
     });
     staveNote.getStem()?.setVisibility(false);
     new TickContext().addTickable(staveNote).preFormat().setX(Math.round(width * 0.15));

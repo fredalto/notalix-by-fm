@@ -60,7 +60,7 @@ function generateSequence() {
     sequence.push({
       code: note,
       nom: noteToNom[note],
-      img: note + ".png"
+      img: note
     });
     notesUtilisees[note] = (notesUtilisees[note] || 0) + 1;
   }
@@ -70,7 +70,7 @@ function generateSequence() {
     sequence.push({
       code,
       nom: noteToNom[code],
-      img: code + ".png"
+      img: code
     });
   });
 
@@ -106,7 +106,7 @@ function nextNote() {
 
   const note = quizNotes[current];
   correct = note.nom;
-  noteImg.src = "Images/sol/" + note.img;
+  noteImg.src = "note:sol:" + note.img;
   container.innerHTML = "";
   enableButtons();
   feedback.textContent = "";
@@ -367,25 +367,6 @@ function enableButtons() {
 })();
 
 // === Preload images & sounds ===
-(function preloadAssets() {
-  // Images
-  const images = [
-    "C4.png","B3.png","D4.png","G4.png","F4.png","A4.png",
-    "C5.png","B4.png","D5.png","A5.png","G5.png","B5.png"
-  ].map(n => "Images/sol/" + n);
-
-  images.forEach(src => { const img = new Image(); img.src = src; });
-
-  // Sons
-  const sons = [
-    "duck.mp3",
-    "C4.mp3","B3.mp3","D4.mp3","G4.mp3","F4.mp3","A4.mp3",
-    "C5.mp3","B4.mp3","D5.mp3","A5.mp3","G5.mp3","B5.mp3"
-  ].map(n => "sounds/" + n);
-
-  sons.forEach(src => { const a = new Audio(); a.preload = "auto"; a.src = src; });
-})();
-
 function playSound(file) {
   const audio = new Audio("sounds/" + file);
   const p = audio.play();

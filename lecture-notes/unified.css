@@ -364,3 +364,49 @@ html, body { overflow-x: hidden; }
     flex-direction: column;
   }
 }
+
+/* Surface : choix de niveau explicite */
+.instrument-level-card { position: relative; }
+.instrument-level-card.selected {
+  border-color: #0b5fb8 !important;
+  outline: 4px solid rgba(31, 111, 201, .2);
+  box-shadow: 0 12px 28px rgba(11, 52, 115, .22) !important;
+}
+.instrument-level-card.selected::after {
+  content: "✓ Choisi";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 4px 8px;
+  color: #0b3473;
+  background: #fff;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 900;
+}
+.launcher-status {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+  color: #425d75;
+}
+.launcher-status span {
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.launcher-status strong { color: #0b3473; }
+.launch-instrument-level:disabled {
+  color: #657789;
+  background: #dce4eb;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+#etape-instrument.instrument-ready .instrument-launcher {
+  grid-template-columns: minmax(180px, 1fr) minmax(135px, .7fr) minmax(280px, 1.4fr) minmax(190px, .8fr);
+}
+@media (max-width: 900px) {
+  #etape-instrument.instrument-ready .instrument-launcher { grid-template-columns: 1fr 1fr; }
+  #etape-instrument.instrument-ready .timbre-explanation { grid-column: 1 / -1; }
+}

@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  const IMAGE_PATTERN = /Images\/(sol|fa|ut3|ut4)\/([A-G](?:sharp|flat)?-?\d+)\.png/i;
+  const NOTE_PATTERN = /^note:(sol|fa|ut3|ut4):([A-G](?:sharp|flat)?-?\d+)$/i;
 
   function parseImageSource(source) {
-    const match = IMAGE_PATTERN.exec(source || "");
+    const match = NOTE_PATTERN.exec(source || "");
     if (!match) return null;
     return { clef: match[1].toLowerCase(), note: match[2].replace("sharp", "#").replace("flat", "b") };
   }
@@ -48,7 +48,7 @@
   }
 
   function initialize() {
-    document.querySelectorAll('img[src*="Images/"]').forEach(image => {
+    document.querySelectorAll('img[src^="note:"]').forEach(image => {
       if (image.id !== "note-image") renderFromImage(image, false);
     });
 
