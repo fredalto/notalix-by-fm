@@ -385,6 +385,7 @@
     });
     openStringsList.replaceChildren(...staffGroups);
     openStringsIntro.hidden = false;
+    document.body.classList.add("instrument-intro-active");
     return true;
   }
 
@@ -420,6 +421,7 @@
   liveSoundButtons.forEach(button => button.addEventListener("click", () => setLiveTimbre(button.dataset.liveTimbre)));
   startStringLevel.addEventListener("click", () => {
     openStringsIntro.hidden = true;
+    document.body.classList.remove("instrument-intro-active");
     document.getElementById("quiz").hidden = false;
     renderCurrent();
   });
@@ -448,6 +450,8 @@
   async function initialize() {
     buildSequence();
     renderAnswers();
+    const hasReminder = showOpenStringsReminder();
+    if (hasReminder) loadingView.hidden = true;
     try {
       await window.LDNAudio.preloadForLevel(id, level, timbre, ratio => {
         loadingBar.style.width = `${Math.round(ratio * 100)}%`;
@@ -457,7 +461,8 @@
     }
     loadingBar.style.width = "100%";
     loadingView.hidden = true;
-    if (!showOpenStringsReminder()) {
+    if (!hasReminder) {
+      document.body.classList.remove("instrument-intro-active");
       document.getElementById("quiz").hidden = false;
       renderCurrent();
     }

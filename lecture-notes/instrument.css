@@ -316,14 +316,27 @@
 @media (max-width: 700px) {
   body:has(> .instrument-card) { padding: 5px !important; }
   body:has(> .instrument-card) .notalix-bar {
-    grid-template-columns: auto 1fr; min-height: 48px; margin-bottom: 5px;
+    grid-template-columns: 1fr; min-height: 48px; margin-bottom: 5px;
     padding: 5px 7px; border-radius: 12px;
   }
-  body:has(> .instrument-card) .notalix-home { grid-column: 1; grid-row: 1; min-height: 38px; padding: 6px 8px; font-size: 0; }
-  body:has(> .instrument-card) .notalix-home::first-letter { font-size: 18px; }
-  body:has(> .instrument-card) .notalix-brand { grid-column: 2; grid-row: 1; justify-self: center; }
+  body:has(> .instrument-card) .notalix-home { display: none; }
+  body:has(> .instrument-card) .notalix-brand { grid-column: 1; grid-row: 1; justify-self: center; }
   body:has(> .instrument-card) .notalix-site { display: none; }
   body:has(> .instrument-card) .notalix-module { display: none; }
+
+  /* Le rappel musical est la première chose utile à voir sur téléphone. */
+  body.instrument-intro-active .instrument-card { display: flex; flex-direction: column; }
+  body.instrument-intro-active .instrument-card > .home-link { order: 1; }
+  body.instrument-intro-active .instrument-card > h2 { order: 2; }
+  body.instrument-intro-active .instrument-card > .pedagogy { order: 3; }
+  body.instrument-intro-active .instrument-card > .open-strings-intro { order: 4; }
+  body.instrument-intro-active .instrument-card > .sound-summary { order: 5; }
+  body.instrument-intro-active .instrument-card > .live-sound-choice { order: 6; }
+  body.instrument-intro-active .instrument-card > .fingering-mode { order: 7; }
+  body.instrument-intro-active .instrument-card > .fingering-notice { order: 8; }
+  body.instrument-intro-active .instrument-card > .sound-loading,
+  body.instrument-intro-active .instrument-card > #quiz,
+  body.instrument-intro-active .instrument-card > #result { order: 9; }
 }
 
 @media (max-width: 700px) and (max-height: 900px) {
