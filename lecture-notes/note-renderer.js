@@ -64,7 +64,8 @@
     const context = renderer.getContext();
     const staveWidth = Math.min(width - 6, options.staveWidth || width - 6);
     const staveX = options.centerStave ? Math.round((width - staveWidth) / 2) : 3;
-    if (options.staveOffsetY) layout.staveY += options.staveOffsetY;
+    if (Number.isFinite(options.fixedStaveY)) layout.staveY = options.fixedStaveY;
+    else if (options.staveOffsetY) layout.staveY += options.staveOffsetY;
     const stave = new Stave(staveX, layout.staveY, staveWidth, options.lineSpacing ? { spacing_between_lines_px: options.lineSpacing } : undefined);
     stave.addClef(clef).setContext(context).draw();
 

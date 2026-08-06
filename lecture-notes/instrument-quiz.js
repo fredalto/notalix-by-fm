@@ -263,10 +263,13 @@
   }
   function finish() {
     document.getElementById("quiz").hidden = true;
-    document.getElementById("result").hidden = false;
+    const resultPanel = document.getElementById("result");
+    resultPanel.hidden = false;
     fingeringMode.hidden = true;
     document.getElementById("result-title").textContent = score >= 8 ? "Bravo !" : "Encore un effort !";
+    document.getElementById("result-score").textContent = `${score} / ${total}`;
     document.getElementById("result-text").textContent = `${score} bonne${score > 1 ? "s" : ""} réponse${score > 1 ? "s" : ""} sur ${total}.`;
+    if (matchMedia("(max-width: 700px)").matches) requestAnimationFrame(() => resultPanel.scrollIntoView({ behavior:"smooth", block:"start" }));
   }
   function sendScore() {
     if (scoreSent) return;
@@ -281,12 +284,12 @@
     const instrumentSelected = instrumentTeacher && instrumentTeacher !== "Aucun";
 
     if (!firstName || !lastName || (!fmSelected && !instrumentSelected)) {
-      confirmation.style.color = "red";
+      confirmation.className = "send-confirmation error";
       confirmation.textContent = "Merci de renseigner Prénom, Nom, et au moins un professeur (FM ou instrument).";
       return;
     }
     if (!window.LDN_ENDPOINT || window.LDN_ENDPOINT.includes("PASTE_YOUR_EXEC_URL_HERE")) {
-      confirmation.style.color = "red";
+      confirmation.className = "send-confirmation error";
       confirmation.textContent = "❌ URL d’envoi non configurée (config.js).";
       return;
     }
@@ -307,14 +310,15 @@
         scoreSent = true;
         loading.hidden = true;
         confirmation.style.color = "green";
-        confirmation.textContent = "✅ Score envoyé avec succès !";
+        confirmation.className = "send-confirmation success";
+        confirmation.textContent = "✓ Résultat envoyé au fichier de suivi.";
         button.disabled = true;
-        button.textContent = "Score déjà envoyé";
+        button.textContent = "Résultat envoyé";
       })
       .catch(() => {
         loading.hidden = true;
-        confirmation.style.color = "red";
-        confirmation.textContent = "❌ Une erreur est survenue pendant l’envoi.";
+        confirmation.className = "send-confirmation error";
+        confirmation.textContent = "L’envoi n’a pas abouti.";
       });
   }
   function restart() {
@@ -325,10 +329,11 @@
     scoreText.textContent=`Score : 0 / ${total}`;
     progress.style.width="0";
     document.getElementById("confirmation").textContent="";
+    document.getElementById("send-score").open=false;
     document.getElementById("loading-message").hidden=true;
     const sendButton=document.getElementById("send-score-button");
     sendButton.disabled=false;
-    sendButton.textContent="Envoyer";
+    sendButton.textContent="Envoyer mon résultat";
     renderCurrent();
   }
 
@@ -422,8 +427,10 @@
   startStringLevel.addEventListener("click", () => {
     openStringsIntro.hidden = true;
     document.body.classList.remove("instrument-intro-active");
-    document.getElementById("quiz").hidden = false;
+    const quizPanel = document.getElementById("quiz");
+    quizPanel.hidden = false;
     renderCurrent();
+    if (matchMedia("(max-width: 700px)").matches) requestAnimationFrame(() => quizPanel.scrollIntoView({ behavior:"smooth", block:"start" }));
   });
   fingeringMode.hidden = !hasFingeringHelp();
   fingeringNotice.textContent = instrument.fingeringNotice || "";

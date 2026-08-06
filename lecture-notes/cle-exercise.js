@@ -1,6 +1,6 @@
 (function(){
   "use strict";
-  const params=new URLSearchParams(location.search), challengeId=params.get("defi"), clefId=params.get("cle"), stageNumber=Math.max(1,Math.min(3,Number(params.get("etape"))||1));
+  const params=new URLSearchParams(location.search), challengeId=params.get("defi"), clefId=params.get("cle"), stageNumber=Math.max(1,Math.min(5,Number(params.get("etape"))||1));
   const NOTE_NAMES={C:"Do",D:"Ré",E:"Mi",F:"Fa",G:"Sol",A:"La",B:"Si"}, ORDER=["Do","Ré","Mi","Fa","Sol","La","Si"];
   const card=document.querySelector(".key-card"), title=document.getElementById("key-title"), purpose=document.getElementById("key-purpose"), quiz=document.getElementById("key-quiz"), reminder=document.getElementById("key-reminder"), result=document.getElementById("key-result"), noteTarget=document.getElementById("key-note"), answers=document.getElementById("key-answers"), badge=document.getElementById("clef-badge"), feedback=document.getElementById("key-feedback"), progress=document.getElementById("key-progress"), scoreText=document.getElementById("key-score");
   const challengeHud=document.getElementById("challenge-hud"), roundText=document.getElementById("challenge-round"), steps=document.getElementById("challenge-steps"), timeText=document.getElementById("challenge-time"), timeFill=document.getElementById("challenge-time-fill"), heartsText=document.getElementById("challenge-hearts"), recoveryText=document.getElementById("challenge-recovery");
@@ -9,6 +9,38 @@
   function sameNote(a,b){return a&&b&&a.written===b.written&&a.clef===b.clef;}
   function balanced(values,count){const out=[];while(out.length<count){let round=shuffle(values);if(out.length&&round.length>1&&sameNote(round[0],out.at(-1)))[round[0],round[1]]=[round[1],round[0]];out.push(...round);}return out.slice(0,count);}
   function notesForRound(round){return round.clefs.flatMap(id=>window.LDN_CLEFS[id].stages[round.stage].notes);}
+  function stageForRound(round){
+    const stages=round.clefs.map(id=>window.LDN_CLEFS[id].stages[round.stage]);
+    const groups={};
+    stages.forEach(stage=>Object.entries(stage.groups||{}).forEach(([name,notes])=>{groups[name]=(groups[name]||[]).concat(notes);}));
+    return {mode:stages[0]?.mode||"all",notes:stages.flatMap(stage=>stage.notes),groups};
+  }
+  function patterned(stage,count){
+    const patterns={
+      "landmark-adjacent":["landmarks","adjacent"],
+      "adjacent-thirds":["adjacent","thirds"],
+      "landmark-adjacent-thirds":["landmarks","adjacent","thirds"]
+    };
+    const pattern=patterns[stage.mode];
+    if(!pattern)return balanced(stage.notes,count);
+    const queues={};
+    const nextFrom=name=>{
+      const values=stage.groups?.[name]||[];
+      if(!values.length)return null;
+      if(!queues[name]?.length)queues[name]=shuffle(values);
+      let candidate=queues[name].shift();
+      return candidate;
+    };
+    const out=[];
+    for(let index=0;index<count;index++){
+      const name=pattern[index%pattern.length];
+      let candidate=nextFrom(name);
+      if(!candidate)candidate=balanced(stage.notes,1)[0];
+      if(sameNote(candidate,out.at(-1))){const alternatives=(stage.groups?.[name]||stage.notes).filter(item=>!sameNote(item,candidate));candidate=shuffle(alternatives)[0]||candidate;}
+      out.push(candidate);
+    }
+    return out;
+  }
   function setup(){
     if(isChallenge){
       challenge=window.LDN_CYCLES[challengeId];
@@ -22,13 +54,12 @@
     const config=window.LDN_CLEFS[clefId]; if(!config){location.href="index.html?mode=cle";return;}
     const stage=config.stages[stageNumber-1]; title.textContent=`${config.label} · ${stage.title}`;
     purpose.textContent="Pourquoi la travailler ? Pour repérer immédiatement la hauteur des notes, lire plus vite et changer de registre sans recompter les lignes.";
-    pool=stage.notes; total=[10,12,16][stageNumber-1]; sequence=balanced(pool,total); renderAnswers(); scoreText.textContent=`Score : 0 / ${total}`; showReminder(config,stage);
+    pool=stage.notes; total=[10,10,12,14,18][stageNumber-1]; sequence=patterned(stage,total); renderAnswers(); scoreText.textContent=`Score : 0 / ${total}`; showReminder(config,stage);
   }
   function showReminder(config,stage){
-    const previous=stageNumber>1?new Set(config.stages[stageNumber-2].notes.map(n=>n.written)):new Set();
-    const shown=stageNumber===1?stage.notes:stage.notes.filter(n=>!previous.has(n.written));
+    const shown=(stage.focus&&stage.focus.length?stage.focus:stage.notes);
     if(!shown.length){quiz.hidden=false;render();return;}
-    document.getElementById("reminder-title").textContent=stageNumber===1?"Les notes repères":"Les nouvelles notes";
+    document.getElementById("reminder-title").textContent=stageNumber===1?"Tes notes repères":stageNumber===4?"Tes points d’appui":stageNumber===5?"Toute la clé":"Les notes de ce niveau";
     const holder=document.getElementById("reminder-staff"),notation=document.createElement("div"),labels=document.createElement("div"); notation.className="open-strings-staff";labels.className="open-strings-labels";
     shown.forEach((n,i)=>{const s=document.createElement("span"),r=shown.length===1?.5:i/(shown.length-1);s.textContent=NOTE_NAMES[n.written[0]];s.style.left=`${30+48*r}%`;labels.appendChild(s);});
     holder.replaceChildren(notation,labels); window.LDNNoteRenderer.renderNotes(notation,{notes:shown.map(n=>n.written),clef:shown[0].clef,width:560,minHeight:175,lineSpacing:18,noteScale:1}); reminder.hidden=false;
@@ -38,14 +69,14 @@
     ORDER.filter(n=>available.has(n)).forEach(name=>{const b=document.createElement("button");b.textContent=name;b.onclick=()=>answer(name);answers.appendChild(b);});
   }
   function startRound(index){
-    clearInterval(timerId); roundIndex=index; roundCorrect=0; current=0; waiting=false; const round=challenge.rounds[roundIndex]; pool=notesForRound(round); sequence=balanced(pool,Math.max(round.target*3,24)); timeLeft=round.time; feedback.textContent=""; updateChallengeHud(); render(); startTimer();
+    clearInterval(timerId); roundIndex=index; roundCorrect=0; current=0; waiting=false; const round=challenge.rounds[roundIndex],roundStage=stageForRound(round); pool=roundStage.notes; sequence=patterned(roundStage,Math.max(round.target*3,24)); timeLeft=round.time; feedback.textContent=""; updateChallengeHud(); render(); startTimer();
   }
   function startTimer(){
     clearInterval(timerId); timerId=setInterval(()=>{if(waiting)return; timeLeft--; updateChallengeHud(); if(timeLeft<=0)loseHeart("⏱ Temps écoulé : un cœur perdu",true);},1000);
   }
   function render(){
     if(current>=sequence.length)sequence.push(...balanced(pool,24)); const n=sequence[current],config=window.LDN_CLEFS[n.clef]; badge.textContent=config.label;
-    window.LDNNoteRenderer.renderNote(noteTarget,{note:n.written,clef:n.clef,rangeNotes:pool.filter(x=>x.clef===n.clef).map(x=>x.written),adaptive:true,compact:true,minHeight:170,width:150,staveWidth:112,centerStave:true,staveOffsetY:15,lineSpacing:22,noteScale:1});
+    window.LDNNoteRenderer.renderNote(noteTarget,{note:n.written,clef:n.clef,adaptive:false,height:205,fixedStaveY:38,width:150,staveWidth:112,centerStave:true,lineSpacing:18,noteScale:1});
     feedback.textContent=""; waiting=false; answers.querySelectorAll("button").forEach(b=>b.disabled=false);
   }
   function answer(name){
@@ -79,10 +110,11 @@
     document.getElementById("key-result-score").textContent=isChallenge?`${score} bonnes réponses`:`${score} / ${total}`;
     document.getElementById("key-result-text").textContent=isChallenge?(reason||`${challenge.label} terminé.`):`${score} bonne${score>1?"s":""} réponse${score>1?"s":""} sur ${total}.`;
     const home=document.getElementById("key-result-home");home.href=isChallenge?"index.html?mode=defi":"index.html?mode=cle";home.textContent=isChallenge?"Choisir un autre défi":"Choisir une autre clé";
+    if(matchMedia("(max-width: 700px)").matches)requestAnimationFrame(()=>result.scrollIntoView({behavior:"smooth",block:"start"}));
   }
   function sendResult(){
     if(scoreSent)return;const first=document.getElementById("key-prenom").value.trim(),last=document.getElementById("key-nom").value.trim(),fm=document.getElementById("key-prof-fm").value,instrumentTeacher=document.getElementById("key-prof-instrument").value,confirmation=document.getElementById("key-send-confirmation"),button=document.getElementById("key-send-button");
-    if(!first||!last||fm==="Aucun"){confirmation.className="send-confirmation error";confirmation.textContent="Indique ton prénom, ton nom et ton professeur de FM.";return;}
+    if(!first||!last||(fm==="Aucun"&&instrumentTeacher==="Aucun")){confirmation.className="send-confirmation error";confirmation.textContent="Indique ton prénom, ton nom et au moins un professeur.";return;}
     if(!window.LDN_ENDPOINT){confirmation.className="send-confirmation error";confirmation.textContent="L’envoi n’est pas configuré.";return;}
     const data=new URLSearchParams();data.append("prenom",first);data.append("nom",last);data.append("exercice","Lecture de notes");data.append("type",isChallenge?`defi_${challengeId}`:`cle_${clefId}_etape${stageNumber}`);data.append("score",`${Math.round(score/total*100)}%`);data.append("prof_fm",fm);data.append("prof_instrument",instrumentTeacher);
     button.disabled=true;button.textContent="Envoi en cours…";confirmation.textContent="";
@@ -97,5 +129,5 @@
     const button=[...answers.querySelectorAll("button")].find(candidate=>candidate.textContent.trim()===name);
     if(!button||button.disabled)return;event.preventDefault();button.click();
   });
-  document.getElementById("start-key").onclick=()=>{reminder.hidden=true;quiz.hidden=false;render();}; document.getElementById("key-restart").onclick=()=>location.reload();document.getElementById("key-send-button").onclick=sendResult; setup();
+  document.getElementById("start-key").onclick=()=>{reminder.hidden=true;quiz.hidden=false;render();if(matchMedia("(max-width: 700px)").matches)requestAnimationFrame(()=>quiz.scrollIntoView({behavior:"smooth",block:"start"}));}; document.getElementById("key-restart").onclick=()=>location.reload();document.getElementById("key-send-button").onclick=sendResult; setup();
 }());

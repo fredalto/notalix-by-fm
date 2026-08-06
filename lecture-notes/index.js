@@ -3,6 +3,11 @@ let cleChoisie = '';
 let niveauChoisi = 0;
 let defiChoisi = '';
 
+function scrollToStep(element) {
+  if (!element || !matchMedia('(max-width: 760px)').matches) return;
+  requestAnimationFrame(() => setTimeout(() => element.scrollIntoView({ behavior:'smooth', block:'start' }), 40));
+}
+
 const KEY_CONTEXTS = {
   sol: '<strong>Clé de Sol</strong><span>Indispensable au violon et à de nombreux instruments aigus. Elle sert aussi à la main droite des claviers et aide à lire une partition d’ensemble.</span>',
   fa: '<strong>Clé de Fa</strong><span>Indispensable aux instruments graves, à la main gauche des claviers et notamment aux timbales. Elle permet aussi de comprendre la basse et les fondations harmoniques d’une partition.</span>',
@@ -34,6 +39,7 @@ function hideAllFadeSections() {
    Choix du mode (Clé / Instruments / Défi)
    ============================ */
 function choisirMode(button, mode) {
+  window.scrollTo(0, 0);
   // visuel bouton
   document.querySelectorAll('.mode-buttons button').forEach(btn => btn.classList.remove('selected'));
   button.classList.add('selected');
@@ -50,7 +56,10 @@ function choisirMode(button, mode) {
 
   // affiche la bonne section
   hideAllFadeSections();
-  setTimeout(() => showFadeSection(`etape-${mode}`), 300);
+  setTimeout(() => {
+    showFadeSection(`etape-${mode}`);
+    scrollToStep(document.getElementById(`etape-${mode}`));
+  }, 300);
 }
 
 /* ============================
@@ -73,6 +82,7 @@ function setCle(button, cle) {
     context.classList.add('hidden-soft');
   }
   document.getElementById('go-button')?.classList.add('hidden');
+  scrollToStep(document.getElementById('key-stages'));
 }
 function selectNiveau(n) {
   niveauChoisi = n;
@@ -254,6 +264,7 @@ function selectFamille(famille) {
     document.getElementById('bloc-instruments').classList.remove('hidden-soft');
     document.getElementById('titre-instruments').textContent = FAMILY_LABELS[famille] || 'Instruments';
     renderInstrumentTiles(direct);
+    scrollToStep(document.getElementById('bloc-instruments'));
     return;
   }
   const container = document.getElementById('sousfamilles-container');
@@ -266,6 +277,7 @@ function selectFamille(famille) {
     button.addEventListener('click', () => selectSousFamille(subfamily.id, button));
     container.appendChild(button);
   });
+  scrollToStep(document.getElementById('bloc-sousfamilles'));
 }
 
 function selectSousFamille(sf, selectedButton) {
@@ -275,6 +287,7 @@ function selectSousFamille(sf, selectedButton) {
   document.getElementById('bloc-instruments').classList.remove('hidden-soft');
   document.getElementById('titre-instruments').textContent = sf === 'bois' ? 'Bois' : sf === 'cuivres' ? 'Cuivres' : sf === 'frottees' ? 'Cordes frottées' : 'Cordes pincées';
   renderInstrumentTiles(list);
+  scrollToStep(document.getElementById('bloc-instruments'));
 }
 
 function renderInstrumentTiles(liste) {
@@ -323,7 +336,7 @@ function selectInstrument(id) {
     cont.appendChild(button);
   });
 
-  document.getElementById('instrument-selection-summary').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  scrollToStep(document.getElementById('bloc-niveaux'));
 }
 
 function selectInstrumentLevel(levelNumber) {
@@ -359,6 +372,8 @@ function launchInstrumentLevel() {
    Accessibilité légère pour clavier
    ============================ */
 document.addEventListener('DOMContentLoaded', () => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
   document.querySelectorAll('[data-tutorial-open]').forEach(button => {
     button.addEventListener('click', () => {
       const dialog = document.getElementById(button.dataset.tutorialOpen);
