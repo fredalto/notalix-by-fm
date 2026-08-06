@@ -4,12 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lecture de Notes</title>
-  <link rel="stylesheet" href="unified.css">
-  <link rel="stylesheet" href="../notalix-theme.css">
-  <script defer src="../notalix-shell.js"></script>
+  <link rel="stylesheet" href="unified.css?v=0.6.0-0806d">
+  <link rel="stylesheet" href="../notalix-theme.css?v=0.6.0-0806b">
+  <script defer src="../notalix-shell.js?v=0.6.0-0806b"></script>
 </head>
 <body>
 <div class="section">
+    <nav class="tutorial-entry" aria-label="Aide pour utiliser le module">
+      <span>Première visite&nbsp;?</span>
+      <button type="button" data-tutorial-open="tutorial-eleve">🎓 Tutoriel élève</button>
+      <button type="button" data-tutorial-open="tutorial-parents">👪 Guide parents</button>
+    </nav>
     <!-- MODE DE JEU -->
     <div class="mode-buttons">
       <p>Choisissez un mode de jeu pour travailler la lecture de notes :</p>
@@ -22,158 +27,134 @@
 
     <!-- SECTION CLÉS -->
     <div id="etape-cle" class="step-container fade hidden">
-      <h3>Choisissez une clé</h3>
-      <div id="cle-buttons"
-           style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;margin:0 auto;">
-        <button style="width:100%;" onclick="setCle(this, 'sol')">Sol</button>
-        <button style="width:100%;" onclick="setCle(this, 'fa')">Fa</button>
-        <button style="width:100%;" onclick="setCle(this, 'ut3')">Ut3</button>
-        <button style="width:100%;" onclick="setCle(this, 'ut4')">Ut4</button>
+      <div class="path-heading"><span class="path-icon" aria-hidden="true">♪</span><div><p class="path-kicker">À toi de jouer</p><h3 id="key-choice-title">Choisis ta clé</h3></div></div>
+      <p class="instrument-intro key-purpose-intro">Commence par la clé de ton instrument, puis découvre les autres à ton rythme.</p>
+      <div id="cle-buttons" class="key-cycle-list">
+        <button data-clef-symbol="𝄞" onclick="setCle(this, 'sol')"><strong>Clé de Sol</strong><small>Les instruments aigus</small></button>
+        <button data-clef-symbol="𝄢" onclick="setCle(this, 'fa')"><strong>Clé de Fa</strong><small>Les instruments graves</small></button>
+        <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut3')"><strong>Ut 3e</strong><small>La clé de l’alto</small></button>
+        <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut4')"><strong>Ut 4e</strong><small>Le registre aigu des graves</small></button>
+        <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut1')"><strong>Ut 1re</strong><small>Registre soprano</small></button>
+        <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut2')"><strong>Ut 2e</strong><small>Registre mezzo-soprano</small></button>
+        <button data-clef-symbol="𝄢" onclick="setCle(this, 'fa3')"><strong>Fa 3e</strong><small>Registre baryton</small></button>
+      </div>
+      <div id="key-context" class="key-context hidden-soft" aria-live="polite"></div>
+      <div id="key-stages" class="hidden-soft">
+        <div class="key-stage-heading"><button type="button" onclick="backToKeyChoice()">← Changer de clé</button><h4>Choisis ta mission</h4></div>
+        <div class="levels-row">
+          <button class="instrument-level-card" onclick="selectNiveau(1)"><span class="level-number">1</span><strong>Notes repères</strong><span>Je pose mes bases</span></button>
+          <button class="instrument-level-card" onclick="selectNiveau(2)"><span class="level-number">2</span><strong>Autour des repères</strong><span>Je vais plus loin</span></button>
+          <button class="instrument-level-card" onclick="selectNiveau(3)"><span class="level-number">3</span><strong>Lecture étendue</strong><span>Je maîtrise la clé</span></button>
+        </div>
+        <button id="go-button" type="button" class="hidden launch-instrument-level" onclick="lancerExercice()">Commencer</button>
       </div>
     </div>
 
-    <!-- SECTION NIVEAUX (pour le mode "Clé") -->
-<div id="etape-niveau" class="step-container fade hidden">
-  <h3>Niveau de l'exercice</h3>
-  <div id="niveaux"
-       style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;grid-auto-rows:1fr;align-items:stretch;">
-    <div class="niveau-card" onclick="selectNiveau(1)">
-      <strong style="display:block;text-align:center;margin-bottom:6px;">Niveau 1</strong>
-      <span>Les notes repères</span>
-    </div>
-    <div class="niveau-card" onclick="selectNiveau(2)">
-      <strong style="display:block;text-align:center;margin-bottom:6px;">Niveau 2</strong>
-      <span>Repères + conjointes</span>
-    </div>
-    <div class="niveau-card" onclick="selectNiveau(3)">
-      <strong style="display:block;text-align:center;margin-bottom:6px;">Niveau 3</strong>
-      <span>Repères + tierces</span>
-    </div>
-    <div class="niveau-card" onclick="selectNiveau(4)">
-      <strong style="display:block;text-align:center;margin-bottom:6px;">Niveau 4</strong>
-      <span>Repères + conjointes + tierces</span>
-    </div>
-    <div class="niveau-card" style="grid-column:1 / -1;justify-self:center;width:min(100%,420px);" onclick="selectNiveau(5)">
-      <strong style="display:block;text-align:center;margin-bottom:6px;">Niveau 5</strong>
-      <span>Toutes les notes</span>
-    </div>
-  </div>
-  <button id="go-button" type="button" class="hidden" onclick="lancerExercice()">On y va 🚀</button>
-</div>
 
-
-    <!-- ===== INSTRUMENTS (famille -> sous-famille -> instrument -> niveaux) ===== -->
+    <!-- ===== INSTRUMENTS ===== -->
     <div id="etape-instrument" class="step-container fade hidden">
-      <h3>Instruments</h3>
-      <p style="font-size:16px; line-height:1.6; max-width:800px;">
-        Choisis une famille, puis ton instrument. Une sous-famille est proposée uniquement lorsqu’elle est utile.
-      </p>
+      <h3 id="instrument-section-title">Choisis ton instrument</h3>
+      <p class="instrument-intro">Choisis une famille, puis ton instrument et ton niveau.</p>
       <div id="instrument-selection-summary" class="instrument-selection-summary hidden-soft">
-        <span>Instrument choisi : <strong id="selected-instrument-label"></strong></span>
-        <button type="button" onclick="changeInstrumentSelection()">Changer d’instrument</button>
+        <button type="button" onclick="changeInstrumentSelection()">← Changer d’instrument</button>
+      </div>
+      <div class="families-row" role="listbox" aria-label="Filtrer par famille">
+        <button class="tile" type="button" data-famille="cordes" onclick="selectFamille('cordes')">🎻 Cordes</button>
+        <button class="tile" type="button" data-famille="vents" onclick="selectFamille('vents')">🎺 Vents</button>
+        <button class="tile" type="button" data-famille="claviers-soufflets" onclick="selectFamille('claviers-soufflets')">🎹 Claviers</button>
+        <button class="tile" type="button" data-famille="musique-ancienne" onclick="selectFamille('musique-ancienne')">🪶 Musique ancienne</button>
+        <button class="tile" type="button" data-famille="musique-traditionnelle" onclick="selectFamille('musique-traditionnelle')">🎶 Musique traditionnelle</button>
+        <button class="tile" type="button" data-famille="musiques-actuelles-jazz" onclick="selectFamille('musiques-actuelles-jazz')">🎸 Actuelles & jazz</button>
       </div>
 
-      <style>
-        .families-row, .subfamilies-row, .instruments-row, .levels-row {
-          display:grid; gap:10px; max-width:900px; margin:14px auto 0;
-          grid-template-columns: repeat(1, minmax(0,1fr));
-        }
-        @media (min-width:640px){ .families-row,.subfamilies-row,.instruments-row,.levels-row{ grid-template-columns:repeat(2,1fr);} }
-        @media (min-width:1024px){ .families-row,.subfamilies-row,.instruments-row,.levels-row{ grid-template-columns:repeat(3,1fr);} }
-
-        .tile {
-          border:1px solid #e3e3e3; border-radius:14px; padding:14px;
-          background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.04);
-          text-align:center; cursor:pointer; user-select:none;
-          transition:transform .14s ease, box-shadow .2s ease, border-color .2s ease;
-          font-weight:700;
-        }
-        .tile:hover { transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.12); }
-        .tile.selected { border-color:#4CAF50; }
-        .tile.disabled { opacity:.5; cursor:not-allowed; }
-
-        .levels-row .button.level {
-          display:inline-block; text-align:center; border-radius:999px;
-          padding:10px 16px; font-weight:800; border:1px solid #cfd6dc;
-          background: linear-gradient(180deg,#ffffff,#f5f7f9);
-          box-shadow: 0 1px 0 rgba(0,0,0,.04), inset 0 0 0 1px rgba(255,255,255,.6);
-          transition: transform .08s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
-        }
-        .levels-row .button.level:hover {
-          transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,.12);
-          background: linear-gradient(180deg,#ffffff,#eef2f6); border-color:#b9c2c9;
-        }
-        .levels-row .button.level:active {
-          transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,.12) inset;
-        }
-        .levels-row .button.level.disabled {
-          opacity:.5; cursor:not-allowed; background:#f4f6f8;
-          box-shadow:none; border-color:#e3e6ea;
-        }
-
-        .hidden-soft { display:none; }
-      </style>
-
-      <!-- Étape 1 : familles -->
-      <h4 style="margin-top:18px;">1) Choisis une famille</h4>
-      <div class="families-row" role="listbox" aria-label="Familles d'instruments">
-        <div class="tile" role="option" tabindex="0" data-famille="cordes"              onclick="selectFamille('cordes')">🎻 Cordes</div>
-        <div class="tile" role="option" tabindex="0" data-famille="vents"                onclick="selectFamille('vents')">🌬️ Vents</div>
-        <div class="tile" role="option" tabindex="0" data-famille="claviers-soufflets"   onclick="selectFamille('claviers-soufflets')">🎹 Claviers</div>
-        <div class="tile" role="option" tabindex="0" data-famille="musique-ancienne"      onclick="selectFamille('musique-ancienne')">🪶 Musique ancienne</div>
-      </div>
-
-      <!-- Étape 2 : sous-familles -->
       <div id="bloc-sousfamilles" class="hidden-soft">
-        <h4 style="margin-top:18px;">2) Choisis une sous-famille</h4>
+        <h4>Choisis une sous-famille</h4>
         <div id="sousfamilles-container" class="subfamilies-row" aria-label="Sous-familles"></div>
       </div>
 
-      <!-- Étape 3 : instruments -->
       <div id="bloc-instruments" class="hidden-soft">
-        <h4 id="titre-instruments" style="margin-top:18px;">3) Choisis un instrument</h4>
+        <h4 id="titre-instruments">Choisis un instrument</h4>
         <div id="instruments-container" class="instruments-row" aria-label="Instruments"></div>
       </div>
 
-      <!-- Étape 4 : niveaux / exercice -->
       <div id="bloc-niveaux" class="hidden-soft">
-        <h4 id="titre-niveaux" style="margin-top:18px;">4) Choisis ton niveau</h4>
+        <h4 id="titre-niveaux">1. Choisis ton niveau</h4>
         <div id="levels-container" class="levels-row" aria-label="Niveaux"></div>
       </div>
     </div>
 
     <!-- SECTION DÉFIS -->
     <div id="etape-defi" class="step-container fade hidden">
-      <h3>Relève ton défi !</h3>
-      <div id="defi-cles"
-           style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;grid-auto-rows:1fr;align-items:stretch;">
-        <div class="defi-card" onclick="selectDefi(this, 'sol')">
-          <strong style="display:block;text-align:center;margin-bottom:6px;">Défi Sol</strong>
-          <span>Deviens le roi de la clé de Sol !</span>
-        </div>
-        <div class="defi-card" onclick="selectDefi(this, 'fa')">
-          <strong style="display:block;text-align:center;margin-bottom:6px;">Défi Fa</strong>
-          <span>Maîtrise les notes graves comme un·e pro !</span>
-        </div>
-        <div class="defi-card" onclick="selectDefi(this, 'ut3')">
-          <strong style="display:block;text-align:center;margin-bottom:6px;">Défi Ut3</strong>
-          <span>Prouve que tu domines l’alto !</span>
-        </div>
-        <div class="defi-card" onclick="selectDefi(this, 'ut4')">
-          <strong style="display:block;text-align:center;margin-bottom:6px;">Défi Ut4</strong>
-          <span>Pour les fans de la clé de ténor !</span>
-        </div>
-        <div id="defi-ultime" class="defi-card" style="background-color:gold;color:black;font-weight:bold;" onclick="selectDefi(this, 'ultime')">
-          <strong style="display:block;text-align:center;margin-bottom:6px;">Défi Ultime</strong>
-          <span>Le dieu de la lecture de notes, c’est toi ?</span>
-        </div>
+      <div class="path-heading challenge-heading"><span class="path-icon" aria-hidden="true">★</span><div><p class="path-kicker">Mode jeu</p><h3>Relève ton défi !</h3></div></div>
+      <p class="challenge-promise"><b>3 cœurs</b><span>♥</span><b>Un chrono</b><span>⏱</span><b>À toi de jouer !</b></p>
+      <div id="defi-cles" class="challenge-board">
+        <section aria-labelledby="defis-une-cle">
+          <h4 id="defis-une-cle">Choisis une clé</h4>
+          <div class="solo-challenges">
+            <button class="defi-card" data-defi-symbol="𝄞" onclick="selectDefi(this, 'sol')"><strong>Sol</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa')"><strong>Fa</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄡" onclick="selectDefi(this, 'ut3')"><strong>Ut 3e</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄡" onclick="selectDefi(this, 'ut4')"><strong>Ut 4e</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄡" onclick="selectDefi(this, 'ut1')"><strong>Ut 1re</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄡" onclick="selectDefi(this, 'ut2')"><strong>Ut 2e</strong><span>3 manches</span></button>
+            <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa3')"><strong>Fa 3e</strong><span>3 manches</span></button>
+          </div>
+        </section>
+        <section class="mixed-challenges" aria-labelledby="defis-melanges">
+          <h4 id="defis-melanges">Ou mélange tout !</h4>
+          <div>
+            <button class="defi-card" data-defi-symbol="2" onclick="selectDefi(this, 'solfa')"><strong>Sol + Fa</strong><span>5 manches</span></button>
+            <button class="defi-card" data-defi-symbol="4" onclick="selectDefi(this, 'cycle2')"><strong>4 clés</strong><span>7 manches</span></button>
+            <button class="defi-card ultimate" data-defi-symbol="★" onclick="selectDefi(this, 'cycle3')"><strong>7 clés</strong><span>Défi ultime</span></button>
+          </div>
+        </section>
       </div>
-      <button id="go-button-defi" class="hidden" onclick="lancerDefiChoisi()">On y va 🚀</button>
+      <button id="go-button-defi" class="hidden launch-instrument-level" onclick="lancerDefiChoisi()">Commencer le défi</button>
     </div>
   </div>
 
-  <script src="config.js"></script>
-  <script src="instrument-config.js"></script>
-  <script src="index.js"></script>
+  <dialog id="tutorial-eleve" class="tutorial-dialog" aria-labelledby="tutorial-eleve-title">
+    <article class="tutorial-shell">
+      <header class="tutorial-header">
+        <div><span class="tutorial-kicker">Tutoriel élève</span><h2 id="tutorial-eleve-title">Apprendre à lire les notes</h2></div>
+        <button type="button" class="tutorial-close" data-tutorial-close aria-label="Fermer le tutoriel">×</button>
+      </header>
+      <p class="tutorial-lead">Choisis ton parcours, observe la note, puis réponds à ton rythme. Tu peux recommencer autant de fois que tu veux.</p>
+      <div class="tutorial-grid">
+        <section class="tutorial-card"><span class="tutorial-number">1</span><h3>Choisis un parcours</h3><p><strong>Clé</strong> pour apprendre les repères, <strong>Instruments</strong> pour travailler comme sur ton instrument, ou <strong>Défi</strong> pour jouer contre le temps.</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">2</span><h3>Regarde avant de commencer</h3><p>Dans Clé et Instruments, les notes nouvelles sont présentées avant l’exercice. Prends le temps de les observer.</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">3</span><h3>Lis et réponds</h3><p>Lis la note sur la portée, puis touche son nom. Les réponses restent rangées dans l’ordre musical&nbsp;: Do, Ré, Mi, Fa, Sol, La, Si.</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">4</span><h3>Utilise les aides</h3><p>Pour un instrument, tu peux écouter le piano ou ton instrument sans recommencer. Le doigté est facultatif&nbsp;: aucun, après ta réponse ou toujours.</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">5</span><h3>Joue le Défi</h3><p>Les manches deviennent progressivement plus difficiles. Le chronomètre et les cœurs sont réservés au Défi. Une série de bonnes réponses peut rendre un cœur.</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">6</span><h3>Ton résultat t’appartient</h3><p>Le score sert à voir tes progrès. Il n’est pas envoyé automatiquement&nbsp;: c’est toi qui décides si tu souhaites le partager.</p></section>
+      </div>
+      <button type="button" class="tutorial-primary" data-tutorial-close>J’ai compris, je commence</button>
+    </article>
+  </dialog>
+
+  <dialog id="tutorial-parents" class="tutorial-dialog" aria-labelledby="tutorial-parents-title">
+    <article class="tutorial-shell">
+      <header class="tutorial-header">
+        <div><span class="tutorial-kicker">Guide parents</span><h2 id="tutorial-parents-title">Accompagner sans mettre de pression</h2></div>
+        <button type="button" class="tutorial-close" data-tutorial-close aria-label="Fermer le guide">×</button>
+      </header>
+      <p class="tutorial-lead">NOTALIX est un outil gratuit d’entraînement. Il complète le cours et les conseils du professeur, sans les remplacer.</p>
+      <div class="tutorial-grid tutorial-grid-parents">
+        <section class="tutorial-card"><h3>Des séances courtes</h3><p>Quelques minutes régulières valent mieux qu’une longue séance. Laissez l’élève chercher, se tromper et recommencer.</p></section>
+        <section class="tutorial-card"><h3>Un score, pas une note scolaire</h3><p>Le résultat indique seulement le nombre de bonnes réponses. Il sert de repère personnel, sans classement ni jugement.</p></section>
+        <section class="tutorial-card"><h3>Un partage facultatif</h3><p>Le résultat appartient à l’élève. Rien n’est envoyé automatiquement&nbsp;: l’élève choisit explicitement s’il souhaite le transmettre à son professeur.</p></section>
+        <section class="tutorial-card"><h3>Apprendre puis jouer</h3><p>Les parcours Clé et Instruments présentent les nouveaux éléments et fonctionnent sans chronomètre. Le Défi ajoute progression, temps et cœurs.</p></section>
+        <section class="tutorial-card"><h3>Respecter l’instrument</h3><p>Clé, tessiture, doigtés et transposition sont adaptés à l’instrument. Pour un instrument transpositeur, l’élève peut comparer le son du piano à celui de son instrument pendant l’exercice.</p></section>
+        <section class="tutorial-card"><h3>Gratuit et sans compte</h3><p>Le module est accessible gratuitement, sans publicité, sans formule premium et sans compte élève obligatoire.</p></section>
+      </div>
+      <p class="tutorial-note">Commence simplement, puis avance lorsque les notes deviennent familières.</p>
+      <button type="button" class="tutorial-primary" data-tutorial-close>Fermer le guide</button>
+    </article>
+  </dialog>
+
+  <script src="config.js?v=0.6.0-0806b"></script>
+  <script src="instrument-config.js?v=0.6.0-0806b"></script>
+  <script src="cle-config.js?v=0.6.0-0806d"></script>
+  <script src="index.js?v=0.6.0-0806d"></script>
 </body>
 </html>

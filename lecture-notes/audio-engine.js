@@ -65,22 +65,23 @@
     );
   }
 
-  function soundingMidi(note, instrument) {
-    return midi(note.written) + (instrument.transpose || 0);
+  function soundingMidi(note, instrument, timbre) {
+    return midi(note.written) + (timbre === "instrument" ? (instrument.transpose || 0) : 0);
   }
 
   async function preloadForLevel(instrumentId, level, timbre, onProgress) {
     const instrument = window.LDN_INSTRUMENTS[instrumentId];
+    const soundId = instrument.soundId || instrumentId;
     const urls = new Set(["sounds/duck.mp3"]);
-    if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
-      const noteFiles = window.LDN_INSTRUMENT_BANKS[instrumentId].notes;
+    if (timbre === "instrument" && soundId !== "piano" && window.LDN_INSTRUMENT_BANKS[soundId]) {
+      const noteFiles = window.LDN_INSTRUMENT_BANKS[soundId].notes;
       level.notes.forEach(note => {
-        const targetMidi = soundingMidi(note, instrument);
+        const targetMidi = soundingMidi(note, instrument, timbre);
         if (noteFiles[targetMidi]) urls.add(noteFiles[targetMidi]);
       });
     } else {
       level.notes.forEach(note => {
-        const sample = pianoSourceFor(soundingMidi(note, instrument));
+        const sample = pianoSourceFor(soundingMidi(note, instrument, timbre));
         urls.add(`sounds/${sample.code}.mp3`);
       });
     }
@@ -115,8 +116,10 @@
 
   async function playWithHtmlAudio(note, instrumentId, timbre, targetMidi) {
     stopActive();
-    if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
-      const bank = window.LDN_INSTRUMENT_BANKS[instrumentId];
+    const instrument = window.LDN_INSTRUMENTS[instrumentId];
+    const soundId = instrument.soundId || instrumentId;
+    if (timbre === "instrument" && soundId !== "piano" && window.LDN_INSTRUMENT_BANKS[soundId]) {
+      const bank = window.LDN_INSTRUMENT_BANKS[soundId];
       const noteFile = bank.notes[targetMidi];
       if (!noteFile) throw new Error(`Son instrumental absent : ${instrumentId} ${targetMidi}`);
       const audio = await loadHtmlAudio(noteFile);
@@ -141,13 +144,14 @@
 
   async function playNote(note, instrumentId, timbre) {
     const instrument = window.LDN_INSTRUMENTS[instrumentId];
-    const targetMidi = soundingMidi(note, instrument);
+    const soundId = instrument.soundId || instrumentId;
+    const targetMidi = soundingMidi(note, instrument, timbre);
     if (useFileFallback || !context) return playWithHtmlAudio(note, instrumentId, timbre, targetMidi);
     await resume();
     stopActive();
 
-    if (timbre === "instrument" && instrumentId !== "piano" && window.LDN_INSTRUMENT_BANKS[instrumentId]) {
-      const bank = window.LDN_INSTRUMENT_BANKS[instrumentId];
+    if (timbre === "instrument" && soundId !== "piano" && window.LDN_INSTRUMENT_BANKS[soundId]) {
+      const bank = window.LDN_INSTRUMENT_BANKS[soundId];
       const noteFile = bank.notes[targetMidi];
       if (!noteFile) throw new Error(`Son instrumental absent : ${instrumentId} ${targetMidi}`);
       const source = context.createBufferSource();

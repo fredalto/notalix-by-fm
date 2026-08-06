@@ -250,6 +250,14 @@ html, body { overflow-x: hidden; }
   line-height: 1.35;
 }
 .instrument-level-card.selected small { color: #eef7ff; }
+.instrument-level-card .level-action { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 9px; color: #1769bd; border-top: 1px solid #dce8f2; font-size: 13px; font-weight: 900; }
+.instrument-level-card .level-action b { display: grid; place-items: center; width: 25px; height: 25px; color: #fff; background: #2584d5; border-radius: 50%; font-size: 15px; }
+.instrument-level-card.selected .level-action { color: #fff; border-top-color: rgba(255,255,255,.3); }
+.instrument-level-card.selected .level-action b { color: #1769bd; background: #fff; }
+#bloc-niveaux > h4 { width: fit-content; margin: 12px auto 14px; padding: 8px 15px; color: #175f9f; background: #edf7ff; border-radius: 999px; }
+#bloc-niveaux.awaiting-level > h4 { animation: levelPrompt 1.25s ease-in-out infinite alternate; }
+#bloc-niveaux.awaiting-level .instrument-level-card { border-color: #a9cfea; }
+@keyframes levelPrompt { to { color: #fff; background: #2584d5; box-shadow: 0 0 0 5px rgba(37,132,213,.12); } }
 .instrument-launcher {
   max-width: 650px;
   margin: 18px auto 0;
@@ -409,4 +417,593 @@ html, body { overflow-x: hidden; }
 @media (max-width: 900px) {
   #etape-instrument.instrument-ready .instrument-launcher { grid-template-columns: 1fr 1fr; }
   #etape-instrument.instrument-ready .timbre-explanation { grid-column: 1 / -1; }
+}
+.instrument-intro { margin: 4px auto 12px; color: #53677b; }
+.families-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 900px;
+  margin: 12px auto 18px;
+}
+.families-row .tile {
+  width: auto;
+  margin: 0;
+  padding: 9px 16px;
+  color: #23435f;
+  background: #eef4f9;
+  border: 1px solid #d4e1eb;
+  border-radius: 999px;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.families-row .tile.selected { color: #fff; background: #1f6fc9; border-color: #1f6fc9; }
+.instruments-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 9px;
+  max-width: 900px;
+  margin: 10px auto 0;
+}
+.instruments-row .tile {
+  margin: 0;
+  padding: 12px 10px;
+  color: #17304e;
+  background: #fff;
+  border: 1px solid #d8e3ec;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(23,48,78,.06);
+  font-weight: 800;
+  cursor: pointer;
+}
+.instruments-row .tile:hover { border-color: #78aee3; transform: translateY(-1px); }
+.instruments-row .tile.selected { color: #fff; background: #1f6fc9; border-color: #1f6fc9; }
+.levels-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; max-width: 980px; margin: 10px auto 0; }
+.hidden-soft { display: none !important; }
+
+/* Parcours Instruments : familles lisibles, sous-familles utiles, lancement compact */
+.families-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 980px;
+}
+.families-row .tile {
+  min-height: 68px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 16px;
+  box-shadow: 0 6px 16px rgba(23,48,78,.07);
+}
+.subfamilies-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 280px));
+  justify-content: center;
+  gap: 12px;
+  margin: 10px auto 18px;
+}
+.subfamilies-row .tile {
+  margin: 0;
+  padding: 13px 18px;
+  color: #17304e;
+  background: #eef4f9;
+  border: 2px solid #d4e1eb;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.subfamilies-row .tile.selected { color: #fff; background: #1f6fc9; border-color: #1f6fc9; }
+.instruments-row .tile { display: grid; gap: 4px; align-content: center; }
+.instruments-row .tile small { color: #7b5a20; font-size: 11px; font-weight: 800; }
+.instruments-row .tile.disabled { cursor: default; opacity: .68; background: #f3f5f7; }
+#etape-instrument.instrument-ready .instrument-selection-summary {
+  max-width: 720px;
+  justify-content: flex-end;
+  margin: -4px auto 10px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+#etape-instrument.instrument-ready .instrument-launcher {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) auto;
+  gap: 8px 18px;
+  max-width: 850px;
+  padding: 8px 0 0;
+  background: transparent;
+  border: 0;
+}
+.sound-setting { display: flex; align-items: center; justify-content: center; gap: 14px; }
+#etape-instrument.instrument-ready .timbre-explanation {
+  grid-column: 1;
+  margin: 0;
+  text-align: center;
+}
+#etape-instrument.instrument-ready .launch-instrument-level {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-width: 210px;
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .families-row { grid-template-columns: 1fr 1fr; }
+  .subfamilies-row { grid-template-columns: 1fr 1fr; }
+  #etape-instrument.instrument-ready .instrument-launcher { display: block; }
+  #etape-instrument.instrument-ready .launch-instrument-level { width: 100%; margin-top: 12px; }
+}
+@media (max-width: 480px) {
+  .families-row, .subfamilies-row { grid-template-columns: 1fr; }
+}
+
+/* Parcours Clés et Défis : progression FM explicite par cycles */
+.key-cycle-list { display: grid; gap: 12px; max-width: 900px; margin: 18px auto; }
+.pedagogy-note { width: fit-content; max-width: 760px; margin: 8px auto 16px; padding: 7px 12px; color: #50657a; background: #f1f6fa; border-radius: 10px; font-size: 14px; font-weight: 700; }
+.key-cycle-list section { padding: 14px 18px; border: 1px solid #d8e5ef; border-radius: 16px; background: #f7fbfe; }
+.key-cycle-list h4 { margin: 0 0 10px; color: #17304e; }
+.key-choice-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.key-choice-row button { min-width: 145px; margin: 0; }
+#key-stages { max-width: 980px; margin: 22px auto 0; }
+#key-stages .levels-row, .challenge-cycles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.instrument-level-card, .defi-card { display: grid; gap: 7px; align-content: center; min-height: 112px; padding: 15px; text-align: left; color: #17304e; background: #fff; border: 1px solid #d8e3ec; border-radius: 16px; box-shadow: 0 5px 16px rgba(23,48,78,.08); cursor: pointer; }
+.instrument-level-card strong, .defi-card strong { display: block; font-size: 18px; }
+.instrument-level-card.selected, .defi-card.selected { color: #fff; background: #1f6fc9; border-color: #1f6fc9; }
+.defi-card.ultimate { border-color: #e0b94d; background: #fff9e6; }
+.defi-card.ultimate.selected { color: #17304e; background: #f2c94c; border-color: #d8a91d; }
+.launch-instrument-level { margin-top: 18px; }
+@media (max-width: 700px) {
+  #key-stages .levels-row, .challenge-cycles { grid-template-columns: 1fr; }
+  .key-choice-row button { flex: 1 1 145px; }
+}
+
+/* Adaptation générale : ordinateur, tablette et téléphone */
+.section {
+  width: min(1180px, 100%);
+  max-width: 1180px;
+  min-width: 0;
+}
+.section > *, .step-container, .levels-row, .families-row,
+.subfamilies-row, .instruments-row, .key-cycle-list { min-width: 0; }
+button, .button, .tile, .instrument-level-card, .defi-card {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+}
+
+@media (max-width: 900px) {
+  .section { margin-top: 10px; padding: 14px !important; }
+  .mode-buttons > div { max-width: 100% !important; }
+  .levels-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #key-stages .levels-row, .challenge-cycles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .key-cycle-list { margin-block: 12px; }
+  .key-cycle-list section { padding: 12px; }
+}
+
+@media (max-width: 620px) {
+  body { font-size: 15px; }
+  .section { padding: 12px 10px !important; border-radius: 14px !important; }
+  .mode-buttons { padding-bottom: 10px; }
+  .mode-buttons p { margin-top: 0; font-size: 16px; }
+  .mode-buttons > div { grid-template-columns: 1fr !important; gap: 6px !important; }
+  .mode-buttons button { min-height: 46px; margin: 0; }
+  .step-container h3 { font-size: clamp(1.25rem, 6vw, 1.55rem); }
+  .instrument-intro, .pedagogy-note { line-height: 1.4; }
+  .families-row, .subfamilies-row, .instruments-row,
+  .levels-row, #key-stages .levels-row, .challenge-cycles { grid-template-columns: 1fr; }
+  .families-row .tile { min-height: 52px; }
+  .instrument-level-card, .defi-card { min-height: 0; padding: 13px; }
+  .instrument-level-card strong, .defi-card strong { font-size: 16px; }
+  .key-choice-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .key-choice-row button { min-width: 0; padding: 10px 8px; font-size: 15px; }
+  #key-stages { margin-top: 14px; }
+  .launch-instrument-level, #go-button, #go-button-defi { width: 100%; margin-inline: 0; }
+}
+
+@media (max-width: 380px) {
+  .key-choice-row { grid-template-columns: 1fr; }
+  .pedagogy-note { font-size: 12px; }
+}
+
+/* Écrans peu hauts (Surface et téléphones en paysage) */
+@media (orientation: landscape) and (max-height: 720px) {
+  .section { margin-top: 6px; padding-block: 10px !important; }
+  .mode-buttons { margin-bottom: 4px; padding-bottom: 8px; }
+  .mode-buttons p { margin: 0 0 5px; }
+  .step-container { margin-top: 6px; }
+  .step-container h3, .step-container h4 { margin-block: 5px; }
+  .key-cycle-list { gap: 7px; margin-block: 8px; }
+  .key-cycle-list section { padding: 8px 12px; }
+  .instrument-level-card, .defi-card { min-height: 76px; padding: 10px 12px; }
+  #key-stages { margin-top: 10px; }
+}
+
+/* Tutoriels communs au module Lecture de notes */
+.tutorial-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 auto 18px;
+  color: #50657a;
+  font-size: 14px;
+  font-weight: 700;
+}
+.tutorial-entry button {
+  margin: 0;
+  padding: 9px 14px;
+  color: #125da8;
+  background: #f4f9fd;
+  border: 1px solid #c8deef;
+  border-radius: 12px;
+  box-shadow: none;
+  font-size: 14px;
+}
+.tutorial-entry button:hover { background: #e8f4fc; transform: none; }
+.tutorial-dialog {
+  width: min(940px, calc(100vw - 28px));
+  max-width: 940px;
+  max-height: min(88dvh, 780px);
+  padding: 0;
+  color: #17304e;
+  background: #fff;
+  border: 0;
+  border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(8, 35, 64, .3);
+}
+.tutorial-dialog::backdrop { background: rgba(9, 31, 54, .58); backdrop-filter: blur(3px); }
+.tutorial-shell { max-height: min(88dvh, 780px); padding: 24px; overflow-y: auto; }
+.tutorial-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.tutorial-header h2 { margin: 3px 0 0; color: #073b7c; font-size: clamp(1.45rem, 4vw, 2rem); }
+.tutorial-kicker { color: #1f6fc9; font-size: 13px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.tutorial-close {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  margin: 0;
+  padding: 0;
+  color: #38536d;
+  background: #edf4f9;
+  border-radius: 50%;
+  box-shadow: none;
+  font-size: 28px;
+  line-height: 1;
+}
+.tutorial-lead { max-width: 760px; margin: 12px 0 20px; color: #50657a; font-size: 17px; line-height: 1.5; }
+.tutorial-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tutorial-card { position: relative; min-width: 0; padding: 16px 16px 16px 58px; background: #f4f9fd; border: 1px solid #d5e6f3; border-radius: 16px; text-align: left; }
+.tutorial-grid-parents .tutorial-card { padding-left: 16px; }
+.tutorial-card h3 { margin: 0 0 5px; color: #17304e; font-size: 17px; }
+.tutorial-card p { margin: 0; color: #50657a; line-height: 1.45; }
+.tutorial-number { position: absolute; top: 15px; left: 14px; display: grid; place-items: center; width: 31px; height: 31px; color: #fff; background: #1f6fc9; border-radius: 50%; font-weight: 900; }
+.tutorial-note { margin: 14px 0 0; padding: 10px 12px; color: #50657a; background: #fff8df; border-radius: 12px; font-size: 14px; }
+.tutorial-primary { display: block; width: min(340px, 100%); margin: 20px auto 0; }
+@media (max-width: 650px) {
+  .tutorial-entry span { width: 100%; text-align: center; }
+  .tutorial-entry button { flex: 1 1 145px; }
+  .tutorial-dialog { width: calc(100vw - 16px); max-height: 94dvh; border-radius: 16px; }
+  .tutorial-shell { max-height: 94dvh; padding: 16px; }
+  .tutorial-grid { grid-template-columns: 1fr; }
+  .tutorial-lead { font-size: 15px; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .tutorial-dialog, .tutorial-shell { max-height: 96dvh; }
+  .tutorial-shell { padding: 14px 18px; }
+  .tutorial-lead { margin-block: 6px 10px; }
+  .tutorial-card { padding-block: 11px; }
+}
+
+/* Accueil Clé et Défi : parcours plus lisibles et plus compacts */
+.path-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px auto 6px;
+}
+.path-heading h3 { margin: 0; font-size: clamp(1.3rem, 2.5vw, 1.65rem); }
+.path-kicker { margin: 0 0 2px; color: #1f6fc9; font-size: 11px; font-weight: 900; letter-spacing: .11em; text-align: left; text-transform: uppercase; }
+.path-icon { display: grid; place-items: center; width: 48px; height: 48px; color: #fff; background: linear-gradient(145deg, #2d92e6, #1768bd); border-radius: 15px; box-shadow: 0 7px 17px rgba(24,104,189,.22); font-size: 29px; }
+.challenge-heading .path-icon { background: linear-gradient(145deg, #ffb52f, #ef7c17); box-shadow: 0 7px 17px rgba(214,111,12,.22); }
+#etape-cle > .instrument-intro, #etape-defi > .instrument-intro { max-width: 850px; margin: 8px auto; color: #536b82; line-height: 1.45; }
+#etape-cle > .pedagogy-note, #etape-defi > .pedagogy-note { margin-block: 10px 18px; font-size: 12px; font-weight: 750; }
+.key-cycle-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1060px;
+  align-items: start;
+}
+.key-cycle-list section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 0;
+  padding: 18px;
+  overflow: hidden;
+  background: linear-gradient(155deg, #fff, #eef8ff);
+  border: 1px solid #dbe8f2;
+  box-shadow: 0 9px 24px rgba(23,48,78,.075);
+}
+.key-cycle-list section::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: #2c8dde; }
+.key-cycle-list section[data-cycle="2"]::before { background: #5573d8; }
+.key-cycle-list section[data-cycle="3"]::before { background: #7b5fc7; }
+.key-cycle-list section[data-cycle="2"] { background: linear-gradient(155deg, #fff, #f0f2ff); }
+.key-cycle-list section[data-cycle="3"] { background: linear-gradient(155deg, #fff, #f5efff); }
+.cycle-copy { display: flex; align-items: center; gap: 11px; text-align: left; }
+.cycle-number { display: grid; place-items: center; flex: 0 0 37px; width: 37px; height: 37px; color: #1769bd; background: #eaf5fd; border-radius: 12px; font-size: 18px; font-weight: 900; }
+.key-cycle-list section[data-cycle="2"] .cycle-number { color: #485fb5; background: #eef0ff; }
+.key-cycle-list section[data-cycle="3"] .cycle-number { color: #694ba9; background: #f2edff; }
+.cycle-copy small { color: #718398; font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.key-cycle-list .cycle-copy h4 { margin: 2px 0 0; font-size: 16px; line-height: 1.2; }
+.key-choice-row { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 3px; }
+.key-choice-row button {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 43px;
+  margin: 0;
+  min-height: 64px;
+  padding: 10px 12px 10px 61px;
+  color: #185f9f;
+  background: rgba(255,255,255,.9);
+  border: 1px solid #c9e0f1;
+  border-radius: 11px;
+  box-shadow: 0 4px 10px rgba(24,82,131,.07);
+  font-size: 15px;
+  text-align: left;
+}
+.key-choice-row button::before { content: attr(data-clef-symbol); position: absolute; left: 12px; top: 50%; display: grid; place-items: center; width: 38px; height: 42px; color: #1769bd; background: #e6f3fc; border-radius: 11px; transform: translateY(-50%); font-family: serif; font-size: 29px; line-height: 1; }
+.key-cycle-list section[data-cycle="2"] .key-choice-row button::before { color: #4f63ba; background: #edf0ff; }
+.key-cycle-list section[data-cycle="3"] .key-choice-row button::before { color: #6d4db0; background: #f2ebff; }
+.key-choice-row button:hover::before,.key-choice-row button.selected::before { color: #1769bd; background: #fff; }
+.key-choice-row button strong { display: block; font-size: 15px; }
+.key-choice-row button small { display: block; margin-top: 3px; color: #617990; font-size: 11px; font-weight: 650; line-height: 1.25; }
+.key-choice-row button:hover small, .key-choice-row button.selected small { color: #e8f4ff; }
+.key-choice-row button:hover { color: #fff; background: #1f6fc9; transform: translateY(-2px); box-shadow: 0 7px 15px rgba(31,111,201,.2); }
+.key-choice-row button.selected { color: #fff; background: #1f6fc9 !important; border-color: #1f6fc9; }
+.key-purpose-intro { max-width: 900px!important; padding: 13px 18px; background: linear-gradient(90deg,#eef8ff,#f6f1ff); border: 1px solid #dceafa; border-radius: 15px; }
+.key-purpose-intro strong { color: #17304e; }
+.key-context { display: flex; align-items: center; gap: 12px; max-width: 850px; margin: 16px auto 8px; padding: 12px 16px; color: #fff; background: linear-gradient(135deg, #1769bd, #23518f); border-radius: 14px; text-align: left; box-shadow: 0 8px 20px rgba(23,81,143,.18); }
+.key-context strong { flex: 0 0 auto; }
+.key-context span { font-size: 13px; line-height: 1.4; }
+.challenge-cycles { max-width: 1060px; gap: 14px; }
+.challenge-choice-groups { display: grid; gap: 20px; max-width: 1100px; margin: 18px auto 0; }
+.challenge-group { padding: 16px; background: #f7fbfe; border: 1px solid #dce8f1; border-radius: 18px; }
+.challenge-group > header { display: flex; align-items: center; gap: 11px; margin: 0 2px 14px; text-align: left; }
+.challenge-group > header > span { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; color: #fff; background: #2578ca; border-radius: 11px; font-weight: 900; }
+.challenge-group > header h4 { margin: 0; font-size: 18px; }
+.challenge-group > header p { margin: 2px 0 0; color: #63788d; font-size: 13px; }
+.challenge-group.cycle-synthesis { background: #fffaf0; border-color: #eedda9; }
+.challenge-group.cycle-synthesis > header > span { color: #59400a; background: #f2c94c; }
+
+/* Défis : deux rubriques simples, sans empilement décoratif */
+#defi-cles.challenge-choice-groups { display: block; max-width: 1040px; }
+.challenge-group { width: 100%; margin: 0 0 16px; padding: 15px 18px 18px; }
+.challenge-group > header { margin-bottom: 11px; }
+.challenge-group > header h4 { font-size: 18px; }
+.challenge-group .challenge-cycles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: none; }
+.challenge-group .defi-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 88px;
+  margin: 0;
+  padding: 15px 17px 15px 78px;
+  text-align: left;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #fff;
+  box-shadow: 0 7px 18px rgba(23,48,78,.09);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.challenge-group .defi-card::before { content: attr(data-defi-symbol); position: absolute; left: 17px; top: 50%; display: grid; place-items: center; width: 44px; height: 44px; color: #fff; background: linear-gradient(145deg,#35a5ef,#176bc2); border-radius: 14px; box-shadow: 0 5px 12px rgba(25,105,190,.23); transform: translateY(-50%); font-size: 23px; font-weight: 900; }
+.challenge-group:first-child .defi-card:nth-child(1)::before { content: "𝄞"; }
+.challenge-group:first-child .defi-card:nth-child(2)::before { content: "𝄢"; }
+.challenge-group:first-child .defi-card:nth-child(3)::before { content: "𝄞+𝄢"; width: 52px; left: 13px; font-size: 15px; background: linear-gradient(145deg,#7968dd,#5147b9); }
+.challenge-group.cycle-synthesis .defi-card::before { color: #5c4106; background: linear-gradient(145deg,#ffe478,#f2bd31); box-shadow: 0 5px 12px rgba(186,132,15,.22); }
+.challenge-group.cycle-synthesis .defi-card:nth-child(1)::before { content: "1"; }
+.challenge-group.cycle-synthesis .defi-card:nth-child(2)::before { content: "2"; }
+.challenge-group.cycle-synthesis .defi-card:nth-child(3)::before { content: "★"; }
+.clef-challenge-cycles { display: grid; gap: 11px; }
+.clef-challenge-cycle { display: grid; grid-template-columns: 82px minmax(0,1fr); align-items: stretch; gap: 10px; padding: 9px; border-radius: 15px; }
+.clef-challenge-cycle.cycle-one { background: #eaf6ff; }
+.clef-challenge-cycle.cycle-two { background: #eef0ff; }
+.clef-challenge-cycle.cycle-three { background: #f4edff; }
+.clef-cycle-label { display: grid; place-items: center; padding: 8px; color: #1769bd; background: rgba(255,255,255,.72); border-radius: 11px; font-size: 12px; font-weight: 950; text-align: center; text-transform: uppercase; }
+.cycle-two .clef-cycle-label { color: #4c60b7; }.cycle-three .clef-cycle-label { color: #714fb3; }
+.clef-challenge-cycle .challenge-cycles { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.clef-challenge-cycle.cycle-two .challenge-cycles { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.clef-challenge-cycle.cycle-two .defi-card::before { background: linear-gradient(145deg,#7184e8,#4d5abb); }
+.clef-challenge-cycle.cycle-three .defi-card::before { background: linear-gradient(145deg,#9a73e4,#6b47b5); }
+.challenge-group .defi-card:hover { transform: translateY(-4px) rotate(-.3deg); border-color: #7ab7e7; box-shadow: 0 13px 25px rgba(23,80,135,.16); }
+.challenge-group .defi-card:nth-child(even):hover { transform: translateY(-4px) rotate(.3deg); }
+.challenge-group.cycle-synthesis .defi-card:hover { border-color: #e9c454; }
+.challenge-group .defi-card strong { font-size: 18px; }
+.challenge-group .defi-card > span { color: #60768b; font-size: 13px; font-weight: 700; }
+.challenge-group .defi-card.selected > span { color: #e6f3ff; }
+.challenge-group .defi-card.ultimate.selected > span { color: #614a16; }
+.challenge-group .defi-card.selected::before { color: #1764ae; background: #fff; box-shadow: none; }
+.challenge-group.cycle-synthesis .defi-card.selected::before { color: #704f08; background: #fff; }
+.defi-card {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 165px;
+  padding: 20px;
+  background: linear-gradient(145deg, #fff, #f7fbff);
+  border: 1px solid #d9e7f2;
+  box-shadow: 0 10px 25px rgba(23,48,78,.085);
+}
+.defi-card:hover { transform: translateY(-3px); border-color: #8bbce6; box-shadow: 0 14px 30px rgba(23,48,78,.13); }
+.challenge-medal { display: grid; place-items: center; width: 44px; height: 44px; color: #fff; background: #287dce; border-radius: 14px; font-size: 20px; font-weight: 900; }
+.challenge-copy { display: grid; gap: 3px; min-width: 0; }
+.challenge-copy small { color: #287dce; font-size: 10px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.challenge-copy strong { font-size: 18px; }
+.challenge-copy > span { color: #4d647b; font-size: 14px; line-height: 1.3; }
+.challenge-copy em { width: fit-content; margin-top: 5px; padding: 4px 8px; color: #526d84; background: #edf4f9; border-radius: 999px; font-size: 11px; font-style: normal; font-weight: 800; }
+.challenge-arrow { color: #75a2c9; font-size: 23px; }
+.defi-card.ultimate { background: linear-gradient(145deg, #fffdf6, #fff6d8); border-color: #f0d993; }
+.defi-card.ultimate .challenge-medal { color: #59400a; background: #f2c94c; }
+.defi-card.ultimate .challenge-copy small { color: #9a6810; }
+.defi-card.selected { color: #fff; background: linear-gradient(145deg, #287dce, #155da9); }
+.defi-card.selected .challenge-copy small, .defi-card.selected .challenge-copy > span, .defi-card.selected .challenge-arrow { color: #e6f3ff; }
+.defi-card.selected .challenge-copy em { color: #fff; background: rgba(255,255,255,.16); }
+.defi-card.selected .challenge-medal { color: #1764ae; background: #fff; }
+.defi-card.ultimate.selected { color: #17304e; background: linear-gradient(145deg, #ffe783, #f2c94c); }
+.defi-card.ultimate.selected .challenge-copy small, .defi-card.ultimate.selected .challenge-copy > span, .defi-card.ultimate.selected .challenge-arrow { color: #614a16; }
+.defi-card.ultimate.selected .challenge-copy em { color: #614a16; background: rgba(255,255,255,.42); }
+@media (max-width: 850px) {
+  .key-cycle-list { grid-template-columns: 1fr; max-width: 650px; }
+  .key-cycle-list section { min-height: 0; }
+  .key-choice-row { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); }
+  .challenge-cycles { grid-template-columns: 1fr; max-width: 650px; }
+  .defi-card { min-height: 110px; }
+  .challenge-group .challenge-cycles { grid-template-columns: 1fr; max-width: none; }
+  .challenge-group .defi-card { min-height: 72px; }
+  .clef-challenge-cycle { grid-template-columns: 1fr; }
+  .clef-cycle-label { justify-self: start; padding: 6px 10px; }
+  .clef-challenge-cycle .challenge-cycles,.clef-challenge-cycle.cycle-two .challenge-cycles { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .path-heading { justify-content: flex-start; }
+  .path-icon { width: 42px; height: 42px; border-radius: 12px; font-size: 25px; }
+  .path-heading h3 { text-align: left; }
+  #etape-cle > .instrument-intro, #etape-defi > .instrument-intro { text-align: left; }
+  .key-cycle-list section { padding: 15px; }
+  .key-choice-row { grid-template-columns: 1fr; }
+  .key-context { display: block; }
+  .key-context strong { display: block; margin-bottom: 5px; }
+  .defi-card { grid-template-columns: auto minmax(0, 1fr); padding: 15px; }
+  .challenge-group { padding: 11px; }
+  .challenge-arrow { display: none; }
+}
+
+/* Écran Défi compact : un choix, un clic, on joue. */
+#etape-defi .challenge-heading { margin: 8px auto 2px; }
+#etape-defi .challenge-promise {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin: 4px auto 12px; color: #324b66; font-size: 14px;
+}
+#etape-defi .challenge-promise span { color: #ff5d67; font-size: 18px; }
+#defi-cles.challenge-board {
+  display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(250px, .8fr);
+  gap: 14px; max-width: 1120px; margin: 0 auto;
+}
+.challenge-board > section {
+  padding: 15px; border: 1px solid #d8e6f1; border-radius: 20px;
+  background: linear-gradient(145deg, #f7fbff, #edf7ff);
+}
+.challenge-board > section > h4 {
+  margin: 0 0 11px; color: #173a63; text-align: left; font-size: 17px;
+}
+.solo-challenges { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.mixed-challenges { background: linear-gradient(145deg, #fffaf0, #fff2cb) !important; border-color: #f0d185 !important; }
+.mixed-challenges > div { display: grid; gap: 9px; }
+.challenge-board .defi-card {
+  position: relative; display: grid; grid-template-columns: 43px 1fr; grid-template-rows: auto auto;
+  align-items: center; column-gap: 9px; min-height: 74px; padding: 10px 11px;
+  color: #153454; text-align: left; background: #fff; border: 1px solid rgba(74,139,197,.18);
+  border-radius: 15px; box-shadow: 0 6px 14px rgba(28,75,116,.08); cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.challenge-board .defi-card::before {
+  content: attr(data-defi-symbol) !important; position: static !important; grid-row: 1 / 3;
+  display: grid !important; place-items: center; width: 43px !important; height: 43px !important;
+  color: #fff !important; background: linear-gradient(145deg,#35a5ef,#176bc2) !important;
+  border-radius: 13px !important; box-shadow: 0 5px 11px rgba(25,105,190,.2) !important;
+  transform: none !important; font-size: 23px !important; font-weight: 900;
+}
+.challenge-board .defi-card strong { align-self: end; font-size: 16px; line-height: 1.05; }
+.challenge-board .defi-card > span { align-self: start; color: #617890; font-size: 12px; font-weight: 800; }
+.challenge-board .defi-card:hover { transform: translateY(-3px); border-color: #56a9e9; box-shadow: 0 10px 19px rgba(28,75,116,.14); }
+.challenge-board .mixed-challenges .defi-card::before { color: #6b4a05 !important; background: linear-gradient(145deg,#ffe174,#f4bd2f) !important; }
+.challenge-board .defi-card.ultimate { background: linear-gradient(145deg,#fff,#fff4bd); }
+#etape-defi #go-button-defi { display: none !important; }
+
+@media (max-width: 850px) {
+  #defi-cles.challenge-board { grid-template-columns: 1fr; }
+  .solo-challenges { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .mixed-challenges > div { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+  #etape-defi .challenge-promise { flex-wrap: wrap; }
+  .solo-challenges { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .mixed-challenges > div { grid-template-columns: 1fr; }
+}
+
+/* Sélection des clés : un seul panneau, sans programme scolaire affiché. */
+#cle-buttons.key-cycle-list {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px; max-width: 1040px; margin: 14px auto 4px;
+}
+#cle-buttons.key-cycle-list > button {
+  position: relative; display: grid; grid-template-columns: 52px 1fr;
+  grid-template-rows: auto auto; align-items: center; column-gap: 11px;
+  min-height: 88px; margin: 0; padding: 12px 14px;
+  color: #173859; text-align: left; background: linear-gradient(145deg,#fff,#f2f9ff);
+  border: 2px solid #d9e9f5 !important; border-radius: 17px !important;
+  box-shadow: 0 7px 16px rgba(21,72,118,.09);
+}
+#cle-buttons.key-cycle-list > button::before {
+  content: attr(data-clef-symbol); grid-row: 1 / 3; display: grid; place-items: center;
+  width: 52px; height: 52px; color: #1769c2; background: #e8f5ff;
+  border-radius: 15px; font-size: 31px; line-height: 1;
+}
+#cle-buttons.key-cycle-list > button:nth-child(n+3)::before { color: #6748ae; background: #f0eaff; }
+#cle-buttons.key-cycle-list > button strong { align-self: end; font-size: 17px; }
+#cle-buttons.key-cycle-list > button small { align-self: start; color: #637990; font-size: 12px; font-weight: 750; }
+#cle-buttons.key-cycle-list > button:hover { border-color: #6db4e8 !important; transform: translateY(-3px); }
+#cle-buttons.key-cycle-list > button:nth-child(7) { grid-column: 2 / 4; }
+.key-purpose-intro { margin-bottom: 5px !important; }
+.key-stage-heading { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 12px auto; }
+.key-stage-heading h4 { margin: 0; font-size: 20px; }
+.key-stage-heading button { min-height: 38px; margin: 0; padding: 7px 12px; color: #1769c2; background: #edf6fc; font-size: 13px; }
+#key-stages .levels-row { grid-template-columns: repeat(3,minmax(0,1fr)); max-width: 850px; }
+#key-stages .instrument-level-card { min-height: 135px; text-align: center; }
+#key-stages .instrument-level-card .level-number {
+  display: grid; place-items: center; width: 40px; height: 40px; margin: 0 auto 8px;
+  color: #fff; background: linear-gradient(145deg,#35a5ef,#176bc2); border-radius: 13px; font-size: 20px;
+}
+#key-stages #go-button { display: none !important; }
+
+/* Missions instrumentales : cartes de jeu, lancement en un clic. */
+#etape-instrument.instrument-ready #titre-niveaux { margin: 10px auto 12px !important; color: #1769c2; background: transparent; animation: none; }
+#etape-instrument.instrument-ready .levels-row { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+#etape-instrument.instrument-ready .instrument-level-card {
+  min-height: 170px; padding: 15px; border-top: 6px solid #2d92dc !important;
+  background: linear-gradient(160deg,#fff,#f1f9ff);
+}
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(2) { border-top-color: #45ad70 !important; background: linear-gradient(160deg,#fff,#effaf2); }
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(3) { border-top-color: #f0a02c !important; background: linear-gradient(160deg,#fff,#fff8e9); }
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(4) { border-top-color: #8a62d0 !important; background: linear-gradient(160deg,#fff,#f6f0ff); }
+#etape-instrument.instrument-ready .instrument-level-card .level-number {
+  display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 10px;
+  color: #fff; background: #287fd0; border-radius: 12px; font-size: 19px;
+}
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(2) .level-number { background:#3e9f64; }
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(3) .level-number { background:#df8a1e; }
+#etape-instrument.instrument-ready .instrument-level-card:nth-child(4) .level-number { background:#7650bd; }
+#etape-instrument.instrument-ready .instrument-level-card .level-action { margin-top: auto; }
+#etape-instrument.instrument-ready .instrument-level-card:hover { transform: translateY(-5px) rotate(-.35deg); box-shadow: 0 14px 25px rgba(23,73,115,.14); }
+
+@media (max-width: 850px) {
+  #cle-buttons.key-cycle-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #cle-buttons.key-cycle-list > button:nth-child(7) { grid-column: 1 / -1; }
+  #etape-instrument.instrument-ready .levels-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+  #cle-buttons.key-cycle-list { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  #cle-buttons.key-cycle-list > button { grid-template-columns: 42px 1fr; min-height: 76px; padding: 9px; }
+  #cle-buttons.key-cycle-list > button::before { width: 42px; height: 42px; font-size: 25px; }
+  #key-stages .levels-row { grid-template-columns: 1fr; }
+  #key-stages .instrument-level-card { min-height: 86px; }
+  #etape-instrument.instrument-ready .levels-row { grid-template-columns: 1fr 1fr; }
+  #etape-instrument.instrument-ready .instrument-level-card { min-height: 145px; }
 }

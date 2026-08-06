@@ -19,7 +19,7 @@
   var bar = document.createElement('header');
   bar.className = 'notalix-bar';
   bar.innerHTML =
-    '<a class="notalix-home" href="../index.html" aria-label="Retour à l’accueil NOTALIX">← Accueil NOTALIX</a>' +
+    '<a class="notalix-home" href="../index.html" aria-label="Retour à NOTALIX">← Retour à NOTALIX</a>' +
     '<div class="notalix-brand" aria-label="NOTALIX by FM">' +
       '<span class="notalix-note" aria-hidden="true">♪</span>' +
       '<span class="notalix-word">NOTALIX</span>' +

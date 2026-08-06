@@ -4,22 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lecture de notes — Instrument</title>
-  <link rel="stylesheet" href="unified.css">
+  <link rel="stylesheet" href="unified.css?v=0.6.0-0806d">
   <link rel="stylesheet" href="notation-adapter.css">
-  <link rel="stylesheet" href="instrument.css">
+  <link rel="stylesheet" href="instrument.css?v=0.6.0-0806d">
   <link rel="stylesheet" href="../notalix-theme.css">
   <script defer src="../notalix-shell.js"></script>
 </head>
 <body>
 <main class="instrument-card">
-    <a class="home-link" href="index.html">🏠 Accueil</a>
+    <a class="home-link" href="index.html?mode=instrument">← Retour aux instruments</a>
     <h2 id="instrument-title">Instrument</h2>
     <p id="pedagogy" class="pedagogy"></p>
     <p id="sound-summary" class="sound-summary"></p>
-    <div id="fingering-mode" class="fingering-mode" hidden>
-      <label><input id="fingering-toggle" type="checkbox"> Aide : afficher le doigté ou la position après ma réponse</label>
+    <div id="live-sound-choice" class="live-sound-choice" role="group" aria-label="Choix du son">
+      <span>Son</span>
+      <button type="button" data-live-timbre="piano">Piano en ut</button>
+      <button type="button" data-live-timbre="instrument" id="live-instrument-sound">Instrument</button>
     </div>
-
+    <fieldset id="fingering-mode" class="fingering-mode" hidden>
+      <legend>Doigté</legend>
+      <div class="fingering-options">
+        <label><input type="radio" name="fingering-display" value="off" checked><span>Aucun</span></label>
+        <label><input type="radio" name="fingering-display" value="after"><span>Après réponse</span></label>
+        <label><input type="radio" name="fingering-display" value="always"><span>Toujours</span></label>
+      </div>
+    </fieldset>
+    <p id="fingering-notice" class="fingering-notice" hidden></p>
+    <section id="open-strings-intro" class="open-strings-intro" hidden>
+      <p class="intro-kicker">Avant de commencer</p>
+      <h3>Rappelle-toi les cordes à vide</h3>
+      <div id="open-strings-list" class="open-strings-list"></div>
+      <button id="start-string-level" class="button" type="button">Commencer l’exercice</button>
+    </section>
     <section id="sound-loading" class="sound-loading" aria-live="polite">
       <span class="sound-loading-note">♪</span>
       <strong>Préparation de l’exercice…</strong>
@@ -27,9 +43,12 @@
     </section>
 
     <section id="quiz" aria-live="polite" hidden>
-      <div id="generated-note" class="instrument-note"></div>
-      <div id="hint" class="instrument-hint" hidden></div>
+      <div id="music-panel" class="music-panel">
+        <div id="generated-note" class="instrument-note"></div>
+        <div id="hint" class="instrument-hint" hidden></div>
+      </div>
       <div id="answers" class="instrument-answers"></div>
+      <p class="keyboard-hint">⌨️ Clavier&nbsp;: C D E F G A B = Do Ré Mi Fa Sol La Si</p>
       <p id="feedback" class="instrument-feedback"></p>
       <div class="instrument-progress"><div id="progress-bar"></div></div>
       <p id="score">Score : 0 / 10</p>
@@ -39,7 +58,7 @@
       <h2 id="result-title"></h2>
       <p id="result-text"></p>
       <button id="restart" class="button">Recommencer</button>
-      <a class="button" href="index.html">Retour à l’accueil</a>
+      <a class="button" href="index.html">Retour aux exercices</a>
       <div id="send-score" class="send-score">
         <h3>Envoyer mon score au professeur</h3>
         <div class="send-score-fields">
@@ -72,6 +91,6 @@
   <script src="instrument-config.js"></script>
   <script src="instrument-sounds/manifest.js"></script>
   <script src="audio-engine.js"></script>
-  <script src="instrument-quiz.js"></script>
+  <script src="instrument-quiz.js?v=0.6.0-0806e"></script>
 </body>
 </html>

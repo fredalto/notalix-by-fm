@@ -33,6 +33,22 @@
   border-radius: 16px;
 }
 .sound-loading[hidden] { display: none !important; }
+.open-strings-intro { width: min(650px, 92%); margin: 22px auto 28px; padding: 24px; color: #17304e; background: linear-gradient(180deg, #f7fbff, #eef6fc); border: 2px solid #c9deef; border-radius: 18px; }
+.open-strings-intro[hidden] { display: none !important; }
+.open-strings-intro h3 { margin: 3px 0 18px; font-size: 22px; }
+.intro-kicker { margin: 0; color: #1769c2; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+.open-strings-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+.open-strings-list.combined-staff { display: block; width: min(580px, 100%); margin-inline: auto; padding: 4px 12px 14px; background: #fff; border: 1px solid #d6e5f0; border-radius: 15px; box-shadow: 0 5px 16px rgba(11,52,115,.09); }
+.reminder-staff-group + .reminder-staff-group { margin-top: 12px; padding-top: 10px; border-top: 1px solid #dce7f0; }
+.open-strings-staff { width: 100%; height: 175px; overflow: visible; }
+.open-strings-staff svg { width: 100% !important; height: 100% !important; overflow: visible; }
+.open-strings-labels { position: relative; height: 34px; margin: -12px 0 0; }
+.open-strings-labels span { position: absolute; top: 0; transform: translateX(-50%); min-width: 48px; padding: 5px 10px; color: #fff; background: #4caf50; border-radius: 8px; font-size: 16px; font-weight: 900; }
+.open-string-card { display: grid; justify-items: center; gap: 5px; width: 126px; padding: 8px 5px 9px; background: #fff; border: 1px solid #d6e5f0; border-radius: 13px; box-shadow: 0 4px 12px rgba(11,52,115,.08); }
+.open-string-notation { display: grid; place-items: center; width: 112px; height: 98px; overflow: visible; }
+.open-string-notation svg { width: 100% !important; height: 100% !important; overflow: visible; }
+.open-string-name { min-width: 52px; padding: 6px 12px; color: #fff; background: #4caf50; border-radius: 8px; font-size: 17px; font-weight: 900; }
+.open-string-detail { min-height: 16px; color: #526270; font-size: 11px; font-weight: 800; text-transform: lowercase; }
 .sound-loading-note {
   color: #ff665e;
   font-size: 38px;
@@ -56,11 +72,18 @@
 }
 @keyframes soundPulse { to { transform: translateY(-3px) scale(1.08); } }
 .sound-mode { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px auto -4px; font-weight: 700; color: #34424f; }
-.sound-mode[hidden], .instrument-hint[hidden] { display: none !important; }
-.fingering-mode { display: flex; justify-content: center; margin: 14px auto -4px; color: #34424f; font-weight: 700; }
+.sound-mode[hidden] { display: none !important; }
+.fingering-mode { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px auto 5px; padding: 0; border: 0; color: #526270; }
 .fingering-mode[hidden] { display: none !important; }
-.fingering-mode label { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; }
-.fingering-mode input { width: 19px; height: 19px; accent-color: #4caf50; }
+.fingering-notice { width: fit-content; margin: 7px auto 4px; padding: 6px 10px; color: #6b4d19; background: #fff7df; border-radius: 9px; font-size: 12px; font-weight: 750; }
+.fingering-notice[hidden] { display: none !important; }
+.fingering-mode legend { padding: 0; font-size: 14px; font-weight: 800; }
+.fingering-options { display: inline-flex; gap: 4px; padding: 4px; background: #eaf1f7; border-radius: 12px; }
+.fingering-options label { position: relative; cursor: pointer; }
+.fingering-options input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.fingering-options span { display: flex; min-height: 32px; align-items: center; justify-content: center; padding: 2px 12px; border-radius: 9px; font-size: 13px; font-weight: 800; transition: .18s ease; }
+.fingering-options input:checked + span { color: #fff; background: #1769c2; box-shadow: 0 3px 8px rgba(23,105,194,.2); }
+.fingering-options input:focus-visible + span { outline: 3px solid rgba(23,105,194,.3); outline-offset: 2px; }
 .sound-switch { position: relative; display: inline-block; width: 58px; height: 30px; }
 .sound-switch input { width: 1px; height: 1px; opacity: 0; position: absolute; }
 .sound-slider { position: absolute; inset: 0; cursor: pointer; border-radius: 999px; background: #aeb6bd; transition: .2s; }
@@ -68,9 +91,65 @@
 .sound-switch input:checked + .sound-slider { background: #4caf50; }
 .sound-switch input:checked + .sound-slider::before { transform: translateX(28px); }
 .sound-switch input:focus-visible + .sound-slider { outline: 3px solid rgba(33,100,200,.35); outline-offset: 2px; }
-.instrument-note { width: 180px; height: 203px; margin: 4px auto 0; overflow: hidden; }
+.instrument-note { width: 230px; height: 220px; margin: 0 auto; overflow: hidden; }
 .instrument-note svg { width: 100% !important; height: 100% !important; display: block; }
-.instrument-hint { display: inline-flex; min-width: 42px; min-height: 42px; align-items: center; justify-content: center; margin: -18px auto 10px; padding: 4px 12px; border-radius: 999px; background: #eaf7ec; border: 2px solid #4caf50; font-weight: 800; }
+.music-panel {
+  position: relative;
+  box-sizing: border-box;
+  width: min(330px, 86vw);
+  height: 270px;
+  margin: 10px auto 48px;
+  padding: 8px 14px 10px;
+  overflow: visible;
+  background: linear-gradient(180deg, #fff, #f3f8fd);
+  border: 3px solid #c9deef;
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(11,52,115,.14), inset 0 0 0 1px #fff;
+}
+.live-sound-choice { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px auto 4px; color: #526270; font-size: 13px; font-weight: 800; }
+.live-sound-choice > span { margin-right: 3px; }
+.live-sound-choice button { margin: 0; padding: 7px 11px; color: #23435f; background: #eef4f9; border: 1px solid #d4e1eb; border-radius: 9px; font: inherit; cursor: pointer; }
+.live-sound-choice button.selected { color: #fff; background: #1769c2; border-color: #1769c2; }
+.live-sound-choice button[hidden] { display: none !important; }
+.instrument-hint {
+  position: absolute;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  width: max-content;
+  max-width: calc(100% - 24px);
+  transform: translate(-50%, 58%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  margin: 0;
+  padding: 7px 12px;
+  color: #17304e;
+  background: #f3fbf4;
+  border: 2px solid #76bf7b;
+  border-radius: 14px;
+  box-shadow: 0 5px 14px rgba(34,112,50,.14);
+  font-size: 15px;
+  font-weight: 800;
+}
+.instrument-hint[hidden] { display: none !important; }
+.fingering-visual { display: inline-grid; flex: 0 0 auto; }
+.fingering-visual.strings { grid-template-columns: repeat(var(--string-count, 4), 5px); gap: 5px; height: 32px; }
+.fingering-string { position: relative; width: 4px; height: 32px; border-radius: 4px; background: #bdc8d0; }
+.fingering-string.active { background: #1769c2; }
+.fingering-string.active::after { content: attr(data-finger); position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; color: #fff; background: #ff665e; font-size: 11px; }
+.fingering-visual.trumpet { grid-template-columns: repeat(3, 15px); gap: 4px; }
+.fingering-piston { width: 15px; height: 28px; border: 2px solid #1769c2; border-radius: 8px 8px 5px 5px; background: #fff; }
+.fingering-piston.active { background: #ff665e; border-color: #d94c45; transform: translateY(4px); }
+.fingering-visual.horn { grid-template-columns: repeat(3, 20px); gap: 5px; align-items: center; }
+.fingering-visual.woodwind { grid-template-columns: repeat(3, 13px); gap: 5px 7px; align-items: center; }
+.woodwind-key { width: 13px; height: 13px; border: 2px solid #1769c2; border-radius: 50%; background: #fff; }
+.woodwind-key.active { background: #1769c2; box-shadow: inset 0 0 0 2px #fff; }
+.fingering-visual.recorder { grid-template-columns: repeat(4, 13px); }
+.horn-lever { display: grid; place-items: center; width: 20px; height: 29px; color: #1769c2; background: #fff; border: 2px solid #1769c2; border-radius: 8px 8px 12px 12px; font-size: 10px; font-style: normal; }
+.horn-lever.active { color: #fff; background: #ff665e; border-color: #d94c45; transform: translateY(4px); }
 .instrument-answers { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 8px auto 20px; }
 .instrument-answers button { min-width: 72px; padding: 12px 18px; border: 0; border-radius: 7px; background: #4caf50; color: #fff; font-size: 18px; cursor: pointer; }
 .instrument-answers button:hover { background: #3d9441; }
@@ -89,7 +168,8 @@
 .send-loading[hidden] { display: none !important; }
 @media (max-width: 520px) {
   .instrument-card { padding: 14px; }
-  .instrument-note { width: 165px; height: 186px; }
+  .fingering-mode { align-items: stretch; gap: 5px; }
+  .fingering-options span { padding-inline: 8px; }
   .send-score-fields { grid-template-columns: 1fr; }
 }
 
@@ -108,12 +188,7 @@
 .instrument-card h2 { margin: 4px 100px 4px; }
 .pedagogy { min-height: 0; margin: 4px 0; }
 .sound-summary { margin: 4px auto 6px; padding: 6px 12px; }
-.fingering-mode { margin: 7px auto 0; }
-.instrument-note {
-  width: min(215px, 72vw);
-  height: 155px !important;
-  margin-top: 0;
-}
+.instrument-note { width: min(250px, 76vw); height: 220px !important; }
 #quiz { padding-top: 2px; }
 .instrument-answers { margin: -2px auto 8px; }
 .instrument-feedback { margin: 4px 0; min-height: 24px; }
@@ -126,7 +201,7 @@
 @media (max-width: 700px) {
   .instrument-card > .home-link { position: static; display: inline-block; }
   .instrument-card h2 { margin: 8px 0 4px; }
-  .instrument-note { width: min(205px, 78vw); height: 150px !important; }
+  .instrument-note { width: min(220px, 76vw); height: 215px !important; }
 }
 /* Surface : note mise en avant et interface stable */
 #quiz { position: relative; }
@@ -134,15 +209,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(300px, 82vw);
+  width: min(250px, 76vw);
   height: 220px !important;
-  margin: 8px auto 6px;
-  padding: 8px 14px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #ffffff, #f3f8fd);
-  border: 3px solid #c9deef;
-  border-radius: 22px;
-  box-shadow: 0 12px 28px rgba(11, 52, 115, .14), inset 0 0 0 1px #fff;
+  margin: 0 auto;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 .instrument-note svg {
   width: 100% !important;
@@ -159,18 +234,118 @@
   line-height: 1.15;
 }
 .instrument-progress { margin-top: 4px; }
-.instrument-hint {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  margin-top: -47px;
-}
 @media (max-width: 700px) {
-  .instrument-note { width: min(285px, 88vw); height: 190px !important; }
+  .music-panel { width: min(310px, 90vw); height: 255px; }
+  .instrument-note { width: min(235px, 76vw); height: 210px !important; }
 }
 /* Proportions musicales : agrandissement homogène */
 .instrument-note svg {
-  transform: scale(1.28);
+  transform: scale(1.2);
   transform-origin: center center;
+  overflow: visible;
+}
+.reminder-clef-label { margin: 4px 0 -2px; color: #50657a; font-size: 14px; font-weight: 900; text-align: center; }
+
+/* Exercice fluide sur toutes les tailles d’écran */
+.instrument-card { max-width: min(940px, calc(100% - 24px)); }
+.instrument-card, .instrument-card > *, #quiz, #result { min-width: 0; }
+.open-strings-intro, .open-strings-list.combined-staff { max-width: 100%; }
+.open-strings-labels span { min-width: 34px; padding: 4px 7px; font-size: clamp(12px, 2.3vw, 16px); }
+.live-sound-choice, .sound-mode, .fingering-mode { flex-wrap: wrap; }
+
+@media (max-width: 700px) {
+  .instrument-card { width: calc(100% - 10px); max-width: none; margin: 6px auto; padding: 12px 10px; border-radius: 14px; }
+  .instrument-card > .home-link { margin-bottom: 4px; }
+  .instrument-card h2 { font-size: clamp(1.25rem, 6vw, 1.7rem); line-height: 1.15; }
+  .pedagogy { font-size: 14px; line-height: 1.35; }
+  .sound-summary { max-width: 100%; font-size: 12px; }
+  .open-strings-intro { width: 100%; margin: 12px auto; padding: 14px 8px; }
+  .open-strings-intro h3 { margin-bottom: 10px; font-size: 19px; }
+  .open-strings-list.combined-staff { padding-inline: 3px; }
+  .open-strings-staff { height: clamp(130px, 43vw, 175px) !important; }
+  .open-strings-labels { margin-top: -8px; }
+  .fingering-mode { display: grid; justify-items: center; }
+  .fingering-options { max-width: 100%; }
+  .fingering-options span { min-height: 40px; }
+  .music-panel { width: min(300px, calc(100vw - 34px)); height: 245px; margin-bottom: 42px; padding-inline: 8px; }
+  .instrument-note { width: min(220px, 72vw); height: 200px !important; }
+  .instrument-answers { display: grid; grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); width: 100%; gap: 7px; }
+  .instrument-answers button { min-width: 0; min-height: 48px; margin: 0; padding: 10px 7px; font-size: 17px; }
+  .instrument-hint { max-width: calc(100% - 12px); gap: 7px; padding-inline: 8px; font-size: 13px; }
+  .instrument-progress { height: 12px; }
+  #score, #key-score { font-size: 21px; }
+  #result .button { display: block; width: 100%; margin: 8px 0; }
+}
+
+@media (max-width: 380px) {
+  .live-sound-choice > span { width: 100%; }
+  .live-sound-choice button { flex: 1; }
+  .fingering-options { display: grid; grid-template-columns: 1fr; width: 100%; }
+  .music-panel { height: 225px; }
+  .instrument-note { width: 200px; height: 185px !important; }
+  .instrument-answers { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (orientation: landscape) and (max-height: 720px) {
+  .instrument-card { margin-top: 4px; padding-block: 8px; }
+  .instrument-card h2 { margin-block: 2px; }
+  .pedagogy, .sound-summary, .sound-mode, .live-sound-choice, .fingering-mode { margin-block: 2px; }
+  .music-panel { height: 205px; margin-block: 4px 34px; }
+  .instrument-note { height: 170px !important; width: 205px; }
+  .instrument-answers { margin-bottom: 4px; }
+  .instrument-feedback { height: 30px; min-height: 30px; }
+  .instrument-progress { margin-block: 4px; }
+  .open-strings-intro { margin-block: 8px; padding-block: 10px; }
+  .open-strings-staff { height: 135px !important; }
+}
+
+.keyboard-hint {
+  margin: 7px 0 2px;
+  color: #60758a;
+  font-size: 13px;
+  font-weight: 700;
+}
+@media (max-width: 520px) {
+  .keyboard-hint { font-size: 11px; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .keyboard-hint { display: none; }
+}
+
+/* Téléphone/tablette : la question complète reste dans la fenêtre. */
+@media (max-width: 700px) {
+  body:has(> .instrument-card) { padding: 5px !important; }
+  body:has(> .instrument-card) .notalix-bar {
+    grid-template-columns: auto 1fr; min-height: 48px; margin-bottom: 5px;
+    padding: 5px 7px; border-radius: 12px;
+  }
+  body:has(> .instrument-card) .notalix-home { grid-column: 1; grid-row: 1; min-height: 38px; padding: 6px 8px; font-size: 0; }
+  body:has(> .instrument-card) .notalix-home::first-letter { font-size: 18px; }
+  body:has(> .instrument-card) .notalix-brand { grid-column: 2; grid-row: 1; justify-self: center; }
+  body:has(> .instrument-card) .notalix-site { display: none; }
+  body:has(> .instrument-card) .notalix-module { display: none; }
+}
+
+@media (max-width: 700px) and (max-height: 900px) {
+  .instrument-card { margin-top: 3px; padding-block: 8px; }
+  .instrument-card h2 { margin-block: 2px; }
+  .instrument-card .pedagogy { margin-block: 2px; font-size: 12px; }
+  .sound-summary { display: none; }
+  .sound-mode, .live-sound-choice, .fingering-mode { margin-block: 2px; }
+  .music-panel { height: 205px; margin-block: 3px 29px; }
+  .instrument-note { width: 205px; height: 170px !important; }
+  .instrument-answers { margin-bottom: 3px; }
+  .instrument-feedback { height: 28px; min-height: 28px; font-size: 16px; }
+  .instrument-progress { margin-block: 3px; }
+  #score, #key-score { margin-block: 2px; font-size: 19px; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  body:has(> .instrument-card) .notalix-bar { min-height: 42px; }
+  .instrument-card > .home-link { position: absolute; top: 8px; left: 10px; margin: 0; }
+  .instrument-card h2 { margin-inline: 90px; font-size: 19px; }
+  .instrument-card .pedagogy, .keyboard-hint { display: none; }
+  .music-panel { height: 155px; margin-bottom: 21px; }
+  .instrument-note { width: 180px; height: 130px !important; }
+  .instrument-answers button { min-height: 38px; padding-block: 6px; }
 }

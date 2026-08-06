@@ -4,9 +4,11 @@ Notalix est un ensemble de modules pedagogiques musicaux utilisables directement
 
 ## Version actuelle
 
-**Notalix 0.5.2 — Module Lecture de notes**
+**NOTALIX 0.6.0 — Lecture de notes repensée**
 
-Commit de reference : `00f22d8`. La prochaine etape planifiee est la version 0.5.3, consacree a l'affichage musical commun.
+Cette version marque un nouveau jalon du projet : le module Lecture de notes réunit désormais des parcours cohérents par clés, instruments et défis, une progression pédagogique explicite, les instruments transpositeurs, des aides de doigté, un affichage adaptatif et des tutoriels pour les élèves et les parents.
+
+Voir [les notes de version 0.6.0](docs/NOTES-VERSION-0.6.0.md).
 
 ## Demarrage
 

@@ -153,6 +153,23 @@ button.secondary,.secondary,.small { background: #eef4f8 !important; color: var(
   .notalix-word { font-size: 20px; }
 }
 
+@media (max-width: 560px) {
+  .notalix-bar { min-height: 0; margin-bottom: 9px; padding: 8px; gap: 7px; }
+  .notalix-brand { min-width: 0; white-space: normal; }
+  .notalix-note { font-size: 24px; }
+  .notalix-word { font-size: clamp(16px, 5vw, 20px); line-height: 1.05; }
+  .notalix-by { font-size: 11px; }
+  .notalix-home,.notalix-site { max-width: 46vw; min-height: 42px; line-height: 1.15; }
+}
+
+@media (orientation: landscape) and (max-height: 720px) {
+  body { padding-top: 6px !important; padding-bottom: 16px !important; }
+  .notalix-bar { min-height: 52px; margin-bottom: 7px; padding-block: 6px; }
+  .notalix-note { font-size: 24px; }
+  .notalix-word { font-size: 18px; }
+  .notalix-home,.notalix-site { min-height: 38px; padding-block: 6px; }
+}
+
 /* V2 — mise en page réellement adaptée aux écrans d’ordinateur */
 @media (min-width: 1100px) {
   body {
@@ -453,4 +470,13 @@ button.secondary,.secondary,.small { background: #eef4f8 !important; color: var(
     font-size: 18px;
   }
   .notalix-module-lecture-notes .notalix-word { font-size: 12px; }
+}
+
+/* Priorité finale aux écrans larges mais peu hauts (tablette/Surface en paysage) */
+@media (orientation: landscape) and (max-height: 720px) {
+  body { padding: 6px max(8px, env(safe-area-inset-right)) 16px max(8px, env(safe-area-inset-left)) !important; }
+  .notalix-bar { min-height: 52px; margin-bottom: 7px; padding-block: 6px; }
+  .notalix-note { font-size: 24px; }
+  .notalix-word { font-size: 18px; }
+  .notalix-home,.notalix-site { min-height: 38px; padding-block: 6px; }
 }

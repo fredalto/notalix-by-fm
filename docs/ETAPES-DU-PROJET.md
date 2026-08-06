@@ -4,13 +4,13 @@
 
 | Élément | État |
 | --- | --- |
-| Version publiée | **v0.5.2** |
-| Date | 5 août 2026 |
-| Jalon | Module Lecture de notes et migration VexFlow |
-| Commit de référence | `00f22d8` |
-| Projet actif | `01_PROJET_ACTIF/notalix` |
-| Sauvegarde | Créée et contrôlée |
-| Publication GitHub | Effectuée |
+| Version préparée | **v0.6.0** |
+| Date | 6 août 2026 |
+| Jalon | Lecture de notes repensée |
+| Commit de référence | À créer lors de la publication GitHub |
+| Projet actif | `notalix-by-fm` |
+| Sauvegarde | À contrôler avant publication |
+| Publication GitHub | À effectuer |
 
 ## Étapes terminées
 
@@ -38,43 +38,38 @@
 - [x] Stabilisation de la barre d’avancement.
 - [x] Affichage de la version dans Notalix.
 
-## Prochaine étape — v0.5.3
+### v0.6.0 — Lecture de notes repensée
 
-### Affichage musical commun
+- [x] Parcours distincts Clé, Instruments et Défi.
+- [x] Progressions par nouvelles notes et niveaux pédagogiques.
+- [x] Tirages équilibrés sans répétition immédiate.
+- [x] Affichage VexFlow commun, agrandi et adaptatif.
+- [x] Instruments, familles et sous-familles réorganisés.
+- [x] Sons écrits et transposés comparables pendant l’exercice.
+- [x] Aides de doigté propres aux instruments lorsqu’elles sont pertinentes.
+- [x] Défis progressifs avec manches, temps et cœurs.
+- [x] Adaptation ordinateur, Surface, tablette et smartphone.
+- [x] Tutoriels élève et parents.
+- [x] Philosophie pédagogique et éthique documentée.
 
-- [ ] Tester les clés de sol, fa, ut 3 et ut 4.
+## Prochaine étape — v0.6.1
+
+### Stabilisation de Lecture de notes
+
+- [ ] Tester les sept clés et leurs notes repères.
 - [ ] Vérifier les notes très graves et très aiguës.
-- [ ] Tester les parcours Instruments et les défis.
-- [ ] Définir un composant VexFlow commun et réutilisable.
-- [ ] Harmoniser la taille des portées et des notes.
-- [ ] Préparer son utilisation dans plusieurs modules.
-- [ ] Vérifier ordinateur, Surface, tablette et smartphone.
+- [ ] Tester chaque instrument et chaque niveau.
+- [ ] Vérifier les transpositions, sons et doigtés avec les professeurs concernés.
+- [ ] Tester les défis, les raccourcis clavier et l’envoi facultatif des résultats.
+- [ ] Faire une passe visuelle sur ordinateur, Surface, tablette et smartphone.
 
-## Étapes suivantes du cycle 0.5
+## Suite du cycle 0.6
 
-### v0.5.4 — Sons et lecture audio
-
-- moteur sonore commun ;
-- banque sonore officielle ;
-- faible latence ;
-- tempo et volume communs ;
-- licences documentées.
-
-### v0.5.5 — Stabilisation du socle
-
-- tests des modules existants ;
-- correction des régressions ;
-- vérification sur plusieurs appareils et navigateurs ;
-- sauvegarde stable avant le cycle 0.6.
-
-## Cycle 0.6 — Interface commune
-
-- `0.6.0` : identité visuelle générale ;
-- `0.6.1` : page d’accueil Lire / Écouter / Écrire / Comprendre ;
-- `0.6.2` : navigation commune ;
-- `0.6.3` : adaptation aux écrans ;
-- `0.6.4` : uniformisation des modules ;
-- `0.6.5` : validation générale.
+- `0.6.1` : stabilisation et validation de Lecture de notes ;
+- `0.6.2` : navigation et composants réellement communs ;
+- `0.6.3` : harmonisation progressive des autres modules ;
+- `0.6.4` : sons, ressources et licences ;
+- `0.6.5` : validation générale du socle.
 
 ## Vision générale
 
