@@ -1,0 +1,20 @@
+.result-panel {
+  width: min(680px,100%); margin: 18px auto 4px; padding: 24px;
+  background: linear-gradient(160deg,#f7fbff,#fff); border: 1px solid #d6e5f1;
+  border-radius: 20px; box-shadow: 0 12px 30px rgba(23,48,78,.10); text-align: center;
+}
+.result-symbol { display:grid; place-items:center; width:54px; height:54px; margin:0 auto 8px; color:#fff; background:#38a95a; border-radius:50%; font-size:28px; font-weight:900; }
+.result-kicker { margin:0; color:#52708a; font-size:11px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.result-panel h2 { margin:3px 0; }.result-score { display:block; margin:8px auto 2px; color:#0c4f91; font-size:clamp(2rem,6vw,3.1rem); }
+.result-panel > p:not(.result-kicker) { max-width:540px; margin:4px auto 15px; color:#536b82; }
+.result-actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; max-width:500px; margin:18px auto; }
+.result-actions .button { display:grid; place-items:center; margin:0; text-decoration:none; }
+.result-actions .secondary { color:#1769bd; background:#edf5fb; border:1px solid #c9dfef; box-shadow:none; }
+.result-share { margin-top:15px; padding:0 14px 14px; background:#f5f8fb; border:1px solid #dae5ee; border-radius:14px; text-align:left; }
+.result-share summary { padding:13px 0; color:#1769bd; cursor:pointer; font-weight:850; }
+.result-share > p { margin:0 0 10px; color:#60758a; font-size:13px; }.result-share .send-score-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.result-share input,.result-share select { width:100%; min-width:0; padding:10px; border:1px solid #cbd9e4; border-radius:9px; background:#fff; }
+.result-share .button { display:block; margin:12px auto 0; }.send-confirmation { min-height:20px; margin:8px 0 0!important; text-align:center; }
+.send-confirmation.success { color:#258044!important; }.send-confirmation.error { color:#c0392b!important; }
+.send-loading { margin:8px 0 0!important; color:#60758a; text-align:center; }
+@media(max-width:560px){.result-panel{padding:18px 13px;scroll-margin-top:8px}.result-actions,.result-share .send-score-fields{grid-template-columns:1fr}.result-actions .button{width:100%}}

@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lecture de Notes</title>
-  <link rel="stylesheet" href="unified.css?v=0.6.0-0806h">
   <link rel="stylesheet" href="../notalix-theme.css?v=0.6.0-0806b">
+  <link rel="stylesheet" href="unified.css?v=0.6.0-0807f">
   <script defer src="../notalix-shell.js?v=0.6.0-0806b"></script>
 </head>
 <body>
@@ -27,8 +27,8 @@
 
     <!-- SECTION CLÉS -->
     <div id="etape-cle" class="step-container fade hidden">
-      <div class="path-heading"><span class="path-icon" aria-hidden="true">♪</span><div><p class="path-kicker">À toi de jouer</p><h3 id="key-choice-title">Choisis ta clé</h3></div></div>
-      <p class="instrument-intro key-purpose-intro">Commence par la clé de ton instrument, puis découvre les autres à ton rythme.</p>
+      <div class="path-heading mode-section-heading"><span class="path-icon" aria-hidden="true">♪</span><div><p class="path-kicker">À toi de jouer</p><h3 id="key-choice-title">Choisis ta clé</h3></div></div>
+      <p class="instrument-intro key-purpose-intro mode-section-subtitle">Commence par la clé de ton instrument, puis découvre les autres à ton rythme.</p>
       <div id="cle-buttons" class="key-cycle-list">
         <section class="key-family-block key-family-essential">
           <header><span>1</span><div><strong>Les clés essentielles</strong><small>Commence ici</small></div></header>
@@ -45,33 +45,32 @@
           </div>
         </section>
         <section class="key-family-block key-family-expert">
-          <header><span>3</span><div><strong>Pour aller plus loin</strong><small>Trois clés à découvrir</small></div></header>
+          <header><span>3</span><div><strong>Pour aller plus loin</strong><small>Deux clés à découvrir</small></div></header>
           <div class="key-family-choices">
             <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut1')"><strong>Clé d’Ut 1re</strong><small>Registre soprano</small></button>
             <button data-clef-symbol="𝄡" onclick="setCle(this, 'ut2')"><strong>Clé d’Ut 2e</strong><small>Registre mezzo-soprano</small></button>
-            <button data-clef-symbol="𝄢" onclick="setCle(this, 'fa3')"><strong>Clé de Fa 3e</strong><small>Registre baryton</small></button>
           </div>
         </section>
       </div>
       <div id="key-context" class="key-context hidden-soft" aria-live="polite"></div>
       <div id="key-stages" class="hidden-soft">
-        <div class="key-stage-heading"><button type="button" onclick="backToKeyChoice()">← Changer de clé</button><h4>Choisis ta mission</h4></div>
+        <div class="key-stage-heading"><h4>2. Choisis ton niveau</h4></div>
         <div class="levels-row">
           <button class="instrument-level-card" onclick="selectNiveau(1)"><span class="level-number">1</span><strong>Notes repères</strong><span>Je reconnais mes points d’appui</span></button>
-          <button class="instrument-level-card" onclick="selectNiveau(2)"><span class="level-number">2</span><strong>Repères + conjointes</strong><span>Une repère, une voisine</span></button>
+          <button class="instrument-level-card" onclick="selectNiveau(2)"><span class="level-number">2</span><strong>Repères + conjointes</strong><span>Un repère, une voisine</span></button>
           <button class="instrument-level-card" onclick="selectNiveau(3)"><span class="level-number">3</span><strong>Conjointes + tierces</strong><span>Je franchis un intervalle</span></button>
           <button class="instrument-level-card" onclick="selectNiveau(4)"><span class="level-number">4</span><strong>Le grand mélange</strong><span>Repères, conjointes et tierces</span></button>
           <button class="instrument-level-card" onclick="selectNiveau(5)"><span class="level-number">5</span><strong>Toutes les notes</strong><span>Je maîtrise toute la clé</span></button>
         </div>
-        <button id="go-button" type="button" class="hidden launch-instrument-level" onclick="lancerExercice()">Commencer</button>
+        <button id="go-button" type="button" class="launch-instrument-level" onclick="lancerExercice()" disabled>Choisis d’abord un niveau</button>
       </div>
     </div>
 
 
     <!-- ===== INSTRUMENTS ===== -->
     <div id="etape-instrument" class="step-container fade hidden">
-      <h3 id="instrument-section-title">Choisis ton instrument</h3>
-      <p class="instrument-intro">Choisis une famille, puis ton instrument et ton niveau.</p>
+      <div class="path-heading mode-section-heading"><span class="path-icon" aria-hidden="true">♫</span><div><p class="path-kicker">À toi de jouer</p><h3 id="instrument-section-title">Choisis ton instrument</h3></div></div>
+      <p class="instrument-intro mode-section-subtitle">Choisis une famille, puis ton instrument et ton niveau.</p>
       <div id="instrument-selection-summary" class="instrument-selection-summary hidden-soft">
         <button type="button" onclick="changeInstrumentSelection()">← Changer d’instrument</button>
       </div>
@@ -102,14 +101,14 @@
 
     <!-- SECTION DÉFIS -->
     <div id="etape-defi" class="step-container fade hidden">
-      <div class="path-heading challenge-heading"><span class="path-icon" aria-hidden="true">★</span><div><p class="path-kicker">Mode jeu</p><h3>Relève ton défi !</h3></div></div>
-      <p class="challenge-promise"><b>3 cœurs</b><span>♥</span><b>Un chrono</b><span>⏱</span><b>À toi de jouer !</b></p>
+      <div class="path-heading challenge-heading mode-section-heading"><span class="path-icon" aria-hidden="true">★</span><div><p class="path-kicker">Mode jeu</p><h3>Relève ton défi !</h3></div></div>
+      <p class="challenge-promise mode-section-subtitle"><b>3 cœurs</b><span>♥</span><b>Un chrono</b><span>⏱</span><b>À toi de jouer !</b></p>
       <div id="defi-cles" class="challenge-board challenge-path-five">
-        <button class="defi-card" data-defi-symbol="𝄞" onclick="selectDefi(this, 'sol')"><strong>Défi Sol</strong><span>5 niveaux qui s’enchaînent</span></button>
-        <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa')"><strong>Défi Fa</strong><span>5 niveaux qui s’enchaînent</span></button>
-        <button class="defi-card" data-defi-symbol="2" onclick="selectDefi(this, 'solfa')"><strong>Défi Sol + Fa</strong><span>Les deux clés essentielles</span></button>
-        <button class="defi-card ultimate" data-defi-symbol="4" onclick="selectDefi(this, 'ultimate')"><strong>Défi ultime</strong><span>Sol, Fa, Ut 3e et Ut 4e</span></button>
-        <button class="defi-card heroes" data-defi-symbol="★" onclick="selectDefi(this, 'heroes')"><strong>Défi des Héros</strong><span>Les sept clés</span></button>
+        <button class="defi-card" data-defi-symbol="𝄞" onclick="selectDefi(this, 'sol')"><strong>Défi clé de sol</strong><span>La clé de sol, du niveau 1 au niveau 5</span></button>
+        <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa')"><strong>Défi clé de fa</strong><span>La clé de fa, du niveau 1 au niveau 5</span></button>
+        <button class="defi-card" data-defi-symbol="𝄞+𝄢" onclick="selectDefi(this, 'solfa')"><strong>Défi des explorateurs</strong><span>Clés de sol et de fa</span></button>
+        <button class="defi-card ultimate" data-defi-symbol="4" onclick="selectDefi(this, 'ultimate')"><strong>Défi ultime</strong><span>Sol, fa, ut 3 et ut 4</span></button>
+        <button class="defi-card heroes" data-defi-symbol="★" onclick="selectDefi(this, 'heroes')"><strong>Défi des héros</strong><span>Toutes les six clés</span></button>
       </div>
       <button id="go-button-defi" class="hidden launch-instrument-level" onclick="lancerDefiChoisi()">Commencer le défi</button>
     </div>
@@ -124,7 +123,7 @@
       <p class="tutorial-lead">Pour lire vite, tu ne comptes pas les lignes une par une : tu pars de notes repères que tu reconnais immédiatement.</p>
       <div class="tutorial-grid">
         <section class="tutorial-card tutorial-landmark"><span class="tutorial-number">1</span><h3>Pose tes notes repères</h3><p>Observe leur place sur la portée et apprends à les reconnaître d’un seul regard. Elles deviennent tes points d’appui.</p></section>
-        <section class="tutorial-card"><span class="tutorial-number">2</span><h3>Lis autour des repères</h3><p>Au niveau 2, une note repère alterne avec une note conjointe. Demande-toi : « quelle repère est juste à côté ? »</p></section>
+        <section class="tutorial-card"><span class="tutorial-number">2</span><h3>Lis autour des repères</h3><p>Au niveau 2, une note repère alterne avec une note conjointe. Demande-toi : « quel repère est juste à côté ? »</p></section>
         <section class="tutorial-card"><span class="tutorial-number">3</span><h3>Élargis progressivement</h3><p>Les tierces arrivent ensuite, puis les trois familles se mélangent. Le niveau 5 réunit toutes les notes de la clé.</p></section>
         <section class="tutorial-card"><span class="tutorial-number">4</span><h3>Lis, chante, puis réponds</h3><p>N’hésite pas à chanter le nom ou la hauteur de la note avant de répondre : la mémoire du musicien passe aussi par le son.</p></section>
         <section class="tutorial-card"><span class="tutorial-number">5</span><h3>Passe au Défi</h3><p>Quand les repères sont solides, lance un défi : les cinq niveaux s’enchaînent avec le chrono et les cœurs.</p></section>
@@ -155,7 +154,7 @@
 
   <script src="config.js?v=0.6.0-0806b"></script>
   <script src="instrument-config.js?v=0.6.0-0806b"></script>
-  <script src="cle-config.js?v=0.6.0-0806g"></script>
-  <script src="index.js?v=0.6.0-0806h"></script>
+  <script src="cle-config.js?v=0.6.0-0806l"></script>
+  <script src="index.js?v=0.6.0-0807f"></script>
 </body>
 </html>

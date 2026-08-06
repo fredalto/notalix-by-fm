@@ -1116,3 +1116,502 @@ button, .button, .tile, .instrument-level-card, .defi-card {
   #etape-instrument.instrument-ready .levels-row { grid-template-columns: 1fr 1fr; }
   #etape-instrument.instrument-ready .instrument-level-card { min-height: 145px; }
 }
+
+/* Sélection multiple des clés et parcours lisible sur tous les écrans. */
+html, body { max-width: 100%; overflow-x: hidden; }
+#cle-buttons .key-family-choices button { padding-right: 38px; }
+#cle-buttons .key-family-choices button::after {
+  content: ""; position: absolute; top: 9px; right: 9px; display: grid; place-items: center;
+  width: 22px; height: 22px; color: #fff; background: #fff; border: 2px solid #9abbd5;
+  border-radius: 50%; font-size: 14px; font-weight: 950;
+}
+#cle-buttons .key-family-choices button.selected::after { content: "✓"; background: #31a55d; border-color: #31a55d; }
+#key-stages #go-button { display: block !important; width: min(360px,100%); margin: 16px auto 0; }
+#key-stages #go-button:disabled { color: #6f8191; background: #dce7ee; box-shadow: none; cursor: not-allowed; }
+#key-stages .instrument-level-card.selected { color: #fff; background: linear-gradient(145deg,#238ee0,#1768bc); border-color: #1768bc; }
+#key-stages .instrument-level-card.selected > span:last-child { color: #eaf6ff; }
+.key-context { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; max-width: 900px; margin: 13px auto 4px; padding: 10px 14px; background: #eef7fd; border: 1px solid #cfe5f4; border-radius: 13px; }
+.key-context strong { color: #154f84; }.key-context span { color: #526d84; }
+
+@media (max-width: 760px) {
+  .section { width: calc(100% - 12px); margin-inline: auto; padding: 12px 9px 18px; }
+  .tutorial-entry { margin-bottom: 8px; }
+  .mode-buttons { margin-bottom: 9px; }
+  .mode-buttons > p { margin-block: 6px 9px; font-size: 14px; }
+  .mode-buttons > div { gap: 5px !important; }
+  .mode-buttons button { min-height: 46px; padding: 8px 4px; font-size: 15px; }
+  .step-container { scroll-margin-top: 8px; }
+  #cle-buttons.key-cycle-list { grid-template-columns: 1fr !important; gap: 8px !important; margin-top: 8px; }
+  #cle-buttons .key-family-block { padding: 10px; }
+  #cle-buttons .key-family-choices, #cle-buttons .key-family-expert .key-family-choices { grid-template-columns: 1fr 1fr; }
+  #cle-buttons .key-family-expert button { display: grid; min-height: 72px; text-align: left; }
+  #key-stages .levels-row { grid-template-columns: 1fr 1fr !important; gap: 7px; }
+  #key-stages .instrument-level-card { min-height: 104px; padding: 9px; }
+  #key-stages .instrument-level-card:last-child { grid-column: 1 / -1; }
+  #defi-cles.challenge-board.challenge-path-five { grid-template-columns: 1fr !important; gap: 7px; }
+  #defi-cles.challenge-path-five .defi-card, #defi-cles.challenge-path-five .defi-card:last-child { grid-column: auto; min-height: 78px; }
+  #etape-instrument .families-row, #etape-instrument .subfamilies-row, #etape-instrument .instruments-row { scroll-margin-top: 8px; }
+  #etape-instrument.instrument-ready .levels-row { grid-template-columns: 1fr 1fr; gap: 7px; }
+  #etape-instrument.instrument-ready .instrument-level-card { min-height: 130px; padding: 10px; }
+}
+@media (max-width: 390px) {
+  #cle-buttons .key-family-choices, #cle-buttons .key-family-expert .key-family-choices,
+  #key-stages .levels-row, #etape-instrument.instrument-ready .levels-row { grid-template-columns: 1fr !important; }
+  #key-stages .instrument-level-card:last-child { grid-column: auto; }
+}
+
+/* Couche d'autorité 0806j : dimensions fluides et commandes cohérentes. */
+.section, .step-container, .key-family-block, .key-family-choices,
+.levels-row, .challenge-board, .families-row, .subfamilies-row, .instruments-row {
+  min-width: 0;
+  max-width: 100%;
+}
+.mode-buttons button, .families-row button, .subfamilies-row button,
+.instruments-row button, #cle-buttons button, #key-stages button,
+#defi-cles button { margin: 0; }
+.mode-buttons button { background: #1769c2 !important; }
+.mode-buttons button.selected { background: #2799eb !important; }
+
+@media (max-width: 700px) {
+  body { padding-inline: 5px !important; }
+  .notalix-bar { width: 100%; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .notalix-brand { max-width: 100%; justify-content: center; overflow: hidden; }
+  .notalix-home, .notalix-site { width: 100%; max-width: 100%; justify-content: center; white-space: normal; }
+  .notalix-note { flex: 0 0 auto; }
+  .notalix-word { overflow: hidden; text-overflow: ellipsis; }
+  .section { width: 100%; max-width: 100%; padding-inline: 9px; overflow: hidden; }
+  .tutorial-entry { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .tutorial-entry > span { grid-column: 1 / -1; }
+  .tutorial-entry button { width: 100%; min-width: 0; margin: 0; padding-inline: 5px; font-size: 12px; }
+  .mode-buttons > div { width: 100%; max-width: 100% !important; }
+  #cle-buttons .key-family-choices { width: 100%; }
+  #cle-buttons .key-family-choices button { width: 100%; min-width: 0; }
+  #etape-cle .instrument-intro, #etape-defi .challenge-promise { max-width: 100%; }
+  #etape-instrument .levels-row, #key-stages .levels-row { width: 100%; }
+  #defi-cles.challenge-board.challenge-path-five { width: 100%; }
+}
+
+@media (max-width: 430px) {
+  .notalix-bar { grid-template-columns: 1fr; }
+  .notalix-brand { grid-column: 1; }
+  .notalix-home { grid-column: 1; grid-row: 2; }
+  .notalix-site { display: none; }
+  .mode-buttons > div { grid-template-columns: 1fr !important; }
+  #cle-buttons .key-family-choices,
+  #cle-buttons .key-family-expert .key-family-choices,
+  #key-stages .levels-row,
+  #etape-instrument.instrument-ready .levels-row { grid-template-columns: 1fr !important; }
+}
+
+/* 0806m — parcours visibles sans faire chercher la suite plus bas. */
+body:has(#etape-cle.show) .section {
+  margin-top: 8px;
+  padding-top: 8px;
+  padding-bottom: 10px;
+}
+body:has(#etape-cle.show) .tutorial-entry {
+  display: flex;
+  margin-bottom: 7px;
+}
+body:has(#etape-cle.show) .mode-buttons { margin-bottom: 7px; }
+body:has(#etape-cle.show) .mode-buttons > p {
+  display: block;
+  margin: 2px 0 5px;
+  font-size: 15px;
+}
+body:has(#etape-cle.show) .mode-buttons button { min-height: 46px; padding-block: 8px; }
+body:has(#etape-cle.show) #etape-cle .path-heading { margin: 2px auto 4px; }
+body:has(#etape-cle.show) #etape-cle .path-icon { width: 46px; height: 46px; }
+body:has(#etape-cle.show) #etape-cle .key-purpose-intro { margin: 2px auto 5px !important; padding: 6px 12px; }
+body:has(#etape-cle.show) #cle-buttons.key-cycle-list { gap: 6px; margin: 5px auto 3px; }
+body:has(#etape-cle.show) #cle-buttons .key-family-block { min-height: 0; padding: 6px; }
+body:has(#etape-cle.show) #cle-buttons .key-family-block header { margin-bottom: 6px; }
+body:has(#etape-cle.show) #cle-buttons .key-family-block header > span { width: 34px; height: 34px; }
+body:has(#etape-cle.show) #cle-buttons .key-family-choices { gap: 6px; }
+body:has(#etape-cle.show) #cle-buttons .key-family-choices button,
+body:has(#etape-cle.show) #cle-buttons .key-family-expert button {
+  min-height: 58px;
+  padding-block: 5px;
+}
+body:has(#etape-cle.show) .key-context { margin: 5px auto 2px; padding: 5px 9px; }
+body:has(#etape-cle.show) .key-stage-heading { margin: 4px auto; }
+body:has(#etape-cle.show) #key-stages .levels-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  max-width: 1080px;
+}
+body:has(#etape-cle.show) #key-stages .instrument-level-card {
+  min-height: 76px;
+  padding: 6px;
+}
+body:has(#etape-cle.show) #key-stages .instrument-level-card .level-number {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+body:has(#etape-cle.show) #key-stages .instrument-level-card strong { font-size: 14px; }
+body:has(#etape-cle.show) #key-stages .instrument-level-card > span:last-child { font-size: 11px; }
+body:has(#etape-cle.show) #key-stages #go-button { margin-top: 5px; min-height: 38px; padding-block: 5px; }
+
+@media (max-height: 900px) and (min-width: 761px) {
+  body:has(#etape-cle.show) .path-heading .path-kicker,
+  body:has(#etape-cle.show) .key-family-block header small,
+  body:has(#etape-cle.show) #key-stages .instrument-level-card > span:last-child { display: none; }
+  body:has(#etape-cle.show) #etape-cle .path-heading { margin: 2px auto; }
+  body:has(#etape-cle.show) #cle-buttons .key-family-choices button,
+  body:has(#etape-cle.show) #cle-buttons .key-family-expert button { min-height: 52px; }
+  body:has(#etape-cle.show) #key-stages .instrument-level-card { min-height: 62px; }
+}
+
+@media (max-width: 760px) {
+  body:has(#etape-cle.show) .section { margin-top: 5px; }
+  body:has(#etape-cle.show) #cle-buttons .key-family-block { padding: 7px; }
+  body:has(#etape-cle.show) #cle-buttons .key-family-choices button,
+  body:has(#etape-cle.show) #cle-buttons .key-family-expert button { min-height: 62px; }
+  body:has(#etape-cle.show) #key-stages .levels-row { grid-template-columns: 1fr 1fr !important; }
+  body:has(#etape-cle.show) #key-stages .instrument-level-card { min-height: 78px; }
+  body:has(#etape-cle.show) #key-stages .instrument-level-card:last-child { grid-column: 1 / -1; }
+}
+
+/* 0807a — accueils Clé et Défi plus légers : une couleur indique l'action,
+   les autres éléments restent calmes et lisibles. */
+body:has(#etape-cle.show) .mode-buttons button:not(.selected),
+body:has(#etape-defi.show) .mode-buttons button:not(.selected) {
+  color: #26445f;
+  background: #f7f9fb !important;
+  border: 1px solid #d6e0e8;
+  box-shadow: none;
+}
+body:has(#etape-cle.show) .mode-buttons #btn-cle.selected {
+  background: #586fc4 !important;
+}
+body:has(#etape-defi.show) .mode-buttons #btn-defi.selected {
+  background: #f09427 !important;
+}
+body:has(#etape-cle.show) #etape-cle .path-icon {
+  background: linear-gradient(145deg, #7465bf, #514a9d);
+  box-shadow: 0 7px 17px rgba(81,74,157,.18);
+}
+body:has(#etape-cle.show) #etape-cle .key-purpose-intro {
+  background: #faf9fc;
+  border-color: #e4e0eb;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-block {
+  background: #fbfcfd;
+  border-color: #dde4e9;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-registers {
+  background: #fbfbfd;
+  border-color: #e1e2ea;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-expert {
+  background: #fcfbfd;
+  border-color: #e7e0ec;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-essential > header > span {
+  background: #3b8d81;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-registers > header > span {
+  background: #6c6caf;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-expert > header > span {
+  background: #9a6b9e;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-choices button::before {
+  color: #367a72;
+  background: #edf7f4;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-registers button::before {
+  color: #6263a8;
+  background: #f0f0f8;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-expert button::before {
+  color: #8c5e91;
+  background: #f7eff7;
+}
+body:has(#etape-cle.show) #cle-buttons .key-family-choices button:hover,
+body:has(#etape-cle.show) #cle-buttons .key-family-choices button.selected {
+  color: #fff;
+  background: #566ab2 !important;
+  border-color: #566ab2;
+}
+body:has(#etape-defi.show) #etape-defi .challenge-heading .path-icon {
+  background: linear-gradient(145deg, #ffb13b, #ec7c21);
+}
+body:has(#etape-defi.show) #defi-cles.challenge-path-five .defi-card:nth-child(1)::before {
+  background: linear-gradient(145deg, #52a99b, #2d7f74) !important;
+}
+body:has(#etape-defi.show) #defi-cles.challenge-path-five .defi-card:nth-child(2)::before {
+  background: linear-gradient(145deg, #69b96f, #3d9148) !important;
+}
+body:has(#etape-defi.show) #defi-cles.challenge-path-five .defi-card:nth-child(3)::before {
+  background: linear-gradient(145deg, #8b78d5, #6452b2) !important;
+}
+body:has(#etape-defi.show) #defi-cles.challenge-path-five .defi-card:nth-child(4)::before {
+  color: #fff !important;
+  background: linear-gradient(145deg, #f6a83a, #dd7d20) !important;
+}
+body:has(#etape-defi.show) #defi-cles.challenge-path-five .defi-card:nth-child(5)::before {
+  color: #654800 !important;
+  background: linear-gradient(145deg, #ffe37a, #efb92d) !important;
+}
+
+@media (max-width: 760px) {
+  body:has(#etape-cle.show) .tutorial-entry { margin-bottom: 5px; }
+  body:has(#etape-cle.show) .mode-buttons > p { font-size: 13px; }
+}
+
+/* 0807b — en-tête de navigation strictement identique dans les trois modes.
+   Tout ce qui précède la ligne de séparation conserve sa place au changement. */
+.section {
+  margin-top: 20px;
+  padding-top: 24px;
+  padding-bottom: 18px;
+}
+.tutorial-entry {
+  display: flex;
+  min-height: 42px;
+  margin: 0 auto 14px;
+}
+.mode-buttons {
+  margin: 0 0 12px;
+  padding-bottom: 14px;
+}
+.mode-buttons > p {
+  display: block;
+  min-height: 25px;
+  margin: 0 0 7px;
+  font-size: 17px;
+  line-height: 25px;
+}
+.mode-buttons button {
+  min-height: 52px;
+  padding-block: 9px;
+  color: #29445f;
+  background: #f7f9fb !important;
+  border: 1px solid #d9e1e8;
+  box-shadow: none;
+}
+.mode-buttons button.selected,
+body:has(#etape-cle.show) .mode-buttons #btn-cle.selected,
+body:has(#etape-defi.show) .mode-buttons #btn-defi.selected {
+  color: #fff;
+  background: #586fc4 !important;
+  border-color: #586fc4;
+  box-shadow: 0 6px 14px rgba(62,79,151,.18);
+}
+
+@media (max-height: 900px) and (min-width: 761px) {
+  .section {
+    margin-top: 12px;
+    padding-top: 14px;
+  }
+  .tutorial-entry { margin-bottom: 8px; }
+  .mode-buttons { margin-bottom: 8px; padding-bottom: 10px; }
+  .mode-buttons button { min-height: 46px; }
+}
+
+@media (max-width: 760px) {
+  .section { margin-top: 6px; padding-top: 10px; }
+  .tutorial-entry { min-height: 0; margin-bottom: 7px; }
+  .mode-buttons > p { min-height: 0; font-size: 14px; line-height: 1.3; }
+}
+
+/* 0807d — même en-tête de contenu pour Clé, Instruments et Défi. */
+#etape-cle > .mode-section-heading,
+#etape-instrument > .mode-section-heading,
+#etape-defi > .mode-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 58px;
+  margin: 8px auto 2px;
+}
+
+.mode-section-heading .path-icon,
+body:has(#etape-cle.show) #etape-cle .mode-section-heading .path-icon,
+body:has(#etape-defi.show) #etape-defi .mode-section-heading .path-icon {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+  background: linear-gradient(145deg, #ffb13b, #ec7c21) !important;
+  border-radius: 15px;
+  box-shadow: 0 7px 17px rgba(214,111,12,.22);
+  font-size: 29px;
+}
+
+.mode-section-heading .path-kicker,
+body:has(#etape-cle.show) .mode-section-heading .path-kicker {
+  display: block !important;
+  margin: 0 0 2px;
+  color: #1f6fc9;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: .11em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.mode-section-heading h3,
+#etape-instrument .mode-section-heading h3 {
+  margin: 0;
+  color: #17304e;
+  font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+  line-height: 1.15;
+  text-align: left;
+}
+
+#etape-cle > .mode-section-subtitle,
+#etape-instrument > .mode-section-subtitle,
+#etape-defi > .mode-section-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: min(100%, 900px);
+  min-height: 29px;
+  margin: 4px auto 12px !important;
+  padding: 0 !important;
+  color: #536b82;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+@media (max-height: 900px) and (min-width: 761px) {
+  #etape-cle > .mode-section-heading,
+  #etape-instrument > .mode-section-heading,
+  #etape-defi > .mode-section-heading {
+    min-height: 52px;
+    margin-top: 3px;
+  }
+  .mode-section-heading .path-icon,
+  body:has(#etape-cle.show) #etape-cle .mode-section-heading .path-icon,
+  body:has(#etape-defi.show) #etape-defi .mode-section-heading .path-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 26px;
+  }
+  #etape-cle > .mode-section-subtitle,
+  #etape-instrument > .mode-section-subtitle,
+  #etape-defi > .mode-section-subtitle { margin-bottom: 8px !important; }
+}
+
+@media (max-width: 520px) {
+  #etape-cle > .mode-section-heading,
+  #etape-instrument > .mode-section-heading,
+  #etape-defi > .mode-section-heading { justify-content: flex-start; }
+  #etape-cle > .mode-section-subtitle,
+  #etape-instrument > .mode-section-subtitle,
+  #etape-defi > .mode-section-subtitle { justify-content: flex-start; text-align: left; }
+}
+/* 0807e — bandeau supérieur strictement identique dans les trois modes */
+body:has(#etape-cle.show) .section,
+body:has(#etape-instrument.show) .section,
+body:has(#etape-defi.show) .section {
+  margin-top: 20px;
+  padding-top: 24px;
+  padding-bottom: 18px;
+}
+
+body:has(#etape-cle.show) .tutorial-entry,
+body:has(#etape-instrument.show) .tutorial-entry,
+body:has(#etape-defi.show) .tutorial-entry {
+  display: flex;
+  min-height: 42px;
+  margin: 0 auto 14px;
+}
+
+body:has(#etape-cle.show) .mode-buttons,
+body:has(#etape-instrument.show) .mode-buttons,
+body:has(#etape-defi.show) .mode-buttons {
+  margin: 0 0 12px;
+  padding-bottom: 14px;
+}
+
+body:has(#etape-cle.show) .mode-buttons > p,
+body:has(#etape-instrument.show) .mode-buttons > p,
+body:has(#etape-defi.show) .mode-buttons > p {
+  display: block;
+  min-height: 25px;
+  margin: 0 0 7px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: normal;
+}
+
+body:has(#etape-cle.show) .mode-buttons button,
+body:has(#etape-instrument.show) .mode-buttons button,
+body:has(#etape-defi.show) .mode-buttons button {
+  min-height: 52px;
+  padding-block: 9px;
+}
+
+@media (max-height: 900px) and (min-width: 761px) {
+  body:has(#etape-cle.show) .section,
+  body:has(#etape-instrument.show) .section,
+  body:has(#etape-defi.show) .section {
+    margin-top: 12px;
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+
+  body:has(#etape-cle.show) .tutorial-entry,
+  body:has(#etape-instrument.show) .tutorial-entry,
+  body:has(#etape-defi.show) .tutorial-entry {
+    margin-bottom: 8px;
+  }
+
+  body:has(#etape-cle.show) .mode-buttons,
+  body:has(#etape-instrument.show) .mode-buttons,
+  body:has(#etape-defi.show) .mode-buttons {
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+  }
+
+  body:has(#etape-cle.show) .mode-buttons button,
+  body:has(#etape-instrument.show) .mode-buttons button,
+  body:has(#etape-defi.show) .mode-buttons button {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 760px) {
+  body:has(#etape-cle.show) .section,
+  body:has(#etape-instrument.show) .section,
+  body:has(#etape-defi.show) .section {
+    margin-top: 6px;
+    padding-top: 10px;
+    padding-bottom: 18px;
+  }
+
+  body:has(#etape-cle.show) .tutorial-entry,
+  body:has(#etape-instrument.show) .tutorial-entry,
+  body:has(#etape-defi.show) .tutorial-entry {
+    margin-bottom: 7px;
+  }
+
+  body:has(#etape-cle.show) .mode-buttons,
+  body:has(#etape-instrument.show) .mode-buttons,
+  body:has(#etape-defi.show) .mode-buttons {
+    margin-bottom: 8px;
+    padding-bottom: 9px;
+  }
+
+  body:has(#etape-cle.show) .mode-buttons > p,
+  body:has(#etape-instrument.show) .mode-buttons > p,
+  body:has(#etape-defi.show) .mode-buttons > p {
+    min-height: 0;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+}

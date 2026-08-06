@@ -50,24 +50,127 @@
   #challenge-time { font-size: 25px; }
 }
 
-.result-panel { max-width: 680px; margin: 18px auto 4px; padding: 24px; background: linear-gradient(160deg,#f7fbff,#fff); border: 1px solid #d6e5f1; border-radius: 20px; box-shadow: 0 12px 30px rgba(23,48,78,.10); }
-.result-symbol { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 8px; color: #fff; background: #38a95a; border-radius: 50%; font-size: 28px; font-weight: 900; }
-.result-kicker { margin: 0; color: #52708a; font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-.result-panel h2 { margin: 3px 0; }
-.result-score { display: block; margin: 8px auto 2px; color: #0c4f91; font-size: clamp(2rem,6vw,3.1rem); }
-.result-panel > p:not(.result-kicker) { margin: 4px 0 15px; color: #536b82; }
-.result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; max-width: 500px; margin: 18px auto; }
-.result-actions .button { display: grid; place-items: center; margin: 0; text-decoration: none; }
-.result-actions .secondary { color: #1769bd; background: #edf5fb; border: 1px solid #c9dfef; box-shadow: none; }
-.result-share { margin-top: 15px; padding: 0 14px 14px; background: #f5f8fb; border: 1px solid #dae5ee; border-radius: 14px; text-align: left; }
-.result-share summary { padding: 13px 0; color: #1769bd; cursor: pointer; font-weight: 850; }
-.result-share > p { margin: 0 0 10px; color: #60758a; font-size: 13px; }
-.result-share .send-score-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.result-share input,.result-share select { width: 100%; min-width: 0; padding: 10px; border: 1px solid #cbd9e4; border-radius: 9px; background: #fff; }
-.result-share .button { display: block; margin: 12px auto 0; }
-.send-confirmation { min-height: 20px; margin: 8px 0 0!important; text-align: center; }
-.send-confirmation.success { color: #258044!important; }.send-confirmation.error { color: #c0392b!important; }
-@media(max-width:560px){.result-panel{padding:18px 13px}.result-actions,.result-share .send-score-fields{grid-template-columns:1fr}.result-actions .button{width:100%}}
+/* Rappel pédagogique : une carte par clé, repères et nouveautés distincts. */
+.key-reminder-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; width:100%; }
+.key-reminder-card { min-width:0; padding:10px; background:#fff; border:1px solid #d5e5f1; border-radius:15px; box-shadow:0 6px 16px rgba(23,72,112,.08); }
+.key-reminder-card h4 { margin:0 0 3px; color:#164f82; font-size:15px; }
+.key-reminder-card .open-strings-staff { width:100%; min-height:154px; overflow:visible; }
+.key-reminder-labels { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:2px; }
+.key-note-chip { display:grid; grid-template-columns:auto auto; align-items:center; gap:5px; padding:5px 8px; color:#31536f; background:#edf4f9; border:1px solid #d4e2ec; border-radius:999px; }
+.key-note-chip small { font-size:9px; font-weight:850; text-transform:uppercase; letter-spacing:.04em; }
+.key-note-chip.new { color:#fff; background:#287fd0; border-color:#287fd0; }
+
+@media (max-width:700px) {
+  body:has(> .key-card) { padding:5px!important; overflow-x:hidden; }
+  body:has(> .key-card) .notalix-bar { min-height:48px; margin-bottom:5px; padding:5px 7px; border-radius:12px; }
+  body:has(> .key-card) .notalix-home, body:has(> .key-card) .notalix-site, body:has(> .key-card) .notalix-module { display:none; }
+  .key-card { width:100%; max-width:100%; margin:3px auto; padding:9px 7px 13px; }
+  .key-card > .home-link { margin:0 auto 4px; padding:6px 10px; font-size:12px; }
+  .key-card h2 { margin:2px 0; font-size:clamp(19px,6vw,25px); }
+  .key-card > .pedagogy { margin:2px auto 6px; font-size:12px; }
+  .key-card .open-strings-intro { width:100%; margin:8px auto; padding:12px 8px; scroll-margin-top:8px; }
+  .key-reminder-list { grid-template-columns:1fr; gap:8px; }
+  .key-reminder-card { padding:7px; }.key-reminder-card .open-strings-staff { min-height:125px; }
+  .key-reminder-labels { margin-top:-18px; }.key-note-chip { padding:4px 7px; font-size:12px; }
+  #start-key { width:min(300px,100%); margin:10px auto 0; }
+  #key-quiz { scroll-margin-top:6px; }
+  .key-card:not(.challenge) .music-panel { width:min(300px,calc(100vw - 30px)); height:220px; margin:5px auto 12px; }
+  .key-card:not(.challenge) .instrument-note { width:205px; height:180px!important; }
+  .key-card .instrument-answers { display:grid; grid-template-columns:repeat(auto-fit,minmax(52px,1fr)); width:100%; gap:6px; }
+  .key-card .instrument-answers button { min-width:0; min-height:46px; margin:0; padding:8px 5px; font-size:16px; }
+  .keyboard-hint { margin:4px 0; font-size:10px; }
+  .key-card.challenge .challenge-hud { margin:4px auto; }
+  .key-card.challenge .music-panel { width:min(285px,calc(100vw - 30px)); height:200px; margin:3px auto 10px; }
+  .key-card.challenge .instrument-note { width:195px; height:165px!important; }
+}
+@media (orientation:landscape) and (max-height:620px) {
+  .key-card > .home-link, .key-card > .pedagogy, .keyboard-hint { display:none; }
+  .key-card h2 { font-size:18px; }.key-card .challenge-hud { margin:2px auto; }
+  .key-card.challenge .music-panel { height:145px; margin-bottom:6px; }.key-card.challenge .instrument-note { width:170px; height:120px!important; }
+}
+
+/* Rappel lisible : les repères et les nouveautés ne se mélangent plus. */
+.reminder-note-group { min-width:0; margin-top:8px; padding:7px; border-radius:12px; }
+.reminder-note-group > strong { display:block; margin-bottom:2px; color:#49677f; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+.reminder-note-group.landmark { background:#f4f8fb; }
+.reminder-note-group.new { background:#edf7ff; border:1px solid #bfe0f7; }
+.reminder-note-group .open-strings-staff { min-height:154px; }
+.reminder-note-group svg { display:block; width:100% !important; max-width:100% !important; height:auto !important; margin:auto; }
+
+@media (max-width:700px) {
+  .key-card { overflow:hidden; }
+  .key-card .open-strings-intro { max-width:100%; overflow:hidden; }
+  .key-reminder-list, .key-reminder-card, .reminder-note-group { width:100%; max-width:100%; }
+  .key-reminder-labels { margin-top:0; }
+  .key-note-chip { font-size:10px; }
+  .key-card.challenge .challenge-hud { width:100%; max-width:100%; overflow:hidden; }
+  .key-card.challenge .challenge-clock { min-width:0; grid-template-columns:auto auto minmax(0,1fr); }
+  .key-card.challenge .challenge-clock > span { min-width:0; }
+  .key-card.challenge .instrument-answers { width:100%; }
+}
+
+@media (max-width:430px) {
+  .key-card h2 { font-size:18px; line-height:1.12; }
+  .key-card > .pedagogy { font-size:11px; line-height:1.3; }
+  .key-card.challenge .challenge-hud { grid-template-columns:1fr auto; padding:6px; }
+  .key-card.challenge #challenge-hearts { max-width:125px; padding-inline:7px; font-size:20px; }
+  .key-card.challenge .challenge-clock::before { display:none; }
+  .key-card.challenge #challenge-time { font-size:23px; }
+}
+
+/* 0806m — rappel compact, porté par une vraie zone de notation. */
+.key-card:not(.challenge) { padding-top: 14px; }
+.key-card:not(.challenge) > .home-link { margin-bottom: 3px; }
+.key-card:not(.challenge) > h2 { margin-block: 2px; }
+.key-card:not(.challenge) > .pedagogy { margin: 3px auto 8px; }
+.key-card:not(.challenge) .open-strings-intro {
+  width: min(900px, 100%);
+  margin: 8px auto;
+  padding: 14px;
+}
+.key-card:not(.challenge) .open-strings-intro > .intro-kicker { margin: 0 0 3px; }
+.key-card:not(.challenge) .open-strings-intro > h3 { margin: 0 0 8px; }
+.key-reminder-list:has(> .key-reminder-card:only-child) { max-width: 680px; margin-inline: auto; }
+.key-reminder-card .reminder-note-group { overflow: hidden; }
+.key-reminder-card .reminder-note-group .open-strings-staff {
+  display: grid;
+  place-items: center;
+  height: 176px !important;
+  min-height: 176px;
+  padding: 0 8px;
+  overflow: visible;
+}
+.key-reminder-card .reminder-note-group .open-strings-staff svg {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible;
+}
+.key-reminder-card .key-reminder-labels {
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
+}
+.key-card:not(.challenge) #start-key { min-height: 44px; margin-top: 10px; padding-block: 8px; }
+
+@media (max-height: 900px) and (min-width: 701px) {
+  body:has(> .key-card:not(.challenge)) .notalix-bar { min-height: 62px; margin-bottom: 7px; padding-block: 7px; }
+  .key-card:not(.challenge) { margin-top: 5px; padding-block: 8px 11px; }
+  .key-card:not(.challenge) > .pedagogy { margin-bottom: 4px; }
+  .key-card:not(.challenge) .open-strings-intro { margin: 4px auto; padding: 10px; }
+  .key-card:not(.challenge) .key-reminder-card { padding: 7px; }
+  .key-card:not(.challenge) .reminder-note-group { margin-top: 4px; padding: 4px; }
+  .key-card:not(.challenge) #start-key { margin-top: 6px; }
+}
+
+@media (max-width: 700px) {
+  .key-card:not(.challenge) .open-strings-intro { padding: 8px 6px; }
+  .key-card:not(.challenge) .key-reminder-card .reminder-note-group .open-strings-staff {
+    height: 158px !important;
+    min-height: 158px;
+  }
+  .key-reminder-labels { gap: 4px; }
+  .key-note-chip { padding: 4px 7px; }
+}
 
 /* Le jeu doit tenir dans l'écran : HUD horizontal, portée et réponses visibles. */
 .key-card.challenge { max-width: min(1180px, calc(100% - 20px)); }
@@ -117,4 +220,18 @@
   .key-card.challenge #challenge-recovery { display: none; }
   .key-card.challenge .music-panel { height: 180px; margin-bottom: 24px; }
   .key-card.challenge .instrument-note { height: 150px !important; width: 190px; }
+}
+
+/* Dernière couche responsive : elle neutralise les anciennes variantes conservées plus haut. */
+@media (max-width:700px) {
+  .key-card { width:100%; max-width:100%; margin:3px auto; padding:9px 7px 13px; }
+  .key-card.challenge .challenge-hud { margin:4px auto; }
+  .key-card.challenge .music-panel { width:min(285px,calc(100vw - 30px)); height:200px; margin:3px auto 10px; }
+  .key-card.challenge .instrument-note { width:195px; height:165px!important; }
+  .key-card:not(.challenge) .music-panel { width:min(300px,calc(100vw - 30px)); height:220px; margin:5px auto 12px; }
+  .key-card:not(.challenge) .instrument-note { width:205px; height:180px!important; }
+}
+@media (orientation:landscape) and (max-height:620px) {
+  .key-card.challenge .music-panel { height:145px; margin-bottom:6px; }
+  .key-card.challenge .instrument-note { width:170px; height:120px!important; }
 }

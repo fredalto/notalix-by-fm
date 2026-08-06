@@ -182,6 +182,35 @@
     source.onended = () => { if (activeSource === source) activeSource = null; };
   }
 
+  async function playWrittenNote(written) {
+    const targetMidi = midi(written);
+    if (useFileFallback || !context) {
+      stopActive();
+      const sample = pianoSourceFor(targetMidi);
+      const audio = await loadHtmlAudio(`sounds/${sample.code}.mp3`);
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = .8;
+      audio.playbackRate = Math.pow(2, (targetMidi - sample.midi) / 12);
+      audio.preservesPitch = false;
+      activeHtmlAudio = audio;
+      await audio.play();
+      return;
+    }
+    await resume();
+    stopActive();
+    const sample = pianoSourceFor(targetMidi);
+    const source = context.createBufferSource();
+    const gain = context.createGain();
+    source.buffer = await loadBuffer(`sounds/${sample.code}.mp3`);
+    source.playbackRate.value = Math.pow(2, (targetMidi - sample.midi) / 12);
+    gain.gain.value = .8;
+    source.connect(gain).connect(context.destination);
+    source.start(context.currentTime + .015);
+    activeSource = source;
+    source.onended = () => { if (activeSource === source) activeSource = null; };
+  }
+
   async function playDuck() {
     if (useFileFallback || !context) {
       stopActive();
@@ -200,5 +229,5 @@
     activeSource = source;
   }
 
-  window.LDNAudio = Object.freeze({ preloadForLevel, playNote, playDuck, resume, midi });
+  window.LDNAudio = Object.freeze({ preloadForLevel, playNote, playWrittenNote, playDuck, resume, midi });
 }());

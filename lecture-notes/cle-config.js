@@ -12,8 +12,7 @@
     ut3: { label: "Clé d’Ut 3e", group: 2, landmarks: ["C4", "G4", "C3", "F3"], full: ["C3","D3","E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5"] },
     ut4: { label: "Clé d’Ut 4e", group: 2, landmarks: ["C4", "F4", "D3", "G3"], full: ["A2","B2","C3","D3","E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4"] },
     ut1: { label: "Clé d’Ut 1re", group: 3, landmarks: ["C4", "E4", "G4"], full: ["A3","B3","C4","D4","E4","F4","G4","A4","B4","C5","D5","E5"] },
-    ut2: { label: "Clé d’Ut 2e", group: 3, landmarks: ["A3", "C4", "E4"], full: ["E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5"] },
-    fa3: { label: "Clé de Fa 3e", group: 3, landmarks: ["C3", "F3", "A3"], full: ["E2","F2","G2","A2","B2","C3","D3","E3","F3","G3","A3","B3","C4","D4","E4"] }
+    ut2: { label: "Clé d’Ut 2e", group: 3, landmarks: ["A3", "C4", "E4"], full: ["E3","F3","G3","A3","B3","C4","D4","E4","F4","G4","A4","B4","C5"] }
   };
 
   function around(full, landmarks, distance) {
@@ -29,7 +28,7 @@
       pedagogy,
       mode,
       notes: convert(codes),
-      focus: convert(focus || codes),
+      focus: convert(focus === undefined ? codes : focus),
       groups: Object.fromEntries(Object.entries(groups).map(([name, values]) => [name, convert(values)]))
     };
   }
@@ -46,8 +45,8 @@
       stages: [
         stage("Notes repères", "Reconnaître immédiatement les points d’appui de la clé.", clef, landmarks, "landmarks", { landmarks }, landmarks),
         stage("Repères + notes conjointes", "Alterner une note repère et une note juste à côté.", clef, [...landmarks, ...adjacent], "landmark-adjacent", { landmarks, adjacent }, adjacent),
-        stage("Notes conjointes + tierces", "Passer d’une note voisine à une note située à la tierce.", clef, [...adjacent, ...thirds], "adjacent-thirds", { adjacent, thirds }, thirds),
-        stage("Repères + conjointes + tierces", "Mélanger les trois familles de notes déjà travaillées.", clef, firstThree, "landmark-adjacent-thirds", { landmarks, adjacent, thirds }, landmarks),
+        stage("Notes conjointes + tierces", "Ajouter les tierces sans perdre les repères déjà appris.", clef, firstThree, "landmark-adjacent-thirds", { landmarks, adjacent, thirds }, thirds),
+        stage("Repères + conjointes + tierces", "Mélanger les trois familles de notes déjà travaillées.", clef, firstThree, "landmark-adjacent-thirds", { landmarks, adjacent, thirds }, []),
         stage("Toutes les notes", "Lire toute l’étendue proposée dans cette clé.", clef, source.full, "all", { all: source.full }, source.full.filter(value => !firstThree.includes(value)))
       ]
     };
@@ -68,13 +67,13 @@
   const challenge = (label, clefs) => ({ label, clefs, rounds: rounds(clefs) });
 
   window.LDN_CYCLES = {
-    sol: challenge("Défi Clé de Sol", ["sol"]),
-    fa: challenge("Défi Clé de Fa", ["fa"]),
-    solfa: challenge("Défi Sol + Fa", ["sol", "fa"]),
-    ultimate: challenge("Défi ultime · quatre clés", ["sol", "fa", "ut3", "ut4"]),
-    heroes: challenge("Défi des Héros · sept clés", ["sol", "fa", "ut3", "ut4", "ut1", "ut2", "fa3"]),
-    cycle1: challenge("Défi Sol + Fa", ["sol", "fa"]),
-    cycle2: challenge("Défi ultime · quatre clés", ["sol", "fa", "ut3", "ut4"]),
-    cycle3: challenge("Défi des Héros · sept clés", ["sol", "fa", "ut3", "ut4", "ut1", "ut2", "fa3"])
+    sol: challenge("Défi clé de sol", ["sol"]),
+    fa: challenge("Défi clé de fa", ["fa"]),
+    solfa: challenge("Défi des explorateurs", ["sol", "fa"]),
+    ultimate: challenge("Défi ultime", ["sol", "fa", "ut3", "ut4"]),
+    heroes: challenge("Défi des héros", ["sol", "fa", "ut3", "ut4", "ut1", "ut2"]),
+    cycle1: challenge("Défi des explorateurs", ["sol", "fa"]),
+    cycle2: challenge("Défi ultime", ["sol", "fa", "ut3", "ut4"]),
+    cycle3: challenge("Défi des héros", ["sol", "fa", "ut3", "ut4", "ut1", "ut2"])
   };
 }());

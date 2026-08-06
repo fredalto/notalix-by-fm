@@ -1,5 +1,5 @@
 // --- ÉTAT global
-let cleChoisie = '';
+let clesChoisies = [];
 let niveauChoisi = 0;
 let defiChoisi = '';
 
@@ -14,8 +14,7 @@ const KEY_CONTEXTS = {
   ut3: '<strong>Clé d’Ut 3e</strong><span>C’est la clé habituelle de l’alto : un altiste doit la lire directement, sans transposer mentalement depuis la clé de Sol.</span>',
   ut4: '<strong>Clé d’Ut 4e</strong><span>Elle permet au violoncelle, au basson et au trombone de lire leur registre aigu avec moins de lignes supplémentaires.</span>',
   ut1: '<strong>Clé d’Ut 1re</strong><span>Ancienne clé de soprano, utile pour certains répertoires, l’analyse, la lecture de partitions anciennes et la culture générale du musicien.</span>',
-  ut2: '<strong>Clé d’Ut 2e</strong><span>Ancienne clé de mezzo-soprano, rencontrée dans des partitions anciennes. Elle aide à comprendre l’histoire de la notation et les différents registres vocaux.</span>',
-  fa3: '<strong>Clé de Fa 3e</strong><span>Ancienne clé de baryton, utile pour le répertoire historique, l’analyse et une lecture plus complète des partitions anciennes.</span>'
+  ut2: '<strong>Clé d’Ut 2e</strong><span>Ancienne clé de mezzo-soprano, rencontrée dans des partitions anciennes. Elle aide à comprendre l’histoire de la notation et les différents registres vocaux.</span>'
 };
 
 /* ============================
@@ -45,11 +44,11 @@ function choisirMode(button, mode) {
   button.classList.add('selected');
 
   // reset d’état
-  cleChoisie = '';
+  clesChoisies = [];
   niveauChoisi = 0;
   defiChoisi = '';
   const goBtn = document.getElementById('go-button');
-  if (goBtn) goBtn.classList.add('hidden');
+  if (goBtn) { goBtn.classList.remove('hidden'); goBtn.disabled = true; goBtn.textContent = 'Choisis d’abord un niveau'; }
   const goDefi = document.getElementById('go-button-defi');
   if (goDefi) goDefi.classList.add('hidden');
   if (mode === 'instrument') resetInstrumentSelection();
@@ -58,7 +57,6 @@ function choisirMode(button, mode) {
   hideAllFadeSections();
   setTimeout(() => {
     showFadeSection(`etape-${mode}`);
-    scrollToStep(document.getElementById(`etape-${mode}`));
   }, 300);
 }
 
@@ -66,45 +64,70 @@ function choisirMode(button, mode) {
    Mode "Clé"
    ============================ */
 function setCle(button, cle) {
-  document.querySelectorAll('#cle-buttons button').forEach(btn => btn.classList.remove('selected'));
-  button.classList.add('selected');
-  cleChoisie = cle;
+  const wasSelected = clesChoisies.includes(cle);
+  clesChoisies = wasSelected ? clesChoisies.filter(id => id !== cle) : [...clesChoisies, cle];
+  button.classList.toggle('selected', !wasSelected);
+  button.setAttribute('aria-pressed', wasSelected ? 'false' : 'true');
   niveauChoisi = 0;
   document.querySelectorAll('#key-stages .instrument-level-card').forEach(card => card.classList.remove('selected'));
-  document.getElementById('cle-buttons')?.classList.add('hidden-soft');
-  document.querySelector('#etape-cle .key-purpose-intro')?.classList.add('hidden-soft');
-  const title = document.getElementById('key-choice-title');
-  if (title) title.textContent = button.querySelector('strong')?.textContent || 'Choisis ta mission';
-  document.getElementById('key-stages')?.classList.remove('hidden-soft');
-  const context = document.getElementById('key-context');
-  if (context) {
-    context.innerHTML = '';
-    context.classList.add('hidden-soft');
-  }
-  document.getElementById('go-button')?.classList.add('hidden');
-  scrollToStep(document.getElementById('key-stages'));
+  updateCompatibleKeyLevels();
+  document.getElementById('key-stages')?.classList.toggle('hidden-soft', clesChoisies.length === 0);
+  updateKeyContext();
+  const go = document.getElementById('go-button');
+  if (go) { go.disabled = true; go.textContent = 'Choisis d’abord un niveau'; }
+  if (clesChoisies.length) scrollToStep(document.getElementById('key-stages'));
+}
+function updateCompatibleKeyLevels() {
+  const selectedConfigs = clesChoisies.map(id => window.LDN_CLEFS?.[id]).filter(Boolean);
+  const commonLevelCount = selectedConfigs.length
+    ? Math.min(...selectedConfigs.map(config => config.stages?.length || 0))
+    : 0;
+  document.querySelectorAll('#key-stages .instrument-level-card').forEach((card, index) => {
+    const compatible = index < commonLevelCount;
+    card.hidden = !compatible;
+    card.disabled = !compatible;
+  });
 }
 function selectNiveau(n) {
   niveauChoisi = n;
-  lancerExercice();
+  document.querySelectorAll('#key-stages .instrument-level-card').forEach((card,index) => card.classList.toggle('selected', index === n - 1));
+  const go = document.getElementById('go-button');
+  if (go) { go.disabled = false; go.textContent = `Commencer le niveau ${n}`; }
+  updateKeyContext();
+  scrollToStep(go);
 }
 function backToKeyChoice() {
-  cleChoisie = '';
+  clesChoisies = [];
   niveauChoisi = 0;
   document.getElementById('key-stages')?.classList.add('hidden-soft');
   document.getElementById('cle-buttons')?.classList.remove('hidden-soft');
   document.querySelector('#etape-cle .key-purpose-intro')?.classList.remove('hidden-soft');
   const title = document.getElementById('key-choice-title');
   if (title) title.textContent = 'Choisis ta clé';
-  document.querySelectorAll('#cle-buttons button').forEach(btn => btn.classList.remove('selected'));
+  document.querySelectorAll('#cle-buttons button').forEach(btn => { btn.classList.remove('selected'); btn.setAttribute('aria-pressed','false'); });
+}
+const NOTE_LABELS = {C:'Do',D:'Ré',E:'Mi',F:'Fa',G:'Sol',A:'La',B:'Si'};
+function updateKeyContext() {
+  const context = document.getElementById('key-context');
+  if (!context) return;
+  if (!clesChoisies.length) { context.classList.add('hidden-soft'); context.replaceChildren(); return; }
+  const names = clesChoisies.map(id => window.LDN_CLEFS[id]?.label).filter(Boolean);
+  let html = `<strong>${clesChoisies.length > 1 ? 'Clés choisies' : 'Clé choisie'} : ${names.join(' + ')}</strong>`;
+  if (niveauChoisi) {
+    const newNames = new Set();
+    clesChoisies.forEach(id => window.LDN_CLEFS[id]?.stages[niveauChoisi-1]?.focus?.forEach(note => newNames.add(NOTE_LABELS[note.written[0]])));
+    html += `<span>Niveau ${niveauChoisi} · ${newNames.size ? `Nouvelles notes : ${[...newNames].join(', ')}` : 'Consolidation des notes déjà apprises'}</span>`;
+  } else html += '<span>Tu peux en choisir plusieurs, puis sélectionner un niveau.</span>';
+  context.innerHTML = html;
+  context.classList.remove('hidden-soft');
 }
 function lancerExercice() {
-  if (!cleChoisie || !niveauChoisi) {
+  if (!clesChoisies.length || !niveauChoisi) {
     alert("Choisis d’abord une clé et un niveau.");
     return;
   }
   const url = new URL('cle-exercise.html', location.href);
-  url.searchParams.set('cle', cleChoisie);
+  url.searchParams.set('cles', clesChoisies.join(','));
   url.searchParams.set('etape', String(niveauChoisi));
   location.href = url.href;
 }

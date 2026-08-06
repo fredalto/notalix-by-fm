@@ -1,5 +1,6 @@
 (function () {
   "use strict";
+  window.LDNResultPanel.render(document.getElementById("result"), "instrument");
   const NOTE_NAMES = { C:"Do", D:"Ré", E:"Mi", F:"Fa", G:"Sol", A:"La", B:"Si" };
   const PITCHES = ["C","Csharp","D","Dsharp","E","F","Fsharp","G","Gsharp","A","Asharp","B"];
   const params = new URLSearchParams(location.search);
@@ -264,11 +265,8 @@
   function finish() {
     document.getElementById("quiz").hidden = true;
     const resultPanel = document.getElementById("result");
-    resultPanel.hidden = false;
     fingeringMode.hidden = true;
-    document.getElementById("result-title").textContent = score >= 8 ? "Bravo !" : "Encore un effort !";
-    document.getElementById("result-score").textContent = `${score} / ${total}`;
-    document.getElementById("result-text").textContent = `${score} bonne${score > 1 ? "s" : ""} réponse${score > 1 ? "s" : ""} sur ${total}.`;
+    window.LDNResultPanel.show(resultPanel,{title:score >= 8 ? "Bravo !" : "Encore un effort !",score:`${score} / ${total}`,homeHref:"index.html?mode=instrument",homeLabel:"Choisir un autre exercice"});
     if (matchMedia("(max-width: 700px)").matches) requestAnimationFrame(() => resultPanel.scrollIntoView({ behavior:"smooth", block:"start" }));
   }
   function sendScore() {
@@ -285,12 +283,12 @@
 
     if (!firstName || !lastName || (!fmSelected && !instrumentSelected)) {
       confirmation.className = "send-confirmation error";
-      confirmation.textContent = "Merci de renseigner Prénom, Nom, et au moins un professeur (FM ou instrument).";
+      confirmation.textContent = "Indique ton prénom, ton nom et au moins un professeur.";
       return;
     }
     if (!window.LDN_ENDPOINT || window.LDN_ENDPOINT.includes("PASTE_YOUR_EXEC_URL_HERE")) {
       confirmation.className = "send-confirmation error";
-      confirmation.textContent = "❌ URL d’envoi non configurée (config.js).";
+      confirmation.textContent = "L’envoi n’est pas configuré.";
       return;
     }
 
@@ -458,7 +456,10 @@
     buildSequence();
     renderAnswers();
     const hasReminder = showOpenStringsReminder();
-    if (hasReminder) loadingView.hidden = true;
+    if (hasReminder) {
+      loadingView.hidden = true;
+      if (matchMedia("(max-width: 700px)").matches) requestAnimationFrame(() => openStringsIntro.scrollIntoView({ behavior:"smooth", block:"start" }));
+    }
     try {
       await window.LDNAudio.preloadForLevel(id, level, timbre, ratio => {
         loadingBar.style.width = `${Math.round(ratio * 100)}%`;

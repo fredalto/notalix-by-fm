@@ -363,25 +363,6 @@
   .instrument-answers button { min-height: 38px; padding-block: 6px; }
 }
 
-/* Résultat commun aux parcours Clé, Instrument et Défi. */
-.result-panel { max-width: 680px; margin: 18px auto 4px; padding: 24px; background: linear-gradient(160deg,#f7fbff,#fff); border: 1px solid #d6e5f1; border-radius: 20px; box-shadow: 0 12px 30px rgba(23,48,78,.10); }
-.result-symbol { display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 8px; color: #fff; background: #38a95a; border-radius: 50%; font-size: 28px; font-weight: 900; }
-.result-kicker { margin: 0; color: #52708a; font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-.result-panel h2 { margin: 3px 0; }
-.result-score { display: block; margin: 8px auto 2px; color: #0c4f91; font-size: clamp(2rem,6vw,3.1rem); }
-.result-panel > p:not(.result-kicker) { margin: 4px 0 15px; color: #536b82; }
-.result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; max-width: 500px; margin: 18px auto; }
-.result-actions .button { display: grid !important; place-items: center; margin: 0 !important; text-decoration: none; }
-.result-actions .secondary { color: #1769bd; background: #edf5fb; border: 1px solid #c9dfef; box-shadow: none; }
-.result-share { margin-top: 15px; padding: 0 14px 14px; background: #f5f8fb; border: 1px solid #dae5ee; border-radius: 14px; text-align: left; }
-.result-share summary { padding: 13px 0; color: #1769bd; cursor: pointer; font-weight: 850; }
-.result-share > p { margin: 0 0 10px; color: #60758a; font-size: 13px; }
-.result-share .send-score-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.result-share input,.result-share select { width: 100%; min-width: 0; padding: 10px; border: 1px solid #cbd9e4; border-radius: 9px; background: #fff; }
-.result-share .button { display: block; margin: 12px auto 0; }
-.send-confirmation.success { color: #258044 !important; }
-.send-confirmation.error { color: #c0392b !important; }
-
 /* Sur téléphone le doigté occupe sa propre place et ne recouvre jamais les réponses. */
 @media (max-width: 700px) {
   #quiz, #result { scroll-margin-top: 8px; }
@@ -404,7 +385,32 @@
     flex-wrap: wrap;
     line-height: 1.2;
   }
-  .result-panel { padding: 18px 13px; }
-  .result-actions, .result-share .send-score-fields { grid-template-columns: 1fr; }
-  .result-actions .button { width: 100%; }
+}
+
+/* Couche finale téléphone/tablette : aucun débordement et le doigté garde sa propre ligne. */
+html,body { max-width:100%; overflow-x:hidden; }
+@media (max-width:700px) {
+  .instrument-card { width:100%; max-width:100%; margin:3px auto; padding:9px 7px 13px; }
+  .instrument-card > .home-link { margin:0 auto 4px; padding:6px 10px; font-size:12px; }
+  .instrument-card h2 { margin:2px 0; font-size:clamp(19px,6vw,25px); }
+  .instrument-card .pedagogy { margin:2px auto 5px; font-size:12px; }
+  .live-sound-choice { flex-wrap:wrap; }.fingering-mode { width:100%; }
+  .fingering-options { max-width:100%; }.fingering-options span { padding-inline:8px; font-size:12px; }
+  #quiz { scroll-margin-top:6px; }
+  #quiz .music-panel { width:min(300px,calc(100vw - 30px)); min-height:205px; margin:4px auto 8px; }
+  #quiz .instrument-note { width:200px; height:170px!important; }
+  #quiz .instrument-hint { position:static; width:calc(100% - 8px); margin:-12px auto 4px; transform:none; }
+  .instrument-answers { display:grid; grid-template-columns:repeat(auto-fit,minmax(52px,1fr)); width:100%; gap:6px; }
+  .instrument-answers button { min-width:0; min-height:46px; margin:0; padding:8px 5px; font-size:16px; }
+  .keyboard-hint { margin:4px 0; font-size:10px; }
+}
+
+@media (max-width:700px) {
+  .instrument-card { overflow:hidden; }
+  .open-strings-intro, .open-strings-list, .open-string-item, .open-strings-staff { max-width:100%; min-width:0; }
+  .open-strings-staff { overflow:hidden; }
+  .open-strings-staff svg { display:block; width:100% !important; max-width:100% !important; height:auto !important; margin:auto; }
+  .live-sound-choice button { min-width:0; margin:0; padding-inline:10px; }
+  .fingering-options label { min-width:0; }
+  .fingering-options span { white-space:normal; line-height:1.1; }
 }

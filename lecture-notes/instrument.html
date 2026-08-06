@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lecture de notes — Instrument</title>
-  <link rel="stylesheet" href="unified.css?v=0.6.0-0806h">
+  <link rel="stylesheet" href="../notalix-theme.css?v=0.6.0-0806d">
+  <link rel="stylesheet" href="unified.css?v=0.6.0-0806l">
   <link rel="stylesheet" href="notation-adapter.css">
-  <link rel="stylesheet" href="instrument.css?v=0.6.0-0806h">
-  <link rel="stylesheet" href="../notalix-theme.css">
+  <link rel="stylesheet" href="instrument.css?v=0.6.0-0806l">
+  <link rel="stylesheet" href="result-panel.css?v=0.6.0-0806l">
   <script defer src="../notalix-shell.js"></script>
 </head>
 <body>
@@ -54,49 +55,15 @@
       <p id="score">Score : 0 / 10</p>
     </section>
 
-    <section id="result" class="result-panel" hidden>
-      <span class="result-symbol" aria-hidden="true">✓</span>
-      <p class="result-kicker">Exercice terminé</p>
-      <h2 id="result-title"></h2>
-      <strong id="result-score" class="result-score"></strong>
-      <p id="result-text"></p>
-      <div class="result-actions">
-        <button id="restart" class="button">Recommencer</button>
-        <a class="button secondary" href="index.html?mode=instrument">Choisir un autre exercice</a>
-      </div>
-      <details id="send-score" class="result-share">
-        <summary>Envoyer volontairement mon résultat</summary>
-        <p>Rien n’est envoyé sans cliquer sur le bouton ci-dessous.</p>
-        <div class="send-score-fields">
-          <input type="text" id="prenom" placeholder="Prénom" autocomplete="given-name" required>
-          <input type="text" id="nom" placeholder="Nom" autocomplete="family-name" required>
-          <select id="prof_fm">
-            <option value="Aucun">Professeur de FM (facultatif)</option>
-            <option value="Barbara">Barbara</option>
-            <option value="Benoit">Benoit</option>
-            <option value="Céline">Céline</option>
-            <option value="Chloé">Chloé</option>
-            <option value="Frédéric">Frédéric</option>
-            <option value="Sandrine">Sandrine</option>
-            <option value="Thomas">Thomas</option>
-          </select>
-          <select id="prof_instrument">
-            <option value="Aucun">Professeur d’instrument (facultatif)</option>
-            <option value="Alexandre">Alexandre</option>
-          </select>
-        </div>
-        <button id="send-score-button" class="button" type="button">Envoyer mon résultat</button>
-        <p id="confirmation" class="send-confirmation"></p>
-        <p id="loading-message" class="send-loading" hidden>⏳ Envoi en cours...</p>
-      </details>
-    </section>
+    <section id="result" class="result-panel" hidden></section>
   </main>
   <script src="config.js"></script>
   <script src="vendor/vexflow.js"></script>
-  <script src="note-renderer.js?v=0.6.0-0806h"></script>
+  <script src="note-renderer.js?v=0.6.0-0806i"></script>
   <script src="instrument-config.js"></script>
   <script src="instrument-sounds/manifest.js"></script>
-  <script src="audio-engine.js"></script>
-  <script src="instrument-quiz.js?v=0.6.0-0806h"></script>
+  <script src="audio-engine.js?v=0.6.0-0806l"></script>
+  <script src="result-panel.js?v=0.6.0-0806l"></script>
+  <script src="instrument-quiz.js?v=0.6.0-0806l"></script>
 </body>
 </html>
