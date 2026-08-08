@@ -72,9 +72,11 @@
     flute_a_bec: { label:"Flûte à bec", transpose:0, levels:[L("Premiers repères","Si, La et Sol.",sol("G4","A4","B4")),L("Cinq notes","De Sol à Ré.",sol("G4","A4","B4","C5","D5")),L("Registre central","Extension progressive de Do4 à Ré5.",sol("C4","D4","E4","F4","G4","A4","B4","C5","D5")),L("Tessiture élargie","Registre central et aigu.",sol("C4","D4","E4","F4","G4","A4","B4","C5","D5","E5","F5","G5"))] },
     chant: { label:"Chant", transpose:0, levels:[L("Trois notes","Do, Ré et Mi dans le médium.",sol("C4","D4","E4")),L("Cinq notes","De Do à Sol.",sol("C4","D4","E4","F4","G4")),L("Octave centrale","De Do4 à Do5.",sol("C4","D4","E4","F4","G4","A4","B4","C5")),L("Tessiture mélangée","Lecture conjointe du médium.",sol("A3","B3","C4","D4","E4","F4","G4","A4","B4","C5","D5","E5"))] }
   };
-  window.LDN_INSTRUMENTS.trompette.fingerings = { G3:"Pistons 1 et 3",A3:"Pistons 1 et 2",B3:"Piston 2",C4:"Pistons ouverts",D4:"Pistons 1 et 3",E4:"Pistons 1 et 2",F4:"Piston 1",G4:"Pistons ouverts",A4:"Pistons 1 et 2",B4:"Piston 2",C5:"Pistons ouverts",D5:"Piston 1" };
+  window.LDN_INSTRUMENTS.trompette.fingerings = { G3:"Pistons 1 et 3",A3:"Pistons 1 et 2",B3:"Piston 2",C4:"Pistons ouverts",D4:"Pistons 1 et 3",E4:"Pistons 1 et 2",F4:"Piston 1",G4:"Pistons ouverts",A4:"Pistons 1 et 2",B4:"Piston 2",C5:"Pistons ouverts",D5:"Pistons 1 et 3" };
+  // These horn fingerings are retained for compatibility, but they have not
+  // yet received the pedagogical validation required for a future refactor.
   window.LDN_INSTRUMENTS.cor.fingerings = { G3:"Palettes 1 et 3",A3:"Palettes 1 et 2",B3:"Palette 2",C4:"Palettes libres",D4:"Palettes 1 et 3",E4:"Palettes 1 et 2",F4:"Palette 1",G4:"Palettes libres",A4:"Palettes 1 et 2",B4:"Palette 2",C5:"Palettes libres" };
-  window.LDN_INSTRUMENTS.trombone.fingerings = { E2:"7e position",F2:"6e position",G2:"4e position",A2:"2e position",B2:"7e position",C3:"6e position",D3:"4e position",E3:"2e position",F3:"1re position",G3:"4e position" };
+  window.LDN_INSTRUMENTS.trombone.fingerings = { E2:"7e position",F2:"1re position",G2:"4e position",A2:"2e position",B2:"7e position",C3:"6e position",D3:"4e position",E3:"2e position",F3:"1re position",G3:"4e position" };
   window.LDN_INSTRUMENTS.alto.fingerings = { C3:"Corde de Do · à vide",D3:"Corde de Do · doigt 1",E3:"Corde de Do · doigt 2",F3:"Corde de Do · doigt 3",G3:"Corde de Sol · à vide",A3:"Corde de Sol · doigt 1",B3:"Corde de Sol · doigt 2",C4:"Corde de Sol · doigt 3",D4:"Corde de Ré · à vide",E4:"Corde de Ré · doigt 1",F4:"Corde de Ré · doigt 2",G4:"Corde de Ré · doigt 3",A4:"Corde de La · à vide",B4:"Corde de La · doigt 1",C5:"Corde de La · doigt 2",D5:"Corde de La · doigt 3" };
   window.LDN_INSTRUMENTS.violoncelle.fingerings = { C2:"Corde de Do · à vide",D2:"Corde de Do · doigt 1",E2:"Corde de Do · doigt 3",F2:"Corde de Do · doigt 4",G2:"Corde de Sol · à vide",A2:"Corde de Sol · doigt 1",B2:"Corde de Sol · doigt 3",C3:"Corde de Sol · doigt 4",D3:"Corde de Ré · à vide",E3:"Corde de Ré · doigt 1",F3:"Corde de Ré · doigt 2",G3:"Corde de Ré · doigt 4",A3:"Corde de La · à vide",B3:"Corde de La · doigt 1",C4:"Corde de La · doigt 2",D4:"Corde de La · doigt 4" };
   window.LDN_INSTRUMENTS.cornemuse = {
@@ -104,8 +106,11 @@
 
   // Keyboard instruments are deliberately excluded: their fingering depends
   // on the musical context and should not be imposed note by note.
+  ["accordeon","piano","orgue","clavecin"].forEach(instrumentId => {
+    if (window.LDN_INSTRUMENTS[instrumentId]) window.LDN_INSTRUMENTS[instrumentId].fingeringHelpDisabled = true;
+  });
   const HELP_KINDS = {
-    flute:"woodwind", hautbois:"woodwind", clarinette:"woodwind",
+    flute:"flute", hautbois:"oboe", clarinette:"clarinet",
     basson:"woodwind", saxophone:"woodwind", flute_a_bec:"recorder",
     cor:"horn", trompette:"trumpet", trombone:"trombone", tuba:"tuba"
   };
@@ -121,21 +126,95 @@
   // Natural-note reference fingerings used by the progressive exercises.
   // The octave remains visible in the label whenever the same key pattern can
   // require a register key or a different harmonic.
-  const SIMPLE_WOODWIND_KEYS = {
-    C:[1,2,3], D:[1,2,3,4,5,6], E:[1,2,3,4,5], F:[1,2,3,4],
-    G:[1,2,3], A:[1,2], B:[1]
-  };
-  ["flute","hautbois"].forEach(instrumentId => {
-    window.LDN_INSTRUMENTS[instrumentId].fingeringPatterns = { ...SIMPLE_WOODWIND_KEYS };
-    window.LDN_INSTRUMENTS[instrumentId].fingeringDiagramLabel = "Clés principales · schéma simplifié";
+  // Hautbois : doigtés standards exacts pour les seules hauteurs écrites
+  // présentes dans les exercices. Aucun repli par nom de note n'est autorisé.
+  const OBOE = (controls = {}) => ({
+    leftIndex:"open",
+    leftMiddle:false,
+    leftRing:false,
+    rightIndex:false,
+    rightMiddle:false,
+    rightRing:false,
+    rightF:false,
+    leftPinkyB:false,
+    rightPinkyC:false,
+    octave1:false,
+    octave2:false,
+    ...controls
   });
-  window.LDN_INSTRUMENTS.clarinette.fingeringKeyCount = 8;
-  window.LDN_INSTRUMENTS.clarinette.fingeringDiagramLabel = "Pouce, anneaux et clé de registre · schéma simplifié";
-  window.LDN_INSTRUMENTS.clarinette.fingeringPatterns = {
-    G3:[1,2,3,4,5,6], A3:[1,2,3,4,5], B3:[1,2,3,4],
-    C4:[1,2,3], D4:[1,2], E4:[1], F4:[0], G4:[], A4:[7],
-    B4:[0,1,2,3,4,5,6,7], C5:[0,1,2,3,4,5,7]
+  window.LDN_INSTRUMENTS.hautbois.fingeringPatterns = {
+    B3:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,rightRing:true,leftPinkyB:true,rightPinkyC:true}),
+    C4:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,rightRing:true,rightPinkyC:true}),
+    D4:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,rightRing:true}),
+    E4:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true}),
+    F4:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,rightF:true}),
+    G4:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true}),
+    A4:OBOE({leftIndex:"closed",leftMiddle:true}),
+    B4:OBOE({leftIndex:"closed"}),
+    C5:OBOE({leftIndex:"closed",rightIndex:true}),
+    D5:OBOE({leftIndex:"half",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,rightRing:true}),
+    E5:OBOE({leftIndex:"closed",leftMiddle:true,leftRing:true,rightIndex:true,rightMiddle:true,octave1:true})
   };
+  window.LDN_INSTRUMENTS.hautbois.allowLegacyPitchClassFingerings = false;
+  const FLUTE = (...activeControls) => ({
+    leftThumb:false,
+    leftIndex:false,
+    leftMiddle:false,
+    leftRing:false,
+    rightIndex:false,
+    rightMiddle:false,
+    rightRing:false,
+    rightPinkyEb:false,
+    footCSharp:false,
+    footC:false,
+    ...Object.fromEntries(activeControls.map(control => [control, true]))
+  });
+  window.LDN_INSTRUMENTS.flute.fingeringPatterns = {
+    C4:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing","footCSharp","footC"),
+    D4:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing","rightPinkyEb"),
+    E4:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightPinkyEb"),
+    F4:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightPinkyEb"),
+    G4:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightPinkyEb"),
+    A4:FLUTE("leftThumb","leftIndex","leftMiddle","rightPinkyEb"),
+    B4:FLUTE("leftThumb","leftIndex","rightPinkyEb"),
+    C5:FLUTE("leftIndex","rightPinkyEb"),
+    D5:FLUTE("leftThumb","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing","rightPinkyEb"),
+    E5:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightPinkyEb"),
+    F5:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightPinkyEb"),
+    G5:FLUTE("leftThumb","leftIndex","leftMiddle","leftRing","rightPinkyEb")
+  };
+  window.LDN_INSTRUMENTS.flute.allowLegacyPitchClassFingerings = false;
+  // Clarinette en Sib, système Boehm : un doigté standard par hauteur écrite.
+  // Chaque commande est nommée pour éviter toute ambiguïté entre trou de pouce,
+  // clé de registre, trous principaux et clés d'auriculaire.
+  const CLARINET = (...activeControls) => ({
+    leftThumb:false,
+    registerKey:false,
+    leftIndex:false,
+    leftMiddle:false,
+    leftRing:false,
+    rightIndex:false,
+    rightMiddle:false,
+    rightRing:false,
+    leftAKey:false,
+    leftPinkyFC:false,
+    rightPinkyEB:false,
+    ...Object.fromEntries(activeControls.map(control => [control, true]))
+  });
+  window.LDN_INSTRUMENTS.clarinette.fingeringPatterns = {
+    G3:CLARINET("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing"),
+    A3:CLARINET("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle"),
+    B3:CLARINET("leftThumb","leftIndex","leftMiddle","leftRing","rightIndex"),
+    C4:CLARINET("leftThumb","leftIndex","leftMiddle","leftRing"),
+    D4:CLARINET("leftThumb","leftIndex","leftMiddle"),
+    E4:CLARINET("leftThumb","leftIndex"),
+    F4:CLARINET("leftThumb"),
+    G4:CLARINET(),
+    A4:CLARINET("leftAKey"),
+    B4:CLARINET("leftThumb","registerKey","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing","rightPinkyEB"),
+    C5:CLARINET("leftThumb","registerKey","leftIndex","leftMiddle","leftRing","rightIndex","rightMiddle","rightRing","leftPinkyFC")
+  };
+  window.LDN_INSTRUMENTS.clarinette.allowLegacyPitchClassFingerings = false;
   window.LDN_INSTRUMENTS.saxophone.fingeringKeyCount = 8;
   window.LDN_INSTRUMENTS.saxophone.fingeringDiagramLabel = "Clés principales et clé d’octave · schéma simplifié";
   window.LDN_INSTRUMENTS.saxophone.fingeringPatterns = {
@@ -146,16 +225,23 @@
   // A six-hole diagram would be misleading for bassoon. Its complete
   // fingering involves both thumbs and many dedicated keys.
   delete window.LDN_INSTRUMENTS.basson.fingeringKind;
+  window.LDN_INSTRUMENTS.basson.fingeringHelpDisabled = true;
   window.LDN_INSTRUMENTS.basson.fingeringNotice = "Doigtés de basson : tableau complet à valider avec le professeur";
   // The same written note does not use the same valves on a tuba in Ut, Si♭,
   // Mi♭ or Fa. Do not display a potentially false chart before tuning is known.
   delete window.LDN_INSTRUMENTS.tuba.fingeringKind;
+  window.LDN_INSTRUMENTS.tuba.fingeringHelpDisabled = true;
   window.LDN_INSTRUMENTS.tuba.fingeringNotice = "Doigtés du tuba : tonalité de l’instrument à préciser";
   window.LDN_INSTRUMENTS.flute_a_bec.fingeringPatterns = {
     C:[0,1,2,3,4,5,6,7], D:[0,1,2,3,4,5,6], E:[0,1,2,3,4,5],
     F:[0,1,2,3,4,6,7], G:[0,1,2,3], A:[0,1,2], B:[0,1]
   };
+  window.LDN_INSTRUMENTS.flute_a_bec.allowLegacyPitchClassFingerings = true;
   window.LDN_INSTRUMENTS.flute_a_bec.fingeringDiagramLabel = "Trous fermés";
+
+  // A few low trombone notes still rely on the historical pitch-class table.
+  // Exact written-note entries above always take priority over this fallback.
+  window.LDN_INSTRUMENTS.trombone.allowLegacyPitchClassFingerings = true;
 
   // Complete the double-bass first-position help used by all four levels.
   window.LDN_INSTRUMENTS.contrebasse.fingerings = {
@@ -170,5 +256,6 @@
   // is designed and validated.
   delete window.LDN_INSTRUMENTS.cornemuse.fingeringKind;
   delete window.LDN_INSTRUMENTS.cornemuse.fingerings;
+  window.LDN_INSTRUMENTS.cornemuse.fingeringHelpDisabled = true;
   window.LDN_GENERIC_INSTRUMENTS = Object.keys(window.LDN_INSTRUMENTS);
 }());

@@ -147,6 +147,67 @@
 .fingering-visual.woodwind { grid-template-columns: repeat(3, 13px); gap: 5px 7px; align-items: center; }
 .woodwind-key { width: 13px; height: 13px; border: 2px solid #1769c2; border-radius: 50%; background: #fff; }
 .woodwind-key.active { background: #1769c2; box-shadow: inset 0 0 0 2px #fff; }
+.instrument-hint:has(.flute-fingering) {
+  width: min(620px, calc(100vw - 40px));
+  max-width: none;
+  padding: 8px 14px;
+  gap: 10px;
+}
+.flute-fingering { position:relative; display:flex; align-items:center; justify-content:center; flex:1 1 auto; min-width:0; gap:7px; }
+.flute-hand, .flute-foot { position:relative; z-index:1; display:flex; align-items:center; gap:5px; padding:3px 5px; background:rgba(255,255,255,.78); border-radius:12px; }
+.flute-hand > b { color:#527087; font-size:9px; letter-spacing:.04em; }
+.flute-tube { position:absolute; right:3%; left:3%; height:5px; border-radius:4px; background:linear-gradient(180deg,#d5e1e8,#8fa5b4); }
+.flute-key { display:grid; place-items:center; width:24px; height:24px; color:#5b7180; background:#f9fcfe; border:2px solid #8daabb; border-radius:50%; box-shadow:0 1px 2px rgba(25,67,91,.15); font-size:9px; font-style:normal; font-weight:900; }
+.flute-key.active { color:#fff; background:#1769c2; border-color:#0f579f; box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 2px 5px rgba(23,105,194,.25); }
+.flute-thumb { border-radius:8px; }
+.flute-pinky { width:27px; border-radius:9px; }
+.flute-foot { gap:4px; }
+.flute-foot-key { width:29px; border-radius:9px; }
+.flute-fingering-label { flex:0 1 150px; line-height:1.15; }
+.instrument-hint:has(.oboe-fingering) {
+  width:min(650px,calc(100vw - 40px));
+  max-width:none;
+  padding:8px 14px;
+  gap:10px;
+}
+.oboe-fingering { position:relative; display:flex; align-items:center; justify-content:center; flex:1 1 auto; min-width:0; gap:7px; padding:3px 0; }
+.oboe-fingering::before { content:""; position:absolute; left:4%; right:4%; height:11px; border:1px solid #8b7140; border-radius:50% 35% 35% 50%; background:linear-gradient(180deg,#f4cf77,#c89132); box-shadow:inset 0 -2px 3px rgba(91,56,10,.22); }
+.oboe-hand,.oboe-octave { position:relative; z-index:1; display:flex; align-items:center; gap:5px; padding:3px 5px; border:1px solid #d6e2e9; border-radius:12px; background:rgba(255,255,255,.92); }
+.oboe-hand > b { color:#527087; font-size:9px; letter-spacing:.04em; }
+.oboe-joint { position:relative; z-index:2; width:8px; height:22px; border:2px solid #72552a; border-radius:4px; background:#d5a448; }
+.oboe-hole { display:grid; place-items:center; width:24px; height:24px; color:#516a7b; background:#fff; border:2px solid #1769c2; border-radius:50%; box-shadow:0 1px 2px rgba(25,67,91,.15); font-size:9px; font-style:normal; font-weight:900; }
+.oboe-hole.closed { color:#fff; background:#1769c2; box-shadow:inset 0 0 0 2px rgba(255,255,255,.28),0 2px 5px rgba(23,105,194,.22); }
+.oboe-hole.half { color:#17304e; background:linear-gradient(90deg,#1769c2 0 50%,#fff 50% 100%); text-shadow:0 1px 0 #fff; }
+.oboe-key { display:grid; place-items:center; min-width:28px; height:22px; padding:0 5px; color:#647986; background:#fff; border:2px solid #9fb3bf; border-radius:8px; font-size:8px; font-style:normal; font-weight:900; }
+.oboe-key.active { color:#fff; background:#ff665e; border-color:#d94c45; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); }
+.oboe-octave { padding:2px; }
+.oboe-octave-key { min-width:25px; border-radius:10px; }
+.oboe-pinky,.oboe-f-key { min-width:30px; }
+.oboe-fingering-label { flex:0 1 165px; line-height:1.15; }
+.instrument-hint:has(.clarinet-fingering) {
+  width:min(720px,calc(100vw - 40px));
+  max-width:none;
+  padding:8px 12px;
+  gap:10px;
+}
+.clarinet-fingering { display:flex; align-items:center; justify-content:center; flex:1 1 auto; min-width:0; gap:8px; }
+.clarinet-rear,.clarinet-body,.clarinet-hand { position:relative; display:flex; align-items:center; }
+.clarinet-rear { gap:4px; padding:4px 6px; border:1px solid #d6e2e9; border-radius:12px; background:#fff; }
+.clarinet-rear > b,.clarinet-hand > b { color:#527087; font-size:9px; letter-spacing:.04em; }
+.clarinet-body { gap:5px; padding:5px 13px; border-radius:18px; background:linear-gradient(180deg,#36434c,#11191e); box-shadow:inset 0 2px 2px rgba(255,255,255,.25),0 2px 6px rgba(16,34,46,.2); }
+.clarinet-hand { z-index:1; gap:4px; padding:2px 4px; border-radius:10px; background:rgba(255,255,255,.93); }
+.clarinet-control { display:grid; place-items:center; box-sizing:border-box; font-style:normal; font-weight:900; }
+.clarinet-hole { width:24px; height:24px; color:#456377; border:2px solid #2784cf; border-radius:50%; background:#fff; font-size:9px; }
+.clarinet-hole.closed { color:#fff; background:#1769c2; box-shadow:inset 0 0 0 2px rgba(255,255,255,.28); }
+.clarinet-key { min-width:27px; height:22px; padding:0 4px; color:#647986; border:2px solid #9fb3bf; border-radius:8px; background:#fff; font-size:8px; }
+.clarinet-key.active { color:#fff; border-color:#d94c45; background:#ff665e; box-shadow:inset 0 0 0 1px rgba(255,255,255,.28); }
+.clarinet-thumb { border-radius:8px; }
+.clarinet-register { border-radius:11px; }
+.clarinet-pinky { min-width:34px; }
+.clarinet-joint { width:7px; height:25px; border:2px solid #9fb3bf; border-radius:3px; background:#d9e2e7; }
+.clarinet-mouthpiece { width:14px; height:18px; margin-left:-18px; border-radius:70% 25% 25% 70%; background:#11191e; }
+.clarinet-bell { width:18px; height:31px; margin-right:-21px; border-radius:25% 80% 80% 25%; background:#11191e; }
+.clarinet-fingering-label { flex:0 1 175px; line-height:1.15; }
 .fingering-visual.recorder { grid-template-columns: repeat(4, 13px); }
 .horn-lever { display: grid; place-items: center; width: 20px; height: 29px; color: #1769c2; background: #fff; border: 2px solid #1769c2; border-radius: 8px 8px 12px 12px; font-size: 10px; font-style: normal; }
 .horn-lever.active { color: #fff; background: #ff665e; border-color: #d94c45; transform: translateY(4px); }
@@ -272,6 +333,32 @@
   .instrument-answers { display: grid; grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); width: 100%; gap: 7px; }
   .instrument-answers button { min-width: 0; min-height: 48px; margin: 0; padding: 10px 7px; font-size: 17px; }
   .instrument-hint { max-width: calc(100% - 12px); gap: 7px; padding-inline: 8px; font-size: 13px; }
+  #quiz .instrument-hint:has(.flute-fingering) { width:min(100%, calc(100vw - 30px)); max-width:none; padding:7px 5px; gap:4px; }
+  .flute-fingering { gap:2px; }
+  .flute-hand, .flute-foot { gap:2px; padding:2px; }
+  .flute-hand > b { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .flute-key { width:20px; height:20px; border-width:1.5px; font-size:8px; }
+  .flute-pinky { width:23px; }
+  .flute-foot-key { width:25px; }
+  .flute-fingering-label { display:none; }
+  #quiz .instrument-hint:has(.oboe-fingering) { width:min(100%,calc(100vw - 30px)); max-width:none; padding:7px 4px; gap:3px; }
+  .oboe-fingering { gap:2px; }
+  .oboe-hand,.oboe-octave { gap:2px; padding:2px; }
+  .oboe-hand > b { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .oboe-hole { width:20px; height:20px; border-width:1.5px; font-size:8px; }
+  .oboe-key { min-width:23px; height:20px; padding-inline:3px; border-width:1.5px; font-size:7px; }
+  .oboe-joint { width:6px; height:18px; }
+  .oboe-fingering-label { display:none; }
+  #quiz .instrument-hint:has(.clarinet-fingering) { width:min(100%,calc(100vw - 30px)); max-width:none; padding:7px 4px; gap:3px; }
+  .clarinet-fingering { gap:3px; }
+  .clarinet-body { gap:2px; padding:4px 9px; }
+  .clarinet-rear,.clarinet-hand { gap:2px; padding:2px; }
+  .clarinet-rear > b,.clarinet-hand > b { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .clarinet-hole { width:20px; height:20px; border-width:1.5px; font-size:8px; }
+  .clarinet-key { min-width:22px; height:20px; padding-inline:3px; border-width:1.5px; font-size:7px; }
+  .clarinet-pinky { min-width:29px; }
+  .clarinet-joint { width:5px; height:19px; }
+  .clarinet-fingering-label { display:none; }
   .instrument-progress { height: 12px; }
   #score, #key-score { font-size: 21px; }
   #result .button { display: block; width: 100%; margin: 8px 0; }

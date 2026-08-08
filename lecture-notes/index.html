@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lecture de Notes</title>
   <link rel="stylesheet" href="../notalix-theme.css?v=0.6.0-0806b">
-  <link rel="stylesheet" href="unified.css?v=0.6.0-0807f">
+  <link rel="stylesheet" href="unified.css?v=0.6.0-0807g">
   <script defer src="../notalix-shell.js?v=0.6.0-0806b"></script>
 </head>
 <body>
@@ -28,7 +28,6 @@
     <!-- SECTION CLÉS -->
     <div id="etape-cle" class="step-container fade hidden">
       <div class="path-heading mode-section-heading"><span class="path-icon" aria-hidden="true">♪</span><div><p class="path-kicker">À toi de jouer</p><h3 id="key-choice-title">Choisis ta clé</h3></div></div>
-      <p class="instrument-intro key-purpose-intro mode-section-subtitle">Commence par la clé de ton instrument, puis découvre les autres à ton rythme.</p>
       <div id="cle-buttons" class="key-cycle-list">
         <section class="key-family-block key-family-essential">
           <header><span>1</span><div><strong>Les clés essentielles</strong><small>Commence ici</small></div></header>
@@ -104,11 +103,11 @@
       <div class="path-heading challenge-heading mode-section-heading"><span class="path-icon" aria-hidden="true">★</span><div><p class="path-kicker">Mode jeu</p><h3>Relève ton défi !</h3></div></div>
       <p class="challenge-promise mode-section-subtitle"><b>3 cœurs</b><span>♥</span><b>Un chrono</b><span>⏱</span><b>À toi de jouer !</b></p>
       <div id="defi-cles" class="challenge-board challenge-path-five">
-        <button class="defi-card" data-defi-symbol="𝄞" onclick="selectDefi(this, 'sol')"><strong>Défi clé de sol</strong><span>La clé de sol, du niveau 1 au niveau 5</span></button>
-        <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa')"><strong>Défi clé de fa</strong><span>La clé de fa, du niveau 1 au niveau 5</span></button>
-        <button class="defi-card" data-defi-symbol="𝄞+𝄢" onclick="selectDefi(this, 'solfa')"><strong>Défi des explorateurs</strong><span>Clés de sol et de fa</span></button>
-        <button class="defi-card ultimate" data-defi-symbol="4" onclick="selectDefi(this, 'ultimate')"><strong>Défi ultime</strong><span>Sol, fa, ut 3 et ut 4</span></button>
-        <button class="defi-card heroes" data-defi-symbol="★" onclick="selectDefi(this, 'heroes')"><strong>Défi des héros</strong><span>Toutes les six clés</span></button>
+        <button class="defi-card" data-defi-symbol="𝄞" onclick="selectDefi(this, 'sol')"><small>5 niveaux</small><strong>Défi clé de sol</strong><span>Des notes repères jusqu’à la lecture complète.</span><em>Jouer →</em></button>
+        <button class="defi-card" data-defi-symbol="𝄢" onclick="selectDefi(this, 'fa')"><small>5 niveaux</small><strong>Défi clé de fa</strong><span>Des notes repères jusqu’à la lecture complète.</span><em>Jouer →</em></button>
+        <button class="defi-card" data-defi-symbol="𝄞+𝄢" onclick="selectDefi(this, 'solfa')"><small>2 clés</small><strong>Défi des explorateurs</strong><span>Reconnais et mélange Sol et Fa.</span><em>Jouer →</em></button>
+        <button class="defi-card ultimate" data-defi-symbol="4" onclick="selectDefi(this, 'ultimate')"><small>4 clés</small><strong>Défi ultime</strong><span>Sol, Fa, Ut 3e et Ut 4e.</span><em>Jouer →</em></button>
+        <button class="defi-card heroes" data-defi-symbol="★" onclick="selectDefi(this, 'heroes')"><small>6 clés</small><strong>Défi des héros</strong><span>Toutes les clés, sans filet.</span><em>Jouer →</em></button>
       </div>
       <button id="go-button-defi" class="hidden launch-instrument-level" onclick="lancerDefiChoisi()">Commencer le défi</button>
     </div>

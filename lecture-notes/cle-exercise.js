@@ -72,11 +72,16 @@
       panel.className="key-reminder-card";heading.textContent=config.label;panel.appendChild(heading);holder.appendChild(panel);
       const appendGroup=(groupTitle,notes,kind)=>{
         if(!notes.length)return;
-        const group=document.createElement("section"),groupHeading=document.createElement("strong"),notation=document.createElement("div"),labels=document.createElement("div");
-        group.className=`reminder-note-group ${kind}`;groupHeading.textContent=groupTitle;notation.className="open-strings-staff";labels.className="key-reminder-labels";
-        notes.forEach(note=>{const chip=document.createElement("span");chip.className=`key-note-chip ${kind}`;chip.innerHTML=`<b>${NOTE_NAMES[note.written[0]]}</b>${kind==="new"?"<small>nouvelle</small>":""}`;labels.appendChild(chip);});
-        group.append(groupHeading,notation,labels);panel.appendChild(group);
-        window.LDNNoteRenderer.renderNotes(notation,{notes:notes.map(n=>n.written),clef:notes[0].clef,width:Math.min(440,Math.max(300,notes.length*86)),minHeight:154,lineSpacing:16,noteScale:.94});
+        const group=document.createElement("section"),groupHeading=document.createElement("strong"),notesGrid=document.createElement("div");
+        group.className=`reminder-note-group ${kind}`;groupHeading.textContent=groupTitle;notesGrid.className="key-reminder-notes";
+        group.append(groupHeading,notesGrid);panel.appendChild(group);
+        notes.forEach(note=>{
+          const item=document.createElement("div"),notation=document.createElement("div"),chip=document.createElement("span");
+          item.className=`key-reminder-note ${kind}`;notation.className="key-reminder-notation";chip.className=`key-note-chip ${kind}`;
+          chip.innerHTML=`<b>${NOTE_NAMES[note.written[0]]}</b>${kind==="new"?"<small>nouvelle</small>":""}`;
+          item.append(notation,chip);notesGrid.appendChild(item);
+          window.LDNNoteRenderer.renderNote(notation,{note:note.written,clef:note.clef,adaptive:false,height:132,fixedStaveY:30,width:124,staveWidth:100,centerStave:true,lineSpacing:13,noteScale:.9});
+        });
       };
       appendGroup("Notes repères",landmarks,"landmark");
       appendGroup("Nouvelles notes",discoveries,"new");
@@ -95,7 +100,7 @@
   }
   function render(){
     if(current>=sequence.length)sequence.push(...balanced(pool,24)); const n=sequence[current],config=window.LDN_CLEFS[n.clef]; badge.textContent=config.label;
-    window.LDNNoteRenderer.renderNote(noteTarget,{note:n.written,clef:n.clef,adaptive:false,height:205,fixedStaveY:38,width:150,staveWidth:112,centerStave:true,lineSpacing:18,noteScale:1});
+    window.LDNNoteRenderer.renderNote(noteTarget,{note:n.written,clef:n.clef,adaptive:false,height:isChallenge?235:205,fixedStaveY:isChallenge?44:38,width:isChallenge?190:150,staveWidth:isChallenge?150:112,centerStave:true,lineSpacing:isChallenge?20:18,noteScale:isChallenge?1.08:1});
     feedback.textContent=""; waiting=false; answers.querySelectorAll("button").forEach(b=>b.disabled=false);
   }
   function answer(name){
@@ -105,7 +110,7 @@
       window.LDNAudio?.playWrittenNote?.(n.written)?.catch(()=>{});
       if(isChallenge){roundCorrect++; if(recoveryStreak>=5){recoveryStreak=0;if(lives<3){lives++;pulseHearts();feedback.textContent=`✓ ${correct} · ❤️ cœur récupéré !`;}}}
     }else{
-      recoveryStreak=0; feedback.textContent=`✗ C’était ${correct}`; feedback.style.color="red"; if(isChallenge){loseHeart("",false);if(lives<=0)return;}
+      recoveryStreak=0; feedback.textContent=`✗ C’était ${correct}`; feedback.style.color="red"; window.LDNAudio?.playDuck?.().catch(()=>{}); if(isChallenge){loseHeart("",false);if(lives<=0)return;}
     }
     current++; if(isChallenge){updateChallengeHud();if(roundCorrect>=challenge.rounds[roundIndex].target){clearInterval(timerId);setTimeout(clearRound,850);return;}}
     else{scoreText.textContent=`Score : ${score} / ${total}`;progress.style.width=`${(current/total)*100}%`;if(current>=total){setTimeout(()=>finish(true),900);return;}}

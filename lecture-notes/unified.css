@@ -534,6 +534,96 @@ html, body { overflow-x: hidden; }
   #etape-instrument.instrument-ready .instrument-launcher { display: block; }
   #etape-instrument.instrument-ready .launch-instrument-level { width: 100%; margin-top: 12px; }
 }
+
+/* 0807g — choix des défis présenté comme une progression claire et engageante. */
+#defi-cles.challenge-board.challenge-path-five {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: min(100%, 1040px);
+  max-width: 1040px;
+  margin: 8px auto 0;
+}
+#defi-cles.challenge-path-five .defi-card {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 54px minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto auto !important;
+  grid-column: span 2;
+  align-items: center;
+  gap: 2px 11px;
+  min-height: 112px;
+  padding: 13px !important;
+  overflow: hidden;
+  border: 1px solid #d7e4ed !important;
+  border-top: 4px solid #3d9ddb !important;
+  border-radius: 16px !important;
+  text-align: left !important;
+}
+#defi-cles.challenge-path-five .defi-card:nth-child(4),
+#defi-cles.challenge-path-five .defi-card:nth-child(5) { grid-column: span 3; }
+#defi-cles.challenge-path-five .defi-card::before {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  width: 54px !important;
+  height: 54px !important;
+  font-size: 25px !important;
+}
+#defi-cles.challenge-path-five .defi-card > small {
+  grid-column: 2;
+  grid-row: 1;
+  color: #3f78a5;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+#defi-cles.challenge-path-five .defi-card > strong {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 16px;
+  line-height: 1.15;
+}
+#defi-cles.challenge-path-five .defi-card > span {
+  grid-column: 2 / 4;
+  grid-row: 3;
+  color: #61778b;
+  font-size: 11px;
+  line-height: 1.25;
+}
+#defi-cles.challenge-path-five .defi-card > em {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  color: #2379ba;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  white-space: nowrap;
+}
+#defi-cles.challenge-path-five .defi-card:hover,
+#defi-cles.challenge-path-five .defi-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #7ebee8 !important;
+  box-shadow: 0 12px 24px rgba(39, 111, 164, .16);
+}
+#defi-cles.challenge-path-five .defi-card:nth-child(2) { border-top-color: #55aa68 !important; }
+#defi-cles.challenge-path-five .defi-card:nth-child(3) { border-top-color: #7c68d1 !important; }
+#defi-cles.challenge-path-five .defi-card:nth-child(4) { border-top-color: #ee9528 !important; }
+#defi-cles.challenge-path-five .defi-card:nth-child(5) { border-top-color: #e7ba28 !important; }
+
+@media (max-width: 760px) {
+  #defi-cles.challenge-board.challenge-path-five { grid-template-columns: 1fr 1fr !important; }
+  #defi-cles.challenge-path-five .defi-card,
+  #defi-cles.challenge-path-five .defi-card:nth-child(4) { grid-column: span 1; }
+  #defi-cles.challenge-path-five .defi-card:nth-child(5) { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  #defi-cles.challenge-board.challenge-path-five { grid-template-columns: 1fr !important; }
+  #defi-cles.challenge-path-five .defi-card,
+  #defi-cles.challenge-path-five .defi-card:nth-child(4),
+  #defi-cles.challenge-path-five .defi-card:nth-child(5) { grid-column: 1; min-height: 94px; }
+}
 @media (max-width: 480px) {
   .families-row, .subfamilies-row { grid-template-columns: 1fr; }
 }
@@ -1614,4 +1704,113 @@ body:has(#etape-defi.show) .mode-buttons button {
     font-size: 14px;
     line-height: 1.3;
   }
+}
+
+/* 0807g - couche finale : les cinq défis restent lisibles après toutes les anciennes règles. */
+#defi-cles.challenge-board.challenge-path-five {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: min(100%, 1120px) !important;
+  margin: 12px auto 0 !important;
+}
+#defi-cles.challenge-path-five .defi-card {
+  position: relative;
+  display: grid !important;
+  grid-column: span 2;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 12px;
+  min-height: 112px !important;
+  padding: 16px !important;
+  color: #17304e !important;
+  text-align: left !important;
+  background: linear-gradient(145deg, #fff, #f5f9fc) !important;
+  border: 1px solid #d8e5ee !important;
+  border-radius: 18px !important;
+  box-shadow: 0 9px 22px rgba(20, 63, 98, .09) !important;
+}
+#defi-cles.challenge-path-five .defi-card:nth-child(4),
+#defi-cles.challenge-path-five .defi-card:nth-child(5) { grid-column: span 3; }
+#defi-cles.challenge-path-five .defi-card::before {
+  content: attr(data-defi-symbol);
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  color: #fff;
+  background: linear-gradient(145deg, #43aa9d, #218b85);
+  border-radius: 15px;
+  font-size: 29px;
+  font-weight: 900;
+  box-shadow: 0 7px 16px rgba(35, 139, 133, .2);
+}
+#defi-cles.challenge-path-five .defi-card:nth-child(2)::before { background: linear-gradient(145deg, #66be72, #399c50); }
+#defi-cles.challenge-path-five .defi-card:nth-child(3)::before { background: linear-gradient(145deg, #8a74da, #6852be); }
+#defi-cles.challenge-path-five .defi-card:nth-child(4)::before { background: linear-gradient(145deg, #ffad3c, #ed8426); }
+#defi-cles.challenge-path-five .defi-card:nth-child(5)::before { color: #715000; background: linear-gradient(145deg, #ffe16f, #ffc936); }
+#defi-cles.challenge-path-five .defi-card > small {
+  grid-column: 2;
+  grid-row: 1;
+  color: #56809f;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+#defi-cles.challenge-path-five .defi-card > strong {
+  grid-column: 2;
+  grid-row: 2;
+  color: #17304e;
+  font-size: 18px;
+  line-height: 1.15;
+}
+#defi-cles.challenge-path-five .defi-card > span {
+  grid-column: 2 / 4;
+  grid-row: 3;
+  margin-top: 6px;
+  color: #5a7287;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+#defi-cles.challenge-path-five .defi-card > em {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  align-self: center;
+  padding: 7px 9px;
+  color: #176bc2;
+  background: #eaf5fd;
+  border-radius: 10px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+}
+#defi-cles.challenge-path-five .defi-card:hover,
+#defi-cles.challenge-path-five .defi-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #8fc6ec !important;
+  box-shadow: 0 13px 25px rgba(20, 90, 145, .14) !important;
+}
+@media (max-width: 900px) {
+  #defi-cles.challenge-board.challenge-path-five { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  #defi-cles.challenge-path-five .defi-card,
+  #defi-cles.challenge-path-five .defi-card:nth-child(4) { grid-column: span 1; }
+  #defi-cles.challenge-path-five .defi-card:nth-child(5) { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  #defi-cles.challenge-board.challenge-path-five { grid-template-columns: 1fr !important; }
+  #defi-cles.challenge-path-five .defi-card,
+  #defi-cles.challenge-path-five .defi-card:nth-child(4),
+  #defi-cles.challenge-path-five .defi-card:nth-child(5) {
+    grid-column: 1 !important;
+    min-height: 92px !important;
+    padding: 12px !important;
+  }
+  #defi-cles.challenge-path-five .defi-card::before { width: 48px; height: 48px; font-size: 25px; }
+  #defi-cles.challenge-path-five .defi-card > strong { font-size: 16px; }
 }
