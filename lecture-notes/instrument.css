@@ -148,12 +148,15 @@
 .woodwind-key { width: 13px; height: 13px; border: 2px solid #1769c2; border-radius: 50%; background: #fff; }
 .woodwind-key.active { background: #1769c2; box-shadow: inset 0 0 0 2px #fff; }
 .instrument-hint:has(.flute-fingering) {
-  width: min(620px, calc(100vw - 40px));
-  max-width: none;
+  width: max-content;
+  max-width: calc(100vw - 40px);
   padding: 8px 14px;
   gap: 10px;
 }
 .flute-fingering { position:relative; display:flex; align-items:center; justify-content:center; flex:1 1 auto; min-width:0; gap:7px; }
+.flute-fingering-label:empty {
+    display: none;
+}
 .flute-hand, .flute-foot { position:relative; z-index:1; display:flex; align-items:center; gap:5px; padding:3px 5px; background:rgba(255,255,255,.78); border-radius:12px; }
 .flute-hand > b { color:#527087; font-size:9px; letter-spacing:.04em; }
 .flute-tube { position:absolute; right:3%; left:3%; height:5px; border-radius:4px; background:linear-gradient(180deg,#d5e1e8,#8fa5b4); }
@@ -184,6 +187,9 @@
 .oboe-octave-key { min-width:25px; border-radius:10px; }
 .oboe-pinky,.oboe-f-key { min-width:30px; }
 .oboe-fingering-label { flex:0 1 165px; line-height:1.15; }
+.oboe-fingering-label:empty {
+    display: none;
+}
 .instrument-hint:has(.clarinet-fingering) {
   width:min(720px,calc(100vw - 40px));
   max-width:none;
@@ -208,6 +214,9 @@
 .clarinet-mouthpiece { width:14px; height:18px; margin-left:-18px; border-radius:70% 25% 25% 70%; background:#11191e; }
 .clarinet-bell { width:18px; height:31px; margin-right:-21px; border-radius:25% 80% 80% 25%; background:#11191e; }
 .clarinet-fingering-label { flex:0 1 175px; line-height:1.15; }
+.clarinet-fingering-label:empty {
+    display: none;
+}
 .fingering-visual.recorder { grid-template-columns: repeat(4, 13px); }
 .horn-lever { display: grid; place-items: center; width: 20px; height: 29px; color: #1769c2; background: #fff; border: 2px solid #1769c2; border-radius: 8px 8px 12px 12px; font-size: 10px; font-style: normal; }
 .horn-lever.active { color: #fff; background: #ff665e; border-color: #d94c45; transform: translateY(4px); }

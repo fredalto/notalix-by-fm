@@ -176,7 +176,7 @@
       if (!exact.found) return { status:"missing", value:null, source:"" };
       return {
         status:"available",
-        value:{ kind:"flute", controls:exact.value, label:`${noteName} écrit · doigté de base` },
+        value:{ kind:"flute", controls:exact.value, label:"" },
         source:exact.source
       };
     }
@@ -185,7 +185,7 @@
       if (!exact.found) return { status:"missing", value:null, source:"" };
       return {
         status:"available",
-        value:{ kind:"oboe", controls:exact.value, label:`${noteName} écrit · doigté standard du hautbois` },
+        value:{ kind:"oboe", controls:exact.value, label:"" },
         source:exact.source
       };
     }
@@ -194,7 +194,7 @@
       if (!exact.found) return { status:"missing", value:null, source:"" };
       return {
         status:"available",
-        value:{ kind:"clarinet", controls:exact.value, label:`${noteName} écrit · doigté standard Boehm` },
+        value:{ kind:"clarinet", controls:exact.value, label:"" },
         source:exact.source
       };
     }
